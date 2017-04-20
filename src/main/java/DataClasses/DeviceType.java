@@ -9,6 +9,6 @@ package DataClasses;
  *
  * @author Jarno
  */
-public class Customer {
-    //
+public class DeviceType {
+    
 }

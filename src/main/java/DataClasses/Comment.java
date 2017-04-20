@@ -10,5 +10,5 @@ package DataClasses;
  * @author Jarno
  */
 public class Comment {
-    
+    //
 }
