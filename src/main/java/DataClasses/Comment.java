@@ -5,10 +5,21 @@
  */
 package DataClasses;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Jarno
  */
-public class Comment {
-    //
+public class Comment implements Serializable{
+    private String body;
+    private String creator;
+    private String signed;
+    private LocalDateTime timestamp;
+    
+    public Comment(String body,String creator,String signed){
+        this.body=body;
+        this.timestamp=LocalDateTime.now();
+    }
 }
