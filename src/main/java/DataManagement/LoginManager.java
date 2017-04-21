@@ -38,7 +38,7 @@ public class LoginManager {
     public String Login(String username, String password){
         Person logged = logins.get(password);
         if(logged!=null){
-            if(true){//logged.getUserName().equals(username)){  //implement user data comparison methods in Person, then uncomment
+            if(logged.getUserName().equals(username)){  //implement user data comparison methods in Person, then uncomment
                 return SessionSetup(logged);
             }
         }
@@ -75,14 +75,14 @@ public class LoginManager {
     
     /* Files a list of users into the list of valid logins, user keyed to passwords.
     REST service handles omitting deactivated users from this list. */
-    /*public void UpdateLogins(List<Person> users){
+    public void UpdateLogins(List<Person> users){
         logins.clear();
         for(Person user : users){
             if(user.getAccess()>0){
                 logins.put(user.getPassword(), user);
             }
         }
-    }*/
+    }
     
     /* Compares current time to latest stored sessiontime + autologout limit.
     If current time is under limit, session is renewed with current time becoming the latest stored session time.
