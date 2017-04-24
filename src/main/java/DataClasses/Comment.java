@@ -7,11 +7,16 @@ package DataClasses;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Jarno
  */
+
+@XmlRootElement
+//@Entity //for hibernate, later. Now focus on XML side
 public class Comment implements Serializable{
     private String body;
     private String creator;
@@ -21,5 +26,8 @@ public class Comment implements Serializable{
     public Comment(String body,String creator,String signed){
         this.body=body;
         this.timestamp=LocalDateTime.now();
+    }
+    
+    public Comment(){
     }
 }

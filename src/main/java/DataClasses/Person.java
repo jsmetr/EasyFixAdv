@@ -7,11 +7,21 @@ package DataClasses;
 
 import java.io.Serializable;
 import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Jarno
  */
+
+@XmlRootElement
+@Entity
 public class Person implements Serializable {
     private String userName;
     private String firstName;
@@ -34,15 +44,93 @@ public class Person implements Serializable {
         this.roles= roles; //descendant calling super constructor is responsible for passing correct role listing
     }
     
-    public int getAccess(){
-        return this.accessLevel;
-    }
+    public Person(){}
     
+    @XmlElement
+    @Id
     public String getUserName(){
         return this.userName;
     }
     
+    @XmlElement
+    @Basic
+    public String getFirstName(){
+        return this.firstName;
+    }
+    
+    @XmlElement
+    @Basic
+    public String getLastName(){
+        return this.lastName;
+    }
+    
+    @XmlElement
+    @Basic
+    public String getEmail(){
+        return this.email;
+    }
+    
+    @XmlElement
+    @Basic
+    public String getPhone(){
+        return this.phone;
+    }
+    
+    @XmlElement
+    @Basic
     public String getPassword(){
-    return this.password;
+        return this.password;
+    }
+    
+    @XmlElement
+    @ElementCollection(fetch=FetchType.EAGER)
+    public Set<String> getRoles(){
+        return this.roles;
+    }
+    
+    @XmlElement
+    @Basic
+    public int getAccess(){
+        return this.accessLevel;
+    }
+    
+    
+    public void setUserName(String uname){
+        this.userName=uname;
+    }
+    
+    public void setFirstName(String fname){
+        this.firstName=fname;
+    }
+    
+    public void setLastName(String lname){
+        this.lastName=lname;
+    }
+    
+    public void setPassword(String psw){
+        this.password =psw;
+    }
+    
+    public void setEmail(String email){
+        this.email =email;
+    }
+    
+    public void setPhone(String phone){
+        this.phone =phone;
+    }
+    
+    public void setRoles(Set<String> roles){
+        this.roles =roles;
+    }
+    
+    public void setAccess(int access){
+        this.accessLevel = access;
+    }
+    
+    /* User addition in UserResource checks to make sure no two users have the same username. */
+    @Override
+    public int hashCode(){
+        int hash=1+13*this.userName.hashCode();
+        return hash;
     }
 }

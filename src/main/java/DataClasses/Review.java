@@ -6,11 +6,16 @@
 package DataClasses;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Jarno
  */
+
+@XmlRootElement
+//@Entity //for hibernate, later. Now focus on XML side
 public class Review extends Comment implements Serializable{
     private int rating;
     
@@ -18,5 +23,9 @@ public class Review extends Comment implements Serializable{
         super(body,creator,signed);
         this.rating=rating;
         
+    }
+    
+    public Review(){
+    
     }
 }
