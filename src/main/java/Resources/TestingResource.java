@@ -12,6 +12,7 @@ package Resources;
 
 
 import DataClasses.*;
+import java.util.ArrayList;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import java.util.LinkedList;
@@ -76,6 +77,26 @@ public class TestingResource {
         shell.commentOn(cmnt1);
         shell.commentOn(cmnt4);
         return shell;
+    }
+    
+    @Path("/Reviews")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public List<Review> grabReviews(){
+        ArrayList<Review> reviews = new ArrayList<Review>();
+        String junk1 ="This text is filler. This text is filler. This text is filler. This text is filler. This text is filler. This text is filler.";
+        String junk2 ="This is a filler review. This is a filler review. This is a filler review. This is a filler review. This is a filler review.";
+        String junk3 ="This is another filler review. This is another filler review. This is another filler review. This is another filler review.";
+        String junk4 ="This is yet another filler review. This is yet another filler review. This is yet another filler review. This is yet another filler review. ";
+        Review rvw1 = new Review(5,junk1,"ProReviewer","username1");
+        Review rvw2 = new Review(5,junk2,"Junkmaker","username3");
+        Review rvw3 = new Review(5,junk3,"NotAHacker","username4");
+        Review rvw4 = new Review(5,junk4,"PlainUser","username2");
+        reviews.add(rvw1);
+        reviews.add(rvw2);
+        reviews.add(rvw3);
+        reviews.add(rvw4);
+        return reviews;
     }
     
     @Path("/Response")

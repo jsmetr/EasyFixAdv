@@ -21,7 +21,7 @@ public class Review extends Comment implements Serializable{
     
     public Review(int rating, String body,String creator,String signed){
         super(body,creator,signed);
-        this.rating=rating;
+        this.rating=rating; //probably 0-10 to account for half-stars without fractions?
         this.comments=null;
     }
     

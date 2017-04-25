@@ -28,8 +28,10 @@ public class Comment implements Serializable{
     private int id; //used to search for the comment/review on back end when responding to it.
     protected LinkedList<Comment> comments = new LinkedList<Comment>();
     
-    public Comment(String body,String creator,String signed){
+    public Comment(String body,String signed,String creator){
         this.body=body;
+        this.creator=creator;
+        this.signed=signed;
         this.timestamp=LocalDateTime.now();
         this.id=idGen();
     }
@@ -56,6 +58,7 @@ public class Comment implements Serializable{
         return this.creator;
     }
         
+    //final version will retrieve the up-to-date  full name from UserManager singleton
     @XmlElement
     public String getSigned(){
         return this.signed;
