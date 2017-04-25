@@ -5,10 +5,19 @@
  */
 package DataClasses;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  *
  * @author Jarno
  */
-public class Customer {
-    //
+public class Customer extends Person{
+    
+    public Customer(String fname, String lname, String uname, String psw, String email, String phone){
+        super( fname,  lname,  uname,  psw,  email,  phone, 0);
+        this.roles=new HashSet<String>();
+        this.roles.add("customer");
+    }
+    
 }

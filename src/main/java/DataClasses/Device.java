@@ -10,5 +10,6 @@ package DataClasses;
  * @author Jarno
  */
 public class Device {
-    //
+    private String name;
+    private DeviceType type;
 }

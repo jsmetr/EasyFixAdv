@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 
 @XmlRootElement
-@Entity
 public class Person implements Serializable {
     private String userName;
     private String firstName;
@@ -29,10 +28,10 @@ public class Person implements Serializable {
     private String password;
     private String email;
     private String phone;
-    private Set<String> roles; //roles consist of: customer, clerk, technician, manager. Technically, a person can have all roles but generally either is a customer or a combination of non-customer roles.
+    protected Set<String> roles; //roles consist of: customer, clerk, technician, manager. Technically, a person can have all roles but generally either is a customer or a combination of non-customer roles.
     private int accessLevel; //level of access to system
     
-    public Person(String fname, String lname, String uname, String psw, String email, String phone, int access,Set<String> roles){
+    public Person(String fname, String lname, String uname, String psw, String email, String phone, int access){
      //handles filling in fields common to all Person-descendants, to be implemented
         this.firstName=fname;
         this.lastName=lname;
@@ -41,55 +40,46 @@ public class Person implements Serializable {
         this.email=email;
         this.phone=phone;
         this.accessLevel=access;
-        this.roles= roles; //descendant calling super constructor is responsible for passing correct role listing
     }
     
     public Person(){}
     
     @XmlElement
-    @Id
     public String getUserName(){
         return this.userName;
     }
     
     @XmlElement
-    @Basic
     public String getFirstName(){
         return this.firstName;
     }
     
     @XmlElement
-    @Basic
     public String getLastName(){
         return this.lastName;
     }
     
     @XmlElement
-    @Basic
     public String getEmail(){
         return this.email;
     }
     
     @XmlElement
-    @Basic
     public String getPhone(){
         return this.phone;
     }
     
     @XmlElement
-    @Basic
     public String getPassword(){
         return this.password;
     }
     
     @XmlElement
-    @ElementCollection(fetch=FetchType.EAGER)
     public Set<String> getRoles(){
         return this.roles;
     }
     
     @XmlElement
-    @Basic
     public int getAccess(){
         return this.accessLevel;
     }
