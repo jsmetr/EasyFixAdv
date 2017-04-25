@@ -22,7 +22,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/Testingb")
+@Path("/Testing")
 public class TestingResource {
     private UriInfo context;
     
@@ -36,6 +36,7 @@ public class TestingResource {
         int i=0;
         while(i<amount){
             comments.add(cmnt);
+            i++;
         }
         return comments;
     }
@@ -50,6 +51,7 @@ public class TestingResource {
         int i=0;
         while(i<5){
             comments.add(cmnt);
+            i++;
         }
         return comments;
     }

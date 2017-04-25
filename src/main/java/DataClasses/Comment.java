@@ -8,6 +8,7 @@ package DataClasses;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,5 +30,25 @@ public class Comment implements Serializable{
     }
     
     public Comment(){
+    }
+        
+    @XmlElement
+    public String getBody(){
+        return this.body;
+    }
+        
+    @XmlElement
+    public String getCreator(){
+        return this.creator;
+    }
+        
+    @XmlElement
+    public String getSigned(){
+        return this.signed;
+    }
+        
+    @XmlElement
+    public String getTimestamp(){
+        return this.timestamp.toString();
     }
 }
