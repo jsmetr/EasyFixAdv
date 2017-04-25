@@ -13,6 +13,7 @@ import java.util.Set;
  * @author Jarno
  */
 public class Customer extends Person{
+    private String info; //placeholder until a proper format for billing information is designed. Probably a bundle of Strings?
     
     public Customer(String fname, String lname, String uname, String psw, String email, String phone){
         super( fname,  lname,  uname,  psw,  email,  phone, 0);
@@ -20,4 +21,5 @@ public class Customer extends Person{
         this.roles.add("customer");
     }
     
+    public Customer(){}
 }

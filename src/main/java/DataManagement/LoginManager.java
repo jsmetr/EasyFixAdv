@@ -75,7 +75,9 @@ public class LoginManager {
     
     /* Files a list of users into the list of valid logins, user keyed to passwords.
     REST service handles omitting deactivated users from this list. */
-    public void UpdateLogins(List<Person> users){
+    public void UpdateLogins(){
+        UserManager UM = UserManager.getInstance();
+        Set<Person> users = UM.getUsers();
         logins.clear();
         for(Person user : users){
             if(user.getAccess()>0){

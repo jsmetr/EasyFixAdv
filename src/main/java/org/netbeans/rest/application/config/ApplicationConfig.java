@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(Practicalities.AccessControlResponseFilter.class);
         //resources.add(Resources.GarageResource.class);
         resources.add(Resources.TestingResource.class);
+        resources.add(Resources.UserResource.class);
     }
     
 }
