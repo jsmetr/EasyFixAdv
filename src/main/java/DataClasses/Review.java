@@ -6,7 +6,6 @@
 package DataClasses;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -17,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Review extends Comment implements Serializable{
+    private String title; //front-end assigns a default title based off assigment name?
     private int rating;
     
     public Review(int rating, String body,String creator,String signed){

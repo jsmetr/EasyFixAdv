@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,12 +18,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 
 @XmlRootElement
-//@Entity //for hibernate, later. Now focus on XML side
 public class Comment implements Serializable{
     private String body;
     private String creator;
     private String signed;
-    private LocalDateTime timestamp;
+    private LocalDateTime creationtime;
     private int id; //used to search for the comment/review on back end when responding to it.
     protected LinkedList<Comment> comments = new LinkedList<Comment>();
     
@@ -32,16 +30,11 @@ public class Comment implements Serializable{
         this.body=body;
         this.creator=creator;
         this.signed=signed;
-        this.timestamp=LocalDateTime.now();
-        this.id=idGen();
+        this.creationtime=LocalDateTime.now();
+        this.id=hashCode();
     }
     
     public Comment(){
-    }
-    
-    //generates an unique id for comments & reviews for searching purposes.
-    private int idGen(){
-        return 0;
     }
     
     public void respond(Comment response){
@@ -65,8 +58,8 @@ public class Comment implements Serializable{
     }
         
     @XmlElement
-    public String getTimestamp(){
-        return this.timestamp.toString();
+    public String getCreationtime(){
+        return this.creationtime.toString();
     }
         
     @XmlElement
@@ -77,5 +70,12 @@ public class Comment implements Serializable{
     @XmlElement
     public int getId(){
         return this.id;
+    }
+    
+    /* User addition in UserResource checks to make sure no two users have the same username. */
+    @Override
+    public int hashCode(){
+        int hash=1+13*this.creator.hashCode()+7*this.creationtime.toString().hashCode();
+        return hash;
     }
 }

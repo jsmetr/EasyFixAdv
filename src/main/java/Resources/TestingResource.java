@@ -13,8 +13,6 @@ package Resources;
 
 import DataClasses.*;
 import java.util.ArrayList;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import java.util.LinkedList;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -25,7 +23,6 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/Testing")
 public class TestingResource {
-    private UriInfo context;
     
     @Path("/Comments/{amount}")
     @GET
@@ -104,5 +101,11 @@ public class TestingResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String respond(){
         return "This is a response.";
+    }
+    
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String defaulting(){
+        return "Swing and a miss.";
     }
 }

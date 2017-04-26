@@ -12,6 +12,7 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tomcatHome>D:\Tomcat\apache-tomcat-8.5.12</tomcatHome>
     </properties>
     
     <dependencies>
@@ -21,6 +22,17 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>2.22.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20151123</version>
+        </dependency>
+    
     </dependencies>
 
     <build>
@@ -50,6 +62,25 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>2.6</version>
                 <executions>
+                    <execution>
+                        <id>copy-war-to-local-tomcat-webapp</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <destFileName>${project.artifactId}.war</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${tomcatHome}\webapps</outputDirectory>
+                        </configuration>
+                    </execution>
                     <execution>
                         <phase>validate</phase>
                         <goals>

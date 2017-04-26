@@ -7,11 +7,6 @@ package DataClasses;
 
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 
 @XmlRootElement
-public class Person implements Serializable {
+public class Person implements Serializable, Comparable<Person> {
     private String userName;
     private String firstName;
     private String lastName;
@@ -122,5 +117,10 @@ public class Person implements Serializable {
     public int hashCode(){
         int hash=1+13*this.userName.hashCode();
         return hash;
+    }
+    
+    @Override
+    public int compareTo(Person other){
+        return this.hashCode()-other.hashCode();
     }
 }

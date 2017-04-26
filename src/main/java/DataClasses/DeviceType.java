@@ -10,5 +10,10 @@ package DataClasses;
  * @author Jarno
  */
 public class DeviceType {
+    private String typename;
+    private String typedata;
     
+    public DeviceType(){
+        
+    }
 }

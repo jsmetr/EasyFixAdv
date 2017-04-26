@@ -10,6 +10,21 @@ package DataClasses;
  * @author Jarno
  */
 public class Device {
+    private int deviceId;
+    private String owner;
     private String name;
     private DeviceType type;
+    
+    public Device(String owner, String name, DeviceType type){
+        this.owner=owner;
+        this.name=name;
+        this.type=type;
+        this.deviceId=hashCode();
+    }
+    
+    @Override
+    public int hashCode(){
+        int hash=1+13*this.name.hashCode()+7*this.owner.hashCode();
+        return hash;
+    }
 }

@@ -9,6 +9,7 @@ import DataClasses.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -17,9 +18,9 @@ import java.util.Set;
 public class UserManager implements Serializable {
 
     private String filename = "UserManagerStorage"; //Must match UserHolder.getManager() deserialization filename.
-    private HashSet<Person> users = new HashSet<Person>(); //A single user shows up in multiple sets. This is for searchability reasons.
-    private HashSet<Customer> customers = new HashSet<Customer>();
-    private HashSet<Employee> employees = new HashSet<Employee>();
+    private TreeSet<Person> users = new TreeSet<Person>(); //A single user shows up in multiple sets. This is for searchability reasons.
+    private TreeSet<Customer> customers = new TreeSet<Customer>();
+    private TreeSet<Employee> employees = new TreeSet<Employee>();
 
     public static UserManager getInstance() {
         return UserHolder.INSTANCE;
@@ -53,9 +54,9 @@ public class UserManager implements Serializable {
 
     //resets the userbase
     public void nullAndVoid() {
-        this.users = new HashSet<Person>(); 
-        this.customers = new HashSet<Customer>();
-        this.employees = new HashSet<Employee>();
+        this.users.clear();
+        this.customers.clear();
+        this.employees.clear();
         saveMyself();
     }
 
@@ -69,6 +70,5 @@ public class UserManager implements Serializable {
         } catch (Exception e) {
             System.out.println("Failed to save to " + filename);
         }
-
     }
 }
