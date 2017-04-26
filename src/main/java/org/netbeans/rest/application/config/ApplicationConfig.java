@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(Practicalities.AccessControlResponseFilter.class);
+        resources.add(Resources.DeviceResource.class);
         resources.add(Resources.TestingResource.class);
         resources.add(Resources.UserResource.class);
     }

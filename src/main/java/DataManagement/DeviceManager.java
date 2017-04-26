@@ -7,6 +7,7 @@ package DataManagement;
 
 import java.util.HashSet;
 import DataClasses.*;
+import java.util.Set;
 /**
  *
  * @author Jarno
@@ -60,5 +61,9 @@ public class DeviceManager {
     public void addDeviceType(DeviceType newtype){
         this.devicetypes.add(newtype);
         saveMyself();
+    }
+    
+    public Set<DeviceType> getTypes(){
+        return this.devicetypes;
     }
 }

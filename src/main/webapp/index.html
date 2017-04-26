@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>EasyFix - Landing page</title>
+  <script src="easyfix-js/testingrest.js"></script>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
   <!-- Bootstrap core CSS -->
@@ -70,7 +71,7 @@
   </style>
 </head>
 
-<body>
+<body onload="testinit()">
   <!-- Modal Login -->
   <div class="modal fade modal-ext" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -84,7 +85,7 @@
         <div class="modal-body">
           <div class="md-form"> <i class="fa fa-envelope prefix"></i>
             <input type="text" id="form2" class="form-control">
-            <label for="form2">Your email</label>
+            <label for="form2">Your username</label>
           </div>
           <div class="md-form"> <i class="fa fa-lock prefix"></i>
             <input type="password" id="form3" class="form-control">
