@@ -9,7 +9,6 @@ var req;
 //simple testing script run on landing page load (body onload='testinit()') to ensure REST can be reached from front-end
 
 function testinit(){
-    console.log("herp");
     testrest();
 }
 

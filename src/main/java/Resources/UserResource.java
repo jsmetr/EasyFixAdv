@@ -71,4 +71,28 @@ public class UserResource {
         String sesId = LogMan.Login(uname, psw);
         return sesId;
     }
+    
+    /* Removes the submitted sessionId from the maps tracking valid sessionIds. */
+    @Path("/Logout/{sessionId}")
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+    public String logout(@PathParam("sessionId") String sessionId){          
+        return LogMan.Logout(sessionId);
+        }
+    
+    
+    /* 
+    Call this service whenever moving between pages to determine that the user still has a valid session
+    If this returns 'FALSE', kick user back to login screen instead.
+    */
+    @Path("/Check/{sessionId}")
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+    public String checkIn(@PathParam("sessionId") String sessionId){
+        LogMan.UpdateLogins();
+        if(LogMan.CheckSession(sessionId)){
+        return "TRUE";
+        }
+        return "FALSE";
+    }
 }
