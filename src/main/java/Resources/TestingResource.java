@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
 public class TestingResource {
 
     UserManager UseMan = UserManager.getInstance();
-
+    //A minor addition to test local->GitLab->Github mirroring
     @Path("/Comments/{amount}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
