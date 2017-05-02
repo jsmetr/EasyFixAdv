@@ -1,0 +1,15 @@
+org\netbeans\rest\application\config\ApplicationConfig.class
+DataClasses\ReviewShell.class
+DataManagement\SessionGen.class
+DataClasses\Review.class
+Practicalities\AccessControlResponseFilter.class
+DataManagement\LoginManager.class
+DataClasses\Person.class
+Resources\TestingResource.class
+DataClasses\Customer.class
+DataClasses\DeviceType.class
+DataClasses\Device.class
+DataManagement\SessionGen$GenHolder.class
+DataClasses\Comment.class
+DataManagement\SessionGen$1.class
+DataManagement\LoginManager$LoginHolder.class
