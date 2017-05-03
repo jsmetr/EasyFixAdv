@@ -7,11 +7,29 @@
 var req;
 var unameField;
 var pswField;
+var RESTaddr;
 
 function init() {
     unameField = document.getElementById("form2");
     pswField = document.getElementById("form3");
     console.log(unameField.value + " " + pswField.value);
+    grabAddr();
+    testrest();
+}
+
+function grabAddr() {
+    console.log("herp");
+    var addr = document.location.href.toString().split("/");
+    var REST = "";
+    for (var i = 1; i < addr.length; i++) {
+        if (!addr[i].includes("html") && addr[i].toString().length > 0) {
+            REST = REST + addr[i] + "/";
+        }
+    }
+    RESTaddr = "http://" + REST;
+    console.log(addr);
+    console.log(REST);
+    testrest2();
 }
 
 function initRequest() {
@@ -35,11 +53,11 @@ function login() {
 }
 
 function redirect(sessionId) {
-    var url = "http://localhost:8080/EasyFix/webresources/Users/MyRole/"+sessionId;
+    var url = RESTaddr + "webresources/Users/MyRole/" + sessionId;
     //var url = "http://localhost:8080/EasyFix/webresources/Users/MyRole/"+localStorage.getItem("sessionId");
     //var url="http://localhost:8080/EasyFix/webresources/Testing/Response"; /Check/{sessionId}
     //var url="http://localhost:8080/EasyFix/webresources/Users/Check/"+sessionId;
-    console.log("redirecting, "+url);
+    console.log("redirecting, " + url);
     req = initRequest();
     req.open("GET", url, true);
     req.onreadystatechange = redircallback;
@@ -64,18 +82,46 @@ function redircallback() {
     if (req.readyState == 4) {
         if (req.status == 200) {
             console.log(req.responseText);
-            window.location.replace(req.responseText+".html");
+            window.location.replace(req.responseText + ".html");
             /*
-            if (req.responseText.includes("manager")) {
-                window.location.replace("manager.html");
-            } else if (req.responseText == "technician") {
-                window.location.replace("taskboard.html");
-            } else if (req.responseText == "clerk") {
-                window.location.replace("taskboard.html");
+             if (req.responseText.includes("manager")) {
+             window.location.replace("manager.html");
+             } else if (req.responseText == "technician") {
+             window.location.replace("taskboard.html");
+             } else if (req.responseText == "clerk") {
+             window.location.replace("taskboard.html");
+             } else {
+             window.location.replace("taskboard.html");
+             }
+             */
+        }
+    }
+}
+
+function testrest() {
+    var url = "http://easyfixdevelop.herokuapp.com/webresources/Testing/Response";
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = resttestcallback;
+    req.send(null);
+}
+
+function testrest2() {
+    var url = RESTaddr+"webresources/Testing/Response";
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = resttestcallback;
+    req.send(null);
+}
+
+function resttestcallback() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            if (req.responseText !== "FAILURE") {
+                console.log(req.responseText);
             } else {
-                window.location.replace("taskboard.html");
+                alert("Your username and password are invalid.")
             }
-            */
         }
     }
 }
