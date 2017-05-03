@@ -18,14 +18,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Person implements Serializable, Comparable<Person> {
-    private String userName;
-    private String firstName;
-    private String lastName;
-    private String password;
-    private String email;
-    private String phone;
+    protected String userName;
+    protected String firstName;
+    protected String lastName;
+    protected String password;
+    protected String email;
+    protected String phone;
     protected Set<String> roles = new TreeSet<String>(); //roles consist of: customer, clerk, technician, manager. Technically, a person can have all roles but generally either is a customer or a combination of non-customer roles.
-    private int accessLevel; //level of access to system
+    protected int accessLevel; //level of access to system
     
     public Person(String fname, String lname, String uname, String psw, String email, String phone, int access){
      //handles filling in fields common to all Person-descendants, to be implemented

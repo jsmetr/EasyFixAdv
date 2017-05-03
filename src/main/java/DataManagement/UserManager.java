@@ -64,6 +64,14 @@ public class UserManager implements Serializable {
         return users;
     }
 
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public Set<Customer> getCustomers() {
+        return customers;
+    }
+
     private void saveMyself() {
         try {
             Serializer.serialize(this, filename);

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -124,6 +125,30 @@ public class TestingResource {
         Employee newemp4 = new Employee("Jack", "Quick", "JackQui", "swift", "email", "phone", 2, roles4); 
         UseMan.addEmployee(newemp4);
         return "populated";
+    }
+    
+    @Path("/GrabUsers")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Person> grabUsers(){
+        Set<Person> users = UseMan.getUsers();
+        return users;
+    }
+    
+    @Path("/GrabEmployees")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Employee> grabEmployees(){
+        Set<Employee> emps =UseMan.getEmployees();
+        return emps;
+    }
+    
+    @Path("/GrabCustomers")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Customer> grabCustomers(){
+        Set<Customer> customers = UseMan.getCustomers();
+        return customers;
     }
     
     @Path("/NukeUsers")

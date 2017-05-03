@@ -11,8 +11,10 @@ package DataClasses;
  */
 public class Device {
     private int deviceId;
-    private String owner;
-    private String name;
+    private String owner; //owner username
+    private String name; //name of device
+    private String manufacturer; //unknown is valid, and serves as the default
+    private String model; //ditto
     private DeviceType type;
     
     public Device(String owner, String name, DeviceType type){

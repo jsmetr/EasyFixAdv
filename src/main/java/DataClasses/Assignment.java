@@ -6,6 +6,7 @@
 package DataClasses;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Assignment {
     private LocalDateTime creationtime;
     private LocalDateTime deadline;
     private Device item;
+    private List<String> tasks; //All repair tasks 
     
     
     public Assignment(Device item, String deadline){
