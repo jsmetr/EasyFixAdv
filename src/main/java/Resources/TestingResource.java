@@ -12,6 +12,7 @@ package Resources;
 import DataClasses.*;
 import DataManagement.LoginManager;
 import DataManagement.UserManager;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -139,6 +140,13 @@ public class TestingResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String respond() {
         return "This is a response.";
+    }
+
+    @Path("/TickTock")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String checkingTheClock() {
+        return LocalDateTime.now().toString();
     }
 
     @GET

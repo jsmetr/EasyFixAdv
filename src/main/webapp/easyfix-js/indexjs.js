@@ -98,7 +98,7 @@ function redircallback() {
 }
 
 function testrest() {
-    var url = RESTaddr + "webresources/Testing/Response";
+    var url = RESTaddr + "webresources/Testing/TickTock";
     req = initRequest();
     req.open("GET", url, true);
     req.onreadystatechange = resttestcallback;
