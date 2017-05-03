@@ -113,16 +113,24 @@ public class TestingResource {
         UseMan.addEmployee(newemp1);
         HashSet<String> roles2 = new HashSet<String>();
         roles2.add("technician");
+        newemp1.changeSkill("iphone", 6);
+        newemp1.changeSkill("television", 2);
         Employee newemp2 = new Employee("Johnny", "Doe", "JohnDoe", "swordfish", "email", "phone", 1, roles2); 
         UseMan.addEmployee(newemp2);
         HashSet<String> roles3 = new HashSet<String>();
         roles3.add("manager");
+        newemp2.changeSkill("iphone", 2);
+        newemp2.changeSkill("toaster", 9);
         Employee newemp3 = new Employee("Bob", "Stein", "BobStei", "greenisgood", "email", "phone", 2, roles3); 
         UseMan.addEmployee(newemp3);
         HashSet<String> roles4 = new HashSet<String>();
         roles4.add("clerk");
         roles4.add("manager");
+        newemp3.changeSkill("lawnmover", 4);
+        newemp3.changeSkill("iphone", 8);
         Employee newemp4 = new Employee("Jack", "Quick", "JackQui", "swift", "email", "phone", 2, roles4); 
+        newemp4.changeSkill("iphone", 5);
+        newemp4.changeSkill("electric stove", 7);
         UseMan.addEmployee(newemp4);
         return "populated";
     }

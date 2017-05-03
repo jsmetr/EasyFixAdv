@@ -12,7 +12,6 @@ var RESTaddr;
 function init() {
     unameField = document.getElementById("form2");
     pswField = document.getElementById("form3");
-    console.log(unameField.value + " " + pswField.value);
     grabAddr();
 }
 
@@ -53,9 +52,6 @@ function login() {
 
 function redirect(sessionId) {
     var url = RESTaddr + "webresources/Users/MyRole/" + sessionId;
-    //var url = "http://localhost:8080/EasyFix/webresources/Users/MyRole/"+localStorage.getItem("sessionId");
-    //var url="http://localhost:8080/EasyFix/webresources/Testing/Response"; /Check/{sessionId}
-    //var url="http://localhost:8080/EasyFix/webresources/Users/Check/"+sessionId;
     console.log("redirecting, " + url);
     req = initRequest();
     req.open("GET", url, true);
