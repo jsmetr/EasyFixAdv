@@ -14,7 +14,6 @@ function init() {
     pswField = document.getElementById("form3");
     console.log(unameField.value + " " + pswField.value);
     grabAddr();
-    testrest();
 }
 
 function grabAddr() {
@@ -29,7 +28,7 @@ function grabAddr() {
     RESTaddr = addr[1].toString()+"//" + REST;
     console.log(addr);
     console.log(REST);
-    testrest2();
+    testrest();
 }
 
 function initRequest() {
@@ -45,7 +44,7 @@ function initRequest() {
 }
 
 function login() {
-    var url = "http://localhost:8080/EasyFix/webresources/Users/Login/" + unameField.value + "/" + pswField.value;
+    var url = RESTaddr + "webresources/Users/Login/" + unameField.value + "/" + pswField.value;
     req = initRequest();
     req.open("PUT", url, true);
     req.onreadystatechange = logincallback;
@@ -99,15 +98,7 @@ function redircallback() {
 }
 
 function testrest() {
-    var url = "http://easyfixdevelop.herokuapp.com/webresources/Testing/Response";
-    req = initRequest();
-    req.open("GET", url, true);
-    req.onreadystatechange = resttestcallback;
-    req.send(null);
-}
-
-function testrest2() {
-    var url = RESTaddr+"webresources/Testing/Response";
+    var url = RESTaddr + "webresources/Testing/Response";
     req = initRequest();
     req.open("GET", url, true);
     req.onreadystatechange = resttestcallback;
