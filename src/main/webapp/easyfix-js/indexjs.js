@@ -78,17 +78,24 @@ function redircallback() {
         if (req.status == 200) {
             console.log(req.responseText);
             window.location.replace(req.responseText + ".html");
-            /*
-             if (req.responseText.includes("manager")) {
-             window.location.replace("manager.html");
-             } else if (req.responseText == "technician") {
-             window.location.replace("taskboard.html");
-             } else if (req.responseText == "clerk") {
-             window.location.replace("taskboard.html");
-             } else {
-             window.location.replace("taskboard.html");
-             }
-             */
+        }
+    }
+}
+
+function populate() {
+    var url = RESTaddr + "webresources/Testing/populate";
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = popcallback;
+    req.send(null);
+}
+
+function popcallback() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            if (req.responseText !== "FAILURE") {
+                console.log(req.responseText);
+            }
         }
     }
 }
@@ -106,9 +113,8 @@ function resttestcallback() {
         if (req.status == 200) {
             if (req.responseText !== "FAILURE") {
                 console.log(req.responseText);
-            } else {
-                alert("Your username and password are invalid.")
             }
+            populate();
         }
     }
 }

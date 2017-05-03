@@ -23,6 +23,7 @@ public class Employee extends Person{
     public Employee(String fname, String lname, String uname, String psw, String email, String phone,int access,Set<String> roles){
         super( fname,  lname,  uname,  psw,  email,  phone, access);
         this.roles=roles;
+        this.skills =new HashMap<String,Integer>();
     }
     
     public Employee(){}
@@ -31,7 +32,7 @@ public class Employee extends Person{
         skills.put(typename, lvl); //As a hashmap, this will either add a new value pair or update the existing one.
     }
     
-    @XmlElement
+    //@XmlElement
     public Map<String,Integer> getSkills(){
         return this.skills;
     }
