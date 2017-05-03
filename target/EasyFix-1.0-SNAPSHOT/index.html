@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>EasyFix - Landing page</title>
-  <script src="easyfix-js/testingrest.js"></script>
+  <script src="easyfix-js/indexjs.js"></script>
   
   <!-- Font Awesome -->
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
@@ -72,7 +72,7 @@
   </style>
 </head>
 
-<body onload="testinit()">
+<body onload="init()">
   <!-- Modal Login -->
   <div class="modal fade modal-ext" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -93,7 +93,7 @@
             <label for="form3">Your password</label>
           </div>
           <div class="text-center">
-            <button class="btn btn-primary btn-lg">Login</button>
+            <button class="btn btn-primary btn-lg" onclick="login()">Login</button>
           </div>
         </div>
       </div>

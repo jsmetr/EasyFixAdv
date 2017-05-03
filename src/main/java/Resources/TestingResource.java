@@ -10,12 +10,14 @@ package Resources;
  * @author Jarno
  */
 import DataClasses.*;
+import DataManagement.LoginManager;
 import DataManagement.UserManager;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -24,6 +26,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/Testing")
 public class TestingResource {
 
+    LoginManager LogMan = LoginManager.getInstance();
     UserManager UseMan = UserManager.getInstance();
     //A minor addition to test local->GitLab->Github mirroring
     @Path("/Comments/{amount}")
@@ -108,18 +111,27 @@ public class TestingResource {
         UseMan.addEmployee(newemp1);
         HashSet<String> roles2 = new HashSet<String>();
         roles2.add("technician");
-        Employee newemp2 = new Employee("Johnny", "Doe", "JohnDoe", "swordfish", "email", "phone", 1, roles1); 
+        Employee newemp2 = new Employee("Johnny", "Doe", "JohnDoe", "swordfish", "email", "phone", 1, roles2); 
         UseMan.addEmployee(newemp2);
         HashSet<String> roles3 = new HashSet<String>();
         roles3.add("manager");
-        Employee newemp3 = new Employee("Bob", "Stein", "BobStei", "greenisgood", "email", "phone", 2, roles1); 
+        Employee newemp3 = new Employee("Bob", "Stein", "BobStei", "greenisgood", "email", "phone", 2, roles3); 
         UseMan.addEmployee(newemp3);
         HashSet<String> roles4 = new HashSet<String>();
         roles4.add("clerk");
         roles4.add("manager");
-        Employee newemp4 = new Employee("Jack", "Quick", "JackQui", "swift", "email", "phone", 2, roles1); 
+        Employee newemp4 = new Employee("Jack", "Quick", "JackQui", "swift", "email", "phone", 2, roles4); 
         UseMan.addEmployee(newemp4);
         return "populated";
+    }
+    
+    @Path("/NukeUsers")
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    public String nukeUserBase(){
+        UseMan.nullAndVoid();
+        LogMan.UpdateLogins();
+        return "BOOM";
     }
 
     @Path("/Response")
