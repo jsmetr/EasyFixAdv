@@ -12,7 +12,6 @@ function init() {
 }
 
 function grabAddr() {
-    console.log("herp");
     var addr = document.location.href.toString().split("/");
     var REST = "";
     for (var i = 1; i < addr.length; i++) {
@@ -21,9 +20,6 @@ function grabAddr() {
         }
     }
     RESTaddr = addr[1].toString()+"//" + REST;
-    console.log(addr);
-    console.log(REST);
-    testrest();
 }
 
 function initRequest() {
