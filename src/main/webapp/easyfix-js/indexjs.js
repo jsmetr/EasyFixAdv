@@ -26,7 +26,7 @@ function grabAddr() {
             REST = REST + addr[i] + "/";
         }
     }
-    RESTaddr = "http://" + REST;
+    RESTaddr = addr[1].toString()+"//" + REST;
     console.log(addr);
     console.log(REST);
     testrest2();
