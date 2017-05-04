@@ -17,6 +17,7 @@ public class Assignment {
     private String customer;
     private String technician;
     private String clerk;
+    private int status; //Cancelled(-1), Inwork(0), Repaired(1), Archived(2)
     private LocalDateTime creationtime;
     private LocalDateTime deadline;
     private Device item;

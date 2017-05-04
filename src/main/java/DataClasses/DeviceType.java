@@ -5,15 +5,37 @@
  */
 package DataClasses;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  *
  * @author Jarno
  */
+@XmlRootElement
 public class DeviceType {
     private String typename;
     private String typedata;
     
     public DeviceType(){
         
+    }
+    
+    @XmlElement
+    public String getname(){
+        return this.typename;
+    }
+    
+    @XmlElement
+    public String getdata(){
+        return this.typedata;
+    }
+    
+    public void setName(String typename){
+        this.typename=typename;
+    }
+    
+    public void setData(String typedata){
+        this.typedata=typedata;
     }
 }
