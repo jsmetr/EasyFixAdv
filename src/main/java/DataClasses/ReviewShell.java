@@ -35,6 +35,10 @@ public class ReviewShell {
     
     public boolean removeComment(int id){
         for(Comment com : comments){
+            if(com.getId()==id){
+                comments.remove(com);
+                return true;
+            }
             if(com.removeComment(id)==true){
                 return true;
             }
