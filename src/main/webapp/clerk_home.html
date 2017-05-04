@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="description" content="Miminium Admin Template v.1">
+        <meta name="author" content="Isna Nur Azis">
+        <meta name="keyword" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Miminium</title>
+
+        <!-- start: Css -->
+        <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
+
+        <!-- plugins -->
+        <link rel="stylesheet" type="text/css" href="asset/css/plugins/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="asset/css/plugins/simple-line-icons.css"/>
+        <link rel="stylesheet" type="text/css" href="asset/css/plugins/animate.min.css"/>
+        <link rel="stylesheet" type="text/css" href="asset/css/plugins/fullcalendar.min.css"/>
+        <link href="asset/css/style.css" rel="stylesheet">
+        <!-- end: Css -->
+
+        <link rel="shortcut icon" href="asset/img/logomi.png">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body id="mimin" class="dashboard">       
+        <!-- start: modal-add-task -->
+        <!-- Modal -->
+        <div class="modal fade" id="modal-add-task" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4>Create new assignment</h4>
+                    </div>
+                    <div class="modal-body padding-0">
+                        <form>
+                            <div class="contentform">
+                                <div class="leftcontact">
+                                    <div class="form-group">
+                                        <p>Title <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-comment-o"></i></span>
+                                        <input type="text" name="title" id="title" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Urgency<span>*</span></p>
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn">
+                                                <input type="radio" name="options" id="option-slow" autocomplete="off" checked> Slow
+                                            </label>
+                                            <label class="btn active">
+                                                <input type="radio" name="options" id="option-normal" autocomplete="off"> Normal
+                                            </label>
+                                            <label class="btn">
+                                                <input type="radio" name="options" id="option-fast" autocomplete="off"> Fast
+                                            </label>
+                                        </div>
+                                        <div class="validation"></div>
+                                    </div> 
+
+                                    <div class="form-group">
+                                        <p>Description <span>*</span></p>
+                                        <span class="icon-case"><i class="fa fa-comments-o"></i></span>
+                                        <textarea name="description" rows="14" data-rule="required"></textarea>
+                                        <div class="validation"></div>
+                                    </div>	
+
+
+
+                                </div>
+
+                                <div class="rightcontact">	
+
+                                    <div class="form-group">
+                                        <p>Customer<span>*</span></p>
+                                        <div class="input-group form-group">
+                                            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                                            <select id="lunch" class="selectpicker form-control" data-live-search="true" title="Please select a lunch ...">
+                                                <option>Surname01 Name01</option>
+                                                <option>Surname02 Name02</option>
+                                                <option>Surname03 Name03</option>
+                                                <option>Surname04 Name04</option>
+                                            </select>
+                                            <span class="input-group-addon"><a data-toggle="modal" href="#modal-add-customer"><i class="fa fa-user-plus"></i></a></span>
+                                        </div>
+                                        <div class="validation"></div>
+                                    </div> 	
+
+                                    <div class="form-group">
+                                        <p>Device <span>*</span></p>	
+                                        <div class="input-group form-group">
+                                            <span class="input-group-addon"><i class="fa fa-cogs"></i></span>
+                                            <select id="lunch" class="selectpicker form-control" data-live-search="true">
+                                                <option>Device 01</option>
+                                                <option>Device 02</option>
+                                                <option>Device 03</option>
+                                                <option>Device 04</option>
+                                            </select>
+                                            <span class="input-group-addon"><a data-toggle="modal" href="#modal-add-device"><i class="fa fa-plus"></i></a></span>
+                                        </div>                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Assignee <span>*</span></p>	
+                                        <div class="input-group form-group">
+                                            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                                            <select id="lunch" class="selectpicker form-control" data-live-search="true">
+                                                <option>Assignee 01</option>
+                                                <option>Assignee 02</option>
+                                                <option>Assignee 03</option>
+                                                <option>Assignee 04</option>
+                                            </select>
+                                        </div>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Due date <span>*</span></p>
+                                        <span class="icon-case"><i class="fa fa-info"></i></span>
+                                        <input type="date" name="due-date" id="due-date" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="bouton-contact">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <!-- end: modal-add-task -->
+
+        <!-- start: modal-add-device -->
+        <div class="modal fade" id="modal-add-device">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Add new device</h4>
+                    </div><div class="container"></div>
+                    <div class="modal-body padding-0">
+                        <form>
+                            <div class="contentform">
+                                <div class="leftcontact">
+                                    <div class="form-group">
+                                        <p>Device name <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-comment-o"></i></span>
+                                        <input type="text" name="dev-name" id="dev-name" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Device type <span>*</span></p>	
+                                        <div class="input-group form-group">
+                                            <span class="input-group-addon"><i class="fa fa-cogs"></i></span>
+                                            <select id="dev-types" class="selectpicker form-control" data-live-search="true">
+                                                <option>Type 01</option>
+                                                <option>Type 02</option>
+                                                <option>Type 03</option>
+                                                <option>Type 04</option>
+                                            </select>
+                                            <span class="input-group-addon"><a data-toggle="modal" href='#modal-add-device-type'><i class="fa fa-plus"></i></a></span>
+                                        </div>                                        <div class="validation"></div>
+                                    </div>
+                                 
+                                </div>
+
+                                <div class="rightcontact">	
+
+                                    <div class="form-group">
+                                        <p>Owner<span>*</span></p>
+                                        <div class="input-group form-group">
+                                            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                                            <select id="dev-owner" class="selectpicker form-control" data-live-search="true" title="Please select a lunch ...">
+                                                <option>Surname01 Name01</option>
+                                                <option>Surname02 Name02</option>
+                                                <option>Surname03 Name03</option>
+                                                <option>Surname04 Name04</option>
+                                            </select>
+                                        </div>
+                                        <div class="validation"></div>
+                                    </div> 	
+                                    
+                                    <div class="form-group">
+                                        <p>Manufacturer <span>*</span></p>	
+                                        <div class="input-group form-group">
+                                            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                                            <select id="dev-manufacturer" class="selectpicker form-control" data-live-search="true">
+                                                <option>Samsung</option>
+                                                <option>Bosch</option>
+                                                <option>Sony</option>
+                                                <option>Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="validation"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </form>
+                        <button type="submit" class="bouton-contact">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: modal-add-device>
+        
+        <!-- start: modal-add-customer -->
+        <div class="modal fade" id="modal-add-customer">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Add new customer</h4>
+                    </div><div class="container"></div>
+                    <div class="modal-body padding-0">
+                        <form>
+                            <div class="contentform">
+                                <div class="leftcontact">
+                                    
+                                    <div class="form-group">
+                                        <p>Username <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-male"></i></span>
+                                        <input type="text" name="username" id="username" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>First name <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-user"></i></span>
+                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Last name <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-user"></i></span>
+                                        <input type="text" name="lname" id="lname" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>	
+
+
+
+                                </div>
+
+                                <div class="rightcontact">	
+
+                                    <div class="form-group">
+                                        <p>Password <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-lock"></i></span>
+                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div> 	
+
+                                    <div class="form-group">
+                                        <p>Email <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-envelope"></i></span>
+                                        <input type="text" name="email" id="email" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Phone <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-phone"></i></span>
+                                        <input type="text" name="phone" id="phone" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="bouton-contact">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: modal-add-customer>
+        
+        <!-- start: modal-add-device-type -->
+        <div class="modal fade" id="modal-add-device-type">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Add new device type</h4>
+                    </div><div class="container"></div>
+                    <div class="modal-body padding-0">
+                        <form>
+                            <div class="contentform">
+                                <div class="leftcontact">
+                                    <div class="form-group">
+                                        <p>Device type name <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-comment-o"></i></span>
+                                        <input type="text" name="dev-name" id="dev-name" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+                                </div>
+
+                                <div class="rightcontact">	
+                                   
+                                    <div class="form-group">
+                                        <p>Manufacturer <span>*</span></p>	
+                                        <div class="input-group form-group">
+                                            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                                            <select id="dev-manufacturer" class="selectpicker form-control" data-live-search="true">
+                                                <option>Samsung</option>
+                                                <option>Bosch</option>
+                                                <option>Sony</option>
+                                                <option>Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="validation"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </form>
+                        <button type="submit" class="bouton-contact">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: modal-add-device-type>
+        
+        <!-- start: Header -->
+        <nav class="navbar navbar-default header navbar-fixed-top">
+            <div class="col-md-12 nav-wrapper">
+                <div class="navbar-header" style="width:100%;">
+                    <div class="opener-left-menu is-open">
+                        <span class="top"></span>
+                        <span class="middle"></span>
+                        <span class="bottom"></span>
+                    </div>
+                    <a href="index.html" class="navbar-brand"> 
+                        <b>EasyFix</b>
+                    </a>
+                    <ul class="nav navbar-nav navbar-right user-nav">
+                        <li class="user-name"><span><a data-toggle="modal" href="#modal-add-task">Add Task</a></span></li>
+                        <li class="user-name"><span>Akihiko Avaron</span></li>
+                        <li class="dropdown avatar-dropdown">
+                            <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- end: Header -->
+
+        <div class="container-fluid mimin-wrapper">
+            <!-- start:Left Menu -->
+            <div id="left-menu">
+                <div class="sub-left-menu scroll">
+                    <ul class="nav nav-list">
+                        <li><div class="left-bg"></div></li>
+                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Active tasks</a></li>
+                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Reviews</a></li>
+                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Profile</a></li>
+                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- end: Left Menu -->
+
+            <!-- start: content --> 
+            <div id="content">
+                <div class="col-md-12" style="padding:20px;">
+                    <div class="col-md-12 padding-0">
+                        <div class="col-md-12 padding-0">
+                            <div class="col-md-12 padding-0">
+                                <div class="col-md-6">
+                                    <h2>Returned tasks</h2>
+                                    <div class="panel box-v1">
+                                        <div class="panel-heading bg-white border-none">
+                                            <div class="col-md-6 col-sm-6 col-xs-6 text-left padding-0">
+                                                <h4 class="text-left">Visit</h4>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                                <h4>
+                                                    <span class="icon-user icons icon text-right"></span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body text-center">
+                                            <p>User active</p>
+                                            <hr/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h2>Unassigned tasks</h2>
+                                    <div class="panel box-v1">
+                                        <div class="panel-heading bg-white border-none">
+                                            <div class="col-md-6 col-sm-6 col-xs-6 text-left padding-0">
+                                                <h4 class="text-left">Orders</h4>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                                <h4>
+                                                    <span class="icon-basket-loaded icons icon text-right"></span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body text-center">
+                                            <p>New Orders</p>
+                                            <hr/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end: content -->
+        </div>
+
+        <!-- start: Javascript -->
+        <script src="asset/js/jquery.min.js"></script>
+        <script src="asset/js/jquery.ui.min.js"></script>
+        <script src="asset/js/bootstrap.min.js"></script>
+
+        <!-- plugins -->
+        <script src="asset/js/plugins/moment.min.js"></script>
+        <script src="asset/js/plugins/fullcalendar.min.js"></script>
+        <script src="asset/js/plugins/jquery.nicescroll.js"></script>
+        <script src="asset/js/plugins/jquery.vmap.min.js"></script>
+        <script src="asset/js/plugins/maps/jquery.vmap.world.js"></script>
+        <script src="asset/js/plugins/jquery.vmap.sampledata.js"></script>
+        <script src="asset/js/plugins/chart.min.js"></script>
+
+        <!-- custom -->
+        <script src="asset/js/main.js"></script>
+    </body>
+</html>
