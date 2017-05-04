@@ -8,6 +8,7 @@
         <meta name="keyword" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Miminium</title>
+        <script src="easyfix-js/managerjs.js"></script>
 
         <!-- start: Css -->
         <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
@@ -28,7 +29,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard">
+    <body id="mimin" class="dashboard" onload="init()">
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -70,7 +71,7 @@
                                 <li><a href="sparkline.html">SparkLine</a></li>
                             </ul>
                         </li>
-                        
+
                         <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Manage users</a></li>
                         <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Manage orders</a></li>
                         <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Reviews</a></li>
@@ -82,86 +83,86 @@
             <!-- end: Left Menu -->
 
 
-<!--             start: content 
-            <div id="content">
-                <div class="col-md-12" style="padding:20px;">
-                    <div class="col-md-12 padding-0">
-                        <div class="col-md-8 padding-0">
-                            <div class="col-md-12 padding-0">
-                                <div class="col-md-6">
-                                    <div class="panel box-v1">
-                                        <div class="panel-heading bg-white border-none">
-                                            <div class="col-md-6 col-sm-6 col-xs-6 text-left padding-0">
-                                                <h4 class="text-left">Visit</h4>
+            <!--             start: content 
+                        <div id="content">
+                            <div class="col-md-12" style="padding:20px;">
+                                <div class="col-md-12 padding-0">
+                                    <div class="col-md-8 padding-0">
+                                        <div class="col-md-12 padding-0">
+                                            <div class="col-md-6">
+                                                <div class="panel box-v1">
+                                                    <div class="panel-heading bg-white border-none">
+                                                        <div class="col-md-6 col-sm-6 col-xs-6 text-left padding-0">
+                                                            <h4 class="text-left">Visit</h4>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                                            <h4>
+                                                                <span class="icon-user icons icon text-right"></span>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-body text-center">
+                                                        <h1>51181,320</h1>
+                                                        <p>User active</p>
+                                                        <hr/>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                                                <h4>
-                                                    <span class="icon-user icons icon text-right"></span>
-                                                </h4>
+                                            <div class="col-md-6">
+                                                <div class="panel box-v1">
+                                                    <div class="panel-heading bg-white border-none">
+                                                        <div class="col-md-6 col-sm-6 col-xs-6 text-left padding-0">
+                                                            <h4 class="text-left">Orders</h4>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                                            <h4>
+                                                                <span class="icon-basket-loaded icons icon text-right"></span>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-body text-center">
+                                                        <h1>51181,320</h1>
+                                                        <p>New Orders</p>
+                                                        <hr/>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="panel-body text-center">
-                                            <h1>51181,320</h1>
-                                            <p>User active</p>
-                                            <hr/>
-                                        </div>
+            
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="panel box-v1">
-                                        <div class="panel-heading bg-white border-none">
-                                            <div class="col-md-6 col-sm-6 col-xs-6 text-left padding-0">
-                                                <h4 class="text-left">Orders</h4>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12 padding-0">
+                                            <div class="panel box-v2">
+                                                <div class="panel-heading padding-0">
+                                                    <img src="asset/img/bg2.jpg" class="box-v2-cover img-responsive"/>
+                                                    <div class="box-v2-detail">
+                                                        <img src="asset/img/avatar.jpg" class="img-responsive"/>
+                                                        <h4>Akihiko Avaron</h4>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="col-md-12 padding-0 text-center">
+                                                        <div class="col-md-4 col-sm-4 col-xs-6 padding-0">
+                                                            <h3>2.000</h3>
+                                                            <p>Post</p>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4 col-xs-6 padding-0">
+                                                            <h3>2.232</h3>
+                                                            <p>share</p>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4 col-xs-12 padding-0">
+                                                            <h3>4.320</h3>
+                                                            <p>photos</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                                                <h4>
-                                                    <span class="icon-basket-loaded icons icon text-right"></span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                        <div class="panel-body text-center">
-                                            <h1>51181,320</h1>
-                                            <p>New Orders</p>
-                                            <hr/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="col-md-4">
-                            <div class="col-md-12 padding-0">
-                                <div class="panel box-v2">
-                                    <div class="panel-heading padding-0">
-                                        <img src="asset/img/bg2.jpg" class="box-v2-cover img-responsive"/>
-                                        <div class="box-v2-detail">
-                                            <img src="asset/img/avatar.jpg" class="img-responsive"/>
-                                            <h4>Akihiko Avaron</h4>
-                                        </div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-md-12 padding-0 text-center">
-                                            <div class="col-md-4 col-sm-4 col-xs-6 padding-0">
-                                                <h3>2.000</h3>
-                                                <p>Post</p>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-6 padding-0">
-                                                <h3>2.232</h3>
-                                                <p>share</p>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12 padding-0">
-                                                <h3>4.320</h3>
-                                                <p>photos</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             end: content -->
+                         end: content -->
         </div>
 
         <!-- start: Javascript -->
@@ -183,213 +184,213 @@
         <!-- custom -->
         <script src="asset/js/main.js"></script>
         <script type="text/javascript">
-            (function (jQuery) {
+        (function (jQuery) {
 
-                // start: Chart =============
+            // start: Chart =============
 
-                Chart.defaults.global.pointHitDetectionRadius = 1;
-                Chart.defaults.global.customTooltips = function (tooltip) {
+            Chart.defaults.global.pointHitDetectionRadius = 1;
+            Chart.defaults.global.customTooltips = function (tooltip) {
 
-                    var tooltipEl = $('#chartjs-tooltip');
+                var tooltipEl = $('#chartjs-tooltip');
 
-                    if (!tooltip) {
-                        tooltipEl.css({
-                            opacity: 0
-                        });
-                        return;
-                    }
-
-                    tooltipEl.removeClass('above below');
-                    tooltipEl.addClass(tooltip.yAlign);
-
-                    var innerHtml = '';
-                    if (undefined !== tooltip.labels && tooltip.labels.length) {
-                        for (var i = tooltip.labels.length - 1; i >= 0; i--) {
-                            innerHtml += [
-                                '<div class="chartjs-tooltip-section">',
-                                '   <span class="chartjs-tooltip-key" style="background-color:' + tooltip.legendColors[i].fill + '"></span>',
-                                '   <span class="chartjs-tooltip-value">' + tooltip.labels[i] + '</span>',
-                                '</div>'
-                            ].join('');
-                        }
-                        tooltipEl.html(innerHtml);
-                    }
-
+                if (!tooltip) {
                     tooltipEl.css({
-                        opacity: 1,
-                        left: tooltip.chart.canvas.offsetLeft + tooltip.x + 'px',
-                        top: tooltip.chart.canvas.offsetTop + tooltip.y + 'px',
-                        fontFamily: tooltip.fontFamily,
-                        fontSize: tooltip.fontSize,
-                        fontStyle: tooltip.fontStyle
+                        opacity: 0
                     });
-                };
-                var randomScalingFactor = function () {
-                    return Math.round(Math.random() * 100);
-                };
-                var lineChartData = {
-                    labels: ["January", "February", "March", "April", "May", "June", "July"],
-                    datasets: [{
-                            label: "My First dataset",
-                            fillColor: "rgba(21,186,103,0.4)",
-                            strokeColor: "rgba(220,220,220,1)",
-                            pointColor: "rgba(66,69,67,0.3)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: [18, 9, 5, 7, 4.5, 4, 5, 4.5, 6, 5.6, 7.5]
-                        }, {
-                            label: "My Second dataset",
-                            fillColor: "rgba(21,113,186,0.5)",
-                            strokeColor: "rgba(151,187,205,1)",
-                            pointColor: "rgba(151,187,205,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(151,187,205,1)",
-                            data: [4, 7, 5, 7, 4.5, 4, 5, 4.5, 6, 5.6, 7.5]
-                        }]
-                };
+                    return;
+                }
 
-                var doughnutData = [
-                    {
-                        value: 300,
-                        color: "#129352",
-                        highlight: "#15BA67",
-                        label: "Alfa"
-                    },
-                    {
-                        value: 50,
-                        color: "#1AD576",
-                        highlight: "#15BA67",
-                        label: "Beta"
-                    },
-                    {
-                        value: 100,
-                        color: "#FDB45C",
-                        highlight: "#15BA67",
-                        label: "Gamma"
-                    },
-                    {
-                        value: 40,
-                        color: "#0F5E36",
-                        highlight: "#15BA67",
-                        label: "Peta"
-                    },
-                    {
-                        value: 120,
-                        color: "#15A65D",
-                        highlight: "#15BA67",
-                        label: "X"
+                tooltipEl.removeClass('above below');
+                tooltipEl.addClass(tooltip.yAlign);
+
+                var innerHtml = '';
+                if (undefined !== tooltip.labels && tooltip.labels.length) {
+                    for (var i = tooltip.labels.length - 1; i >= 0; i--) {
+                        innerHtml += [
+                            '<div class="chartjs-tooltip-section">',
+                            '   <span class="chartjs-tooltip-key" style="background-color:' + tooltip.legendColors[i].fill + '"></span>',
+                            '   <span class="chartjs-tooltip-value">' + tooltip.labels[i] + '</span>',
+                            '</div>'
+                        ].join('');
                     }
+                    tooltipEl.html(innerHtml);
+                }
 
-                ];
+                tooltipEl.css({
+                    opacity: 1,
+                    left: tooltip.chart.canvas.offsetLeft + tooltip.x + 'px',
+                    top: tooltip.chart.canvas.offsetTop + tooltip.y + 'px',
+                    fontFamily: tooltip.fontFamily,
+                    fontSize: tooltip.fontSize,
+                    fontStyle: tooltip.fontStyle
+                });
+            };
+            var randomScalingFactor = function () {
+                return Math.round(Math.random() * 100);
+            };
+            var lineChartData = {
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [{
+                        label: "My First dataset",
+                        fillColor: "rgba(21,186,103,0.4)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(66,69,67,0.3)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: [18, 9, 5, 7, 4.5, 4, 5, 4.5, 6, 5.6, 7.5]
+                    }, {
+                        label: "My Second dataset",
+                        fillColor: "rgba(21,113,186,0.5)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        data: [4, 7, 5, 7, 4.5, 4, 5, 4.5, 6, 5.6, 7.5]
+                    }]
+            };
+
+            var doughnutData = [
+                {
+                    value: 300,
+                    color: "#129352",
+                    highlight: "#15BA67",
+                    label: "Alfa"
+                },
+                {
+                    value: 50,
+                    color: "#1AD576",
+                    highlight: "#15BA67",
+                    label: "Beta"
+                },
+                {
+                    value: 100,
+                    color: "#FDB45C",
+                    highlight: "#15BA67",
+                    label: "Gamma"
+                },
+                {
+                    value: 40,
+                    color: "#0F5E36",
+                    highlight: "#15BA67",
+                    label: "Peta"
+                },
+                {
+                    value: 120,
+                    color: "#15A65D",
+                    highlight: "#15BA67",
+                    label: "X"
+                }
+
+            ];
 
 
-                var doughnutData2 = [
+            var doughnutData2 = [
+                {
+                    value: 100,
+                    color: "#129352",
+                    highlight: "#15BA67",
+                    label: "Alfa"
+                },
+                {
+                    value: 250,
+                    color: "#FF6656",
+                    highlight: "#FF6656",
+                    label: "Beta"
+                },
+                {
+                    value: 100,
+                    color: "#FDB45C",
+                    highlight: "#15BA67",
+                    label: "Gamma"
+                },
+                {
+                    value: 40,
+                    color: "#FD786A",
+                    highlight: "#15BA67",
+                    label: "Peta"
+                },
+                {
+                    value: 120,
+                    color: "#15A65D",
+                    highlight: "#15BA67",
+                    label: "X"
+                }
+
+            ];
+
+            var barChartData = {
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [
                     {
-                        value: 100,
-                        color: "#129352",
-                        highlight: "#15BA67",
-                        label: "Alfa"
+                        label: "My First dataset",
+                        fillColor: "rgba(21,186,103,0.4)",
+                        strokeColor: "rgba(220,220,220,0.8)",
+                        highlightFill: "rgba(21,186,103,0.2)",
+                        highlightStroke: "rgba(21,186,103,0.2)",
+                        data: [65, 59, 80, 81, 56, 55, 40]
                     },
                     {
-                        value: 250,
-                        color: "#FF6656",
-                        highlight: "#FF6656",
-                        label: "Beta"
-                    },
-                    {
-                        value: 100,
-                        color: "#FDB45C",
-                        highlight: "#15BA67",
-                        label: "Gamma"
-                    },
-                    {
-                        value: 40,
-                        color: "#FD786A",
-                        highlight: "#15BA67",
-                        label: "Peta"
-                    },
-                    {
-                        value: 120,
-                        color: "#15A65D",
-                        highlight: "#15BA67",
-                        label: "X"
+                        label: "My Second dataset",
+                        fillColor: "rgba(21,113,186,0.5)",
+                        strokeColor: "rgba(151,187,205,0.8)",
+                        highlightFill: "rgba(21,113,186,0.2)",
+                        highlightStroke: "rgba(21,113,186,0.2)",
+                        data: [28, 48, 40, 19, 86, 27, 90]
                     }
+                ]
+            };
 
-                ];
-
-                var barChartData = {
-                    labels: ["January", "February", "March", "April", "May", "June", "July"],
-                    datasets: [
-                        {
-                            label: "My First dataset",
-                            fillColor: "rgba(21,186,103,0.4)",
-                            strokeColor: "rgba(220,220,220,0.8)",
-                            highlightFill: "rgba(21,186,103,0.2)",
-                            highlightStroke: "rgba(21,186,103,0.2)",
-                            data: [65, 59, 80, 81, 56, 55, 40]
-                        },
-                        {
-                            label: "My Second dataset",
-                            fillColor: "rgba(21,113,186,0.5)",
-                            strokeColor: "rgba(151,187,205,0.8)",
-                            highlightFill: "rgba(21,113,186,0.2)",
-                            highlightStroke: "rgba(21,113,186,0.2)",
-                            data: [28, 48, 40, 19, 86, 27, 90]
-                        }
-                    ]
-                };
-
-                window.onload = function () {
-                    var ctx = $(".doughnut-chart")[0].getContext("2d");
-                    window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {
-                        responsive: true,
-                        showTooltips: true
-                    });
-
-                    var ctx2 = $(".line-chart")[0].getContext("2d");
-                    window.myLine = new Chart(ctx2).Line(lineChartData, {
-                        responsive: true,
-                        showTooltips: true,
-                        multiTooltipTemplate: "<%= value %>",
-                        maintainAspectRatio: false
-                    });
-
-                    var ctx3 = $(".bar-chart")[0].getContext("2d");
-                    window.myLine = new Chart(ctx3).Bar(barChartData, {
-                        responsive: true,
-                        showTooltips: true
-                    });
-
-                    var ctx4 = $(".doughnut-chart2")[0].getContext("2d");
-                    window.myDoughnut2 = new Chart(ctx4).Doughnut(doughnutData2, {
-                        responsive: true,
-                        showTooltips: true
-                    });
-
-                };
-
-                //  end:  Chart =============
-
-                // start: Maps============
-
-                jQuery('.maps').vectorMap({
-                    map: 'world_en',
-                    backgroundColor: null,
-                    color: '#fff',
-                    hoverOpacity: 0.7,
-                    selectedColor: '#666666',
-                    enableZoom: true,
-                    showTooltip: true,
-                    values: sample_data,
-                    scaleColors: ['#C8EEFF', '#006491'],
-                    normalizeFunction: 'polynomial'
+            window.onload = function () {
+                var ctx = $(".doughnut-chart")[0].getContext("2d");
+                window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {
+                    responsive: true,
+                    showTooltips: true
                 });
 
-                // end: Maps==============
+                var ctx2 = $(".line-chart")[0].getContext("2d");
+                window.myLine = new Chart(ctx2).Line(lineChartData, {
+                    responsive: true,
+                    showTooltips: true,
+                    multiTooltipTemplate: "<%= value %>",
+                    maintainAspectRatio: false
+                });
 
-            })(jQuery);
+                var ctx3 = $(".bar-chart")[0].getContext("2d");
+                window.myLine = new Chart(ctx3).Bar(barChartData, {
+                    responsive: true,
+                    showTooltips: true
+                });
+
+                var ctx4 = $(".doughnut-chart2")[0].getContext("2d");
+                window.myDoughnut2 = new Chart(ctx4).Doughnut(doughnutData2, {
+                    responsive: true,
+                    showTooltips: true
+                });
+
+            };
+
+            //  end:  Chart =============
+
+            // start: Maps============
+
+            jQuery('.maps').vectorMap({
+                map: 'world_en',
+                backgroundColor: null,
+                color: '#fff',
+                hoverOpacity: 0.7,
+                selectedColor: '#666666',
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: ['#C8EEFF', '#006491'],
+                normalizeFunction: 'polynomial'
+            });
+
+            // end: Maps==============
+
+        })(jQuery);
         </script>
         <!-- end: Javascript -->
     </body>
