@@ -19,8 +19,9 @@ public class Review extends Comment implements Serializable{
     private String title; //front-end assigns a default title based off assigment name?
     private int rating;
     
-    public Review(int rating, String body,String creator,String signed){
+    public Review(String title,int rating, String body,String creator,String signed){
         super(body,creator,signed);
+        this.title=title;
         this.rating=rating; //probably 0-10 to account for half-stars without fractions?
         this.comments=null;
     }
@@ -35,5 +36,9 @@ public class Review extends Comment implements Serializable{
     @XmlElement
     public int getRating(){
         return this.rating;
+    }
+    
+    public void setRating(int newrate){
+        this.rating=newrate;
     }
 }

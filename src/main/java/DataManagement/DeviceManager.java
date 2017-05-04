@@ -19,6 +19,7 @@ public class DeviceManager {
     private HashSet<Device> devices = new HashSet<Device>();
     private HashSet<DeviceType> devicetypes = new HashSet<DeviceType>();
     private int typecount=0;
+    public ReviewShell testReview; //there is no separate testmanager, so this is here
     
     public static DeviceManager getInstance() {
         return DeviceHolder.INSTANCE;

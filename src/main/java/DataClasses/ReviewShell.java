@@ -33,6 +33,15 @@ public class ReviewShell {
         comments.add(cmnt);
     }
     
+    public boolean removeComment(int id){
+        for(Comment com : comments){
+            if(com.removeComment(id)==true){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     //when retrieving review + comments, the id of the review must be accessible by the reviewshell so the correct shell can be identified.
     public int getReviewId(){
         return this.review.getId();

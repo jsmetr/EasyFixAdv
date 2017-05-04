@@ -59,6 +59,10 @@ public class Comment implements Serializable {
     public String getBody() {
         return this.body;
     }
+    
+    public void setBody(String newbody){
+        this.body=newbody;
+    }
 
     @XmlElement
     public String getCreator() {
