@@ -13,6 +13,13 @@ import javax.xml.bind.annotation.XmlElement;
  * @author Jarno
  */
 @XmlRootElement
+
+/*
+The class is intented as a flexible way to store a bulk of data common to all devices of a given 'type'. 
+The scope of type is left to the end user to define, for example 'smartphone' vs'iPhone' vs 'specific product line of iPhones'.
+The handling of device types could easily be expanded to accomodate specific needs of the customer, 
+but in the absence of such requirements we keep this simple.
+*/
 public class DeviceType {
     private String typename;
     private String typedata;
@@ -22,12 +29,12 @@ public class DeviceType {
     }
     
     @XmlElement
-    public String getname(){
+    public String getName(){
         return this.typename;
     }
     
     @XmlElement
-    public String getdata(){
+    public String getData(){
         return this.typedata;
     }
     

@@ -37,26 +37,58 @@ public class UserResource {
     @Context
     private UriInfo context;
 
-    //currently a testing version
-    @Path("/AddEmpl/{fname}/{lname}/{uname}/{psw}")
+    /*
+    Adds a new employee into the system.
+     */
+    @Path("/AddEmpl/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{access}/{roles}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String addEmployee(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw) {
+    public String addEmployee(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw, @PathParam("phone") String phone, @PathParam("email") String email, @PathParam("access") String access, @PathParam("roles") String roleStr) {
         LogMan.UpdateLogins();;
-        if (true) {//LogMan.CheckSession(sessionId)){
+        if (LogMan.CheckSession(sessionId)) {
+            HashSet<String> roles = new HashSet<String>(Arrays.asList(roleStr.split("&")));
+            Employee newemp = new Employee(fname, lname, uname, psw, email, phone, Integer.parseInt(access), roles); //In order: first name, last name, user name, password, access lvl, jobs
             Set<Person> users = UseMan.getUsers();
             for (Person u : users) {
                 if (u.getUserName().equals(uname)) {
                     return "USERNAME ALREADY IN USE";
                 }
             }
-            HashSet<String> roles = new HashSet<String>();
-            roles.add("clerk");
-            Employee newemp = new Employee(fname, lname, uname, psw, "email", "phone", 1, roles); //In order: first name, last name, user name, password, access lvl, jobs
             UseMan.addEmployee(newemp);
             return "SUCCESS";
         }
         return "SESSION EXPIRED";
+    }
+
+    /* Used to retrieve the data of an user with their username. */
+    @Path("/View/{uname}/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Person viewInfo(@PathParam("sessionId") String sessionId, @PathParam("uname") String uname) {
+        if (LogMan.CheckSession(sessionId)) {
+            Person u = UseMan.findUser(uname);
+            if (u.getRoles().contains("customer")) {
+                Customer cust = (Customer) u;
+                return cust;
+            } else if (!u.getRoles().isEmpty()) {
+                Employee empl = (Employee) u;
+                return empl;
+            }
+            return u;
+        }
+        return null;
+    }
+
+    /* Uses the Login Manager to retrieve the data for the user logged in. */
+    @Path("/View/Myself/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Person viewMyInfo(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+            Person crnt = LogMan.getBySesId(sessionId);
+            return crnt;
+        }
+        return null;
     }
 
     /* 
@@ -96,20 +128,39 @@ public class UserResource {
     }
 
     /*
+    Used to change your own password, the only personal variable that requires confirming with current password.
+     */
+    @Path("/ChangeMyPsw/{newpsw}/{oldpsw}/{sessionId}")
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+    public String ceckIn(@PathParam("sessionId") String sessionId, @PathParam("newpsw") String newpsw, @PathParam("oldpsw") String oldpsw) {
+        Person crnt = LogMan.getBySesId(sessionId);
+        if (LogMan.CheckSession(sessionId)) {
+            if (crnt.getPassword().equals(oldpsw)) {
+                crnt.setPassword(newpsw);
+                UseMan.saveMyself();
+                return "PASSWORD CHANGED";
+            }
+            return "CURRENT PASSWORD MISMATCH";
+        }
+        return "SESSION EXPIRED";
+    }
+
+    /*
     Call this after successful login to determine which page to take the user to.
-    */
+     */
     @Path("/MyRole/{sessionId}")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getRole(@PathParam("sessionId") String sessionId) {
         String role = "customer";
         Person I = LogMan.getBySesId(sessionId);
-        if(I.getRoles().contains("manager")){
-            role="manager";
-        } else if(I.getRoles().contains("technician")){
-            role="technician";
-        } else if(I.getRoles().contains("clerk")){
-            role="clerk";
+        if (I.getRoles().contains("manager")) {
+            role = "manager";
+        } else if (I.getRoles().contains("technician")) {
+            role = "technician";
+        } else if (I.getRoles().contains("clerk")) {
+            role = "clerk";
         }
         return role;
     }

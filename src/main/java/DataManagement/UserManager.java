@@ -8,6 +8,7 @@ package DataManagement;
 import DataClasses.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -45,13 +46,28 @@ public class UserManager implements Serializable {
         customers.add(cust);
         saveMyself();
     }
-
+    
     public void addEmployee(Employee emp) {
         users.add(emp);
         employees.add(emp);
         saveMyself();
     }
-
+    
+        /*
+    As Assignments & Devices do not store references to users (to avoid serialization duplication), fetching users by username is provided.
+    Check roles and cast into appropriate class as needed.
+    */
+    public Person findUser(String username){
+        Iterator<Person> iter = users.iterator();
+        while(iter.hasNext()){
+            Person crnt =iter.next();
+            if(crnt.getUserName().equals(username)){
+                return crnt;
+            }
+        }
+        return null;
+    }
+    
     //resets the userbase
     public void nullAndVoid() {
         this.users.clear();
@@ -72,7 +88,7 @@ public class UserManager implements Serializable {
         return customers;
     }
 
-    private void saveMyself() {
+    public void saveMyself() {
         try {
             Serializer.serialize(this, filename);
         } catch (Exception e) {
