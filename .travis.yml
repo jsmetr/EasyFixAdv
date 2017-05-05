@@ -4,3 +4,12 @@ jdk:
 sudo: false
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:  mvn test -B
+deploy:
+  provider: heroku
+  api_key:
+    secure: XC5Bz0KMPxeKUgzOUMkSkhvciic90nvPrmXRuU2VTaZlJrpeM0cJzjhftOnThbVKrFXdnnp039cs/sAh40itFbRlsKyxVb4Q3CuRt98NfbJRYgRdRbKLQmRkWldQCG/MgQInawT2nhdAu9qacDV/4QmAQMCfh0oMz+xzeuAdH4JL6sqbCfPLUjidW9hpyQOWLqAxro/dGR46SQqZ/nZrdNmsmh5vha02bxsXxUS6PU2Y8/wCOdjjFGOvDbmHCgV+AoJimnktaNkscIeop0spCy8xfQu74E+kLZCKGlkx4zIBtw0i97QyTfO9CQYn8nYtqvQOOFfbUzzh3Y2Gd3lXq2MJEZB2OJ5WGn2in7yg8F22a17GZ78Jx+ytpyQNvKQZY+TxpuDBVg1HmtNhjEYyUePaGFyTsIuF1U8YmqcHgLZXNgtNZ3VMNqCrns3w3NMOC6TbqXAxdJgWbbxKSYQksVdZL8wcFjjSDViBT2U9jTyvXQ2JNhaGPq/wnIcB+GMSw/I0hBoIqd+Qh3TWkRiU+MB11Wzgmsjbormryv5WgiKQYlQ7QTuBZ3DOKVrtvAx9gl6OhkpvYGyLUZ+GMD1BAjboFpCYW10GszPzKAiNvfRnJJEo/EbsLTXdk4qQXVpm0XT6EFuuBwnIrkx66CsKgH0LgWx5Ikzpn7CtxOhmVyI=
+  app: 
+    master: easyfix
+    development: easyfixdevelop
+  on:
+    repo: jsmetr/EasyFix
