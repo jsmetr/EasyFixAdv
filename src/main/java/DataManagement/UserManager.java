@@ -41,33 +41,39 @@ public class UserManager implements Serializable {
         }
     }
 
-    public void addCustomer(Customer cust) {
-        users.add(cust);
-        customers.add(cust);
-        saveMyself();
+    public boolean addCustomer(Customer cust) {
+        if (users.add(cust)) {
+            customers.add(cust);
+            saveMyself();
+            return true;
+        }
+        return false;
     }
-    
-    public void addEmployee(Employee emp) {
-        users.add(emp);
-        employees.add(emp);
-        saveMyself();
+
+    public boolean addEmployee(Employee emp) {
+        if (users.add(emp)) {
+            employees.add(emp);
+            saveMyself();
+            return true;
+        }
+        return false;
     }
-    
-        /*
+
+    /*
     As Assignments & Devices do not store references to users (to avoid serialization duplication), fetching users by username is provided.
     Check roles and cast into appropriate class as needed.
-    */
-    public Person findUser(String username){
+     */
+    public Person findUser(String username) {
         Iterator<Person> iter = users.iterator();
-        while(iter.hasNext()){
-            Person crnt =iter.next();
-            if(crnt.getUserName().equals(username)){
+        while (iter.hasNext()) {
+            Person crnt = iter.next();
+            if (crnt.getUserName().equals(username)) {
                 return crnt;
             }
         }
         return null;
     }
-    
+
     //resets the userbase
     public void nullAndVoid() {
         this.users.clear();

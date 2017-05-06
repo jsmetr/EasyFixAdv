@@ -5,10 +5,13 @@
  */
 package DataClasses;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author Jarno
  */
+@XmlRootElement
 public class Device {
     private int deviceId;
     private String owner; //owner username

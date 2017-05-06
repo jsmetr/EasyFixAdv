@@ -5,9 +5,8 @@
  */
 package DataClasses;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,22 +17,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Employee extends Person{
     //may need to reorganize skills as a TreeSet of paired name-value with name as the organizing element for the tree
-    private HashMap<String,Integer> skills; //Technician skills, you either have it or you don't and the skill level is approximated as an integer (0-10)
+    private Set<RepairSkill> skills; //Technician skills, you either have it or you don't and the skill level is approximated as an integer (0-10)
     
     public Employee(String fname, String lname, String uname, String psw, String email, String phone,int access,Set<String> roles){
         super( fname,  lname,  uname,  psw,  email,  phone, access);
         this.roles=roles;
-        this.skills =new HashMap<String,Integer>();
+        this.skills =new TreeSet<RepairSkill>();
     }
     
     public Employee(){}
     
     public void changeSkill(String typename, int lvl){
-        skills.put(typename, lvl); //As a hashmap, this will either add a new value pair or update the existing one.
+        RepairSkill skill = new RepairSkill(typename,lvl);
+        if(!skills.add(skill)){
+            for(RepairSkill s:skills){
+                if(s.getDevicetype().equals(typename)){
+                    s.setLevel(lvl);
+                    break;
+                }
+            }
+        }
     }
     
-    //@XmlElement
-    public Map<String,Integer> getSkills(){
+    @XmlElement
+    public Set<RepairSkill> getSkills(){
         return this.skills;
     }
 }

@@ -44,18 +44,32 @@ public class UserResource {
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     public String addEmployee(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw, @PathParam("phone") String phone, @PathParam("email") String email, @PathParam("access") String access, @PathParam("roles") String roleStr) {
-        LogMan.UpdateLogins();;
         if (LogMan.CheckSession(sessionId)) {
             HashSet<String> roles = new HashSet<String>(Arrays.asList(roleStr.split("&")));
             Employee newemp = new Employee(fname, lname, uname, psw, email, phone, Integer.parseInt(access), roles); //In order: first name, last name, user name, password, access lvl, jobs
-            Set<Person> users = UseMan.getUsers();
-            for (Person u : users) {
-                if (u.getUserName().equals(uname)) {
-                    return "USERNAME ALREADY IN USE";
-                }
+            if (UseMan.addEmployee(newemp)) {
+                LogMan.UpdateLogins();;
+                return "SUCCESS";
             }
-            UseMan.addEmployee(newemp);
-            return "SUCCESS";
+            return "USERNAME ALREADY IN USE";
+        }
+        return "SESSION EXPIRED";
+    }
+
+    /*
+    Adds a new employee into the system.
+     */
+    @Path("/AddCust/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{access}/{sessionId}")
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    public String addCustomer(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw, @PathParam("phone") String phone, @PathParam("email") String email) {
+        if (LogMan.CheckSession(sessionId)) {
+            Customer newcust = new Customer(fname, lname, uname, psw, email, phone);
+            if (UseMan.addCustomer(newcust)) {
+                LogMan.UpdateLogins();;
+                return "SUCCESS";
+            }
+            return "USERNAME ALREADY IN USE";
         }
         return "SESSION EXPIRED";
     }
