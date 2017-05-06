@@ -44,7 +44,7 @@ public class UserManager implements Serializable {
     public boolean addCustomer(Customer cust) {
         if (users.add(cust)) {
             customers.add(cust);
-            saveMyself();
+            save();
             return true;
         }
         return false;
@@ -53,7 +53,7 @@ public class UserManager implements Serializable {
     public boolean addEmployee(Employee emp) {
         if (users.add(emp)) {
             employees.add(emp);
-            saveMyself();
+            save();
             return true;
         }
         return false;
@@ -79,7 +79,7 @@ public class UserManager implements Serializable {
         this.users.clear();
         this.customers.clear();
         this.employees.clear();
-        saveMyself();
+        save();
     }
 
     public Set<Person> getUsers() {
@@ -94,7 +94,7 @@ public class UserManager implements Serializable {
         return customers;
     }
 
-    public void saveMyself() {
+    public void save() {
         try {
             Serializer.serialize(this, filename);
         } catch (Exception e) {

@@ -29,8 +29,9 @@ public class Review extends Comment implements Serializable{
     public Review(){}
     
     @Override
-    public void respond(Comment response){
+    public boolean respond(Comment response,int id){
         //empty by design: reviews delegate their comments to their reviewshell to enable partial retrieveal: just review or review + comments
+        return false;
     }
     
     @XmlElement
@@ -40,5 +41,14 @@ public class Review extends Comment implements Serializable{
     
     public void setRating(int newrate){
         this.rating=newrate;
+    }
+    
+    @XmlElement
+    public String getTitle(){
+        return this.title;
+    }
+    
+    public void setTitle(String input){
+        this.title=input;
     }
 }

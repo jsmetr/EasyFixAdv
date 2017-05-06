@@ -81,10 +81,10 @@ public class TestingResource {
             Comment cmnt2 = new Comment(junk3, "ProReviewer", "username1");
             Comment cmnt3 = new Comment(junk4, "Junkmaker", "username3");
             Comment cmnt4 = new Comment(junk5, "Junkmaker", "username3");
-            cmnt1.respond(cmnt2);
-            cmnt1.respond(cmnt3);
             shell.commentOn(cmnt1);
             shell.commentOn(cmnt4);
+            shell.respond(cmnt2,cmnt1.getId());
+            shell.respond(cmnt3,cmnt1.getId());
             DevMan.testReview = shell;
         }
         return DevMan.testReview;
@@ -96,6 +96,17 @@ public class TestingResource {
     public String removeComment(@PathParam("commentId") String commentId){
         if(DevMan.testReview.removeComment(Integer.parseInt(commentId))==true){
             return "Comment found and removed.";
+        }
+        return "Comment not found.";
+    }
+    
+    @Path("/respondToComment/{body}/{commentId}")
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    public String respondToComment(@PathParam("commentId") String commentId,@PathParam("body") String body){
+        Comment cmnt = new Comment(body,"ProReviewer", "username1");
+        if(DevMan.testReview.respond(cmnt,Integer.parseInt(commentId))==true){
+            return "Comment found and responded to.";
         }
         return "Comment not found.";
     }

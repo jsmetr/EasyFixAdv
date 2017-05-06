@@ -57,14 +57,18 @@ public class UserResource {
     }
 
     /*
-    Adds a new employee into the system.
+    Adds a new customer into the system.
      */
-    @Path("/AddCust/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{access}/{sessionId}")
+    @Path("/AddCust/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{address}/{city}/{state}/{zipcode}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String addCustomer(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw, @PathParam("phone") String phone, @PathParam("email") String email) {
+    public String addCustomer(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname,
+            @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw,
+            @PathParam("phone") String phone, @PathParam("email") String email, @PathParam("address") String address,
+            @PathParam("city") String city, @PathParam("state") String state, @PathParam("zipcode") String zipcode) {
+
         if (LogMan.CheckSession(sessionId)) {
-            Customer newcust = new Customer(fname, lname, uname, psw, email, phone);
+            Customer newcust = new Customer(fname, lname, uname, psw, email, phone, address, city, state, zipcode);
             if (UseMan.addCustomer(newcust)) {
                 LogMan.UpdateLogins();;
                 return "SUCCESS";
@@ -152,7 +156,7 @@ public class UserResource {
         if (LogMan.CheckSession(sessionId)) {
             if (crnt.getPassword().equals(oldpsw)) {
                 crnt.setPassword(newpsw);
-                UseMan.saveMyself();
+                UseMan.save();
                 return "PASSWORD CHANGED";
             }
             return "CURRENT PASSWORD MISMATCH";

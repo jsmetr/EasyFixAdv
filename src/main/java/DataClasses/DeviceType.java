@@ -5,6 +5,7 @@
  */
 package DataClasses;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 
@@ -20,13 +21,16 @@ The handling of device types could easily be expanded to accomodate specific nee
 but in the absence of such requirements we keep this simple.
 */
 @XmlRootElement
-public class DeviceType {
+public class DeviceType  implements Serializable{
     private String typename;
     private String typedata;
     
-    public DeviceType(){
-        
+    public DeviceType(String name,String data){
+        this.typename=name;
+        this.typedata=data;
     }
+    
+    public DeviceType(){}
     
     @XmlElement
     public String getName(){

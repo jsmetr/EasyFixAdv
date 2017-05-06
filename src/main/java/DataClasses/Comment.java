@@ -37,8 +37,17 @@ public class Comment implements Serializable {
     public Comment() {
     }
 
-    public void respond(Comment response) {
-        comments.add(response);
+    public boolean respond(Comment response,int cmntId) {
+        if(this.id==cmntId){
+            comments.add(response);
+            return true;
+        }
+        for(Comment c:comments){
+            if(c.respond(response, cmntId)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean removeComment(int id) {
