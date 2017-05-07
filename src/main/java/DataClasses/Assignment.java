@@ -5,6 +5,7 @@
  */
 package DataClasses;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author JTS
  */
 @XmlRootElement
-public class Assignment {
+public class Assignment implements Serializable, Comparable<Assignment>{
     //Users involved in assignment tracked by username to avoid potential 'double storage' by the datamanagement classes.
     private String customer;
     private String technician;
@@ -117,5 +118,11 @@ public class Assignment {
     public int hashCode(){
         int hash = 1 + 13 * this.customer.hashCode() + 7 * this.creationtime.toString().hashCode();
         return hash;
+    }
+
+    @Override
+    public int compareTo(Assignment t) {
+        //earliest first
+        return this.deadline.compareTo(t.deadline);
     }
 }
