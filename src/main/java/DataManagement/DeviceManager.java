@@ -58,14 +58,28 @@ public class DeviceManager {
         }
     }
 
-    public void addDevice(Device newdevice) {
-        this.devices.add(newdevice);
-        save();
+    public boolean addAssignment(Assignment a) {
+        boolean added = this.assignments.add(a);
+        if (added) {
+            save();
+        }
+        return added;
     }
 
-    public void addDeviceType(DeviceType newtype) {
-        this.devicetypes.add(newtype);
-        save();
+    public boolean addDevice(Device newdevice) {
+        boolean added = this.devices.add(newdevice);
+        if (added) {
+            save();
+        }
+        return added;
+    }
+
+    public boolean addDeviceType(DeviceType newtype) {
+        boolean added = this.devicetypes.add(newtype);
+        if (added) {
+            save();
+        }
+        return added;
     }
 
     public void addToModQueue(Comment cmnt) {
@@ -81,8 +95,8 @@ public class DeviceManager {
         }
         return false;
     }
-    
-    public List<Comment> getQueue(){
+
+    public List<Comment> getQueue() {
         return this.modQueue;
     }
 
@@ -92,6 +106,24 @@ public class DeviceManager {
 
     public Set<Device> getDevices() {
         return this.devices;
+    }
+
+    public Device getDeviceById(int id) {
+        for (Device d : devices) {
+            if (d.getId() == id) {
+                return d;
+            }
+        }
+        return null;
+    }
+
+    public DeviceType getTypeByName(String type) {
+        for (DeviceType t : devicetypes) {
+            if (t.getName().equals(type)) {
+                return t;
+            }
+        }
+        return null;
     }
 
     public Set<DeviceType> getTypes() {

@@ -7,6 +7,7 @@ package Resources;
 
 import DataManagement.*;
 import DataClasses.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +46,9 @@ public class UserResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String addEmployee(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw, @PathParam("phone") String phone, @PathParam("email") String email, @PathParam("access") String access, @PathParam("roles") String roleStr) {
         if (LogMan.CheckSession(sessionId)) {
+            if(LogMan.getBySesId(sessionId).getAccess() < 2){
+                return "ACCESS DENIED";
+            }
             HashSet<String> roles = new HashSet<String>(Arrays.asList(roleStr.split("&")));
             Employee newemp = new Employee(fname, lname, uname, psw, email, phone, Integer.parseInt(access), roles); //In order: first name, last name, user name, password, access lvl, jobs
             if (UseMan.addEmployee(newemp)) {
@@ -68,6 +72,9 @@ public class UserResource {
             @PathParam("city") String city, @PathParam("state") String state, @PathParam("zipcode") String zipcode) {
 
         if (LogMan.CheckSession(sessionId)) {
+            if(LogMan.getBySesId(sessionId).getAccess() < 1){
+                return "ACCESS DENIED";
+            }
             Customer newcust = new Customer(fname, lname, uname, psw, email, phone, address, city, state, zipcode);
             if (UseMan.addCustomer(newcust)) {
                 LogMan.UpdateLogins();;
@@ -78,7 +85,7 @@ public class UserResource {
         return "SESSION EXPIRED";
     }
 
-    /* Used to retrieve the data of an user with their username. */
+    /* Used to retrieve the data of an user with their username. Manager only.*/
     @Path("/View/{uname}/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -86,17 +93,35 @@ public class UserResource {
         if (LogMan.CheckSession(sessionId)) {
             Person u = UseMan.findUser(uname);
             if (u.getRoles().contains("customer")) {
-                Customer cust = (Customer) u;
-                return cust;
-            } else if (!u.getRoles().isEmpty()) {
+                if ((LogMan.getBySesId(sessionId).getAccess() > 1 || LogMan.getBySesId(sessionId).getRoles().contains("clerk"))) {
+                    Customer cust = (Customer) u;
+                    return cust;
+                }
+            } else if (!u.getRoles().isEmpty() && LogMan.getBySesId(sessionId).getAccess() > 1) {
                 Employee empl = (Employee) u;
                 return empl;
             }
-            return u;
         }
         return null;
     }
-
+    
+    @Path("/View/AllUsers/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public List<List<String>>getUserList(@PathParam("sessionId") String sessionId){
+        if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 1) {
+            ArrayList<List<String>> users = new ArrayList<List<String>>();
+            users.add(new ArrayList<String>());
+            users.add(new ArrayList<String>());
+            for(Person u:UseMan.getUsers()){
+                users.get(0).add(u.getUserName());
+                users.get(1).add(u.getFirstName()+""+u.getLastName());
+            }
+            return users;
+        }
+        return null;
+    }
+    
     /* Uses the Login Manager to retrieve the data for the user logged in. */
     @Path("/View/Myself/{sessionId}")
     @GET

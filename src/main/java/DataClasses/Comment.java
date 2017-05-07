@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jarno
  */
 @XmlRootElement
-public class Comment implements Serializable {
+public class Comment implements Serializable, Comparable<Comment> {
 
     private String body;
     private String creator;
@@ -98,11 +98,19 @@ public class Comment implements Serializable {
     public int getId() {
         return this.id;
     }
-
+    
     /* User addition in UserResource checks to make sure no two users have the same username. */
     @Override
     public int hashCode() {
         int hash = 1 + 13 * this.creator.hashCode() + 7 * this.creationtime.toString().hashCode();
         return hash;
+    }
+
+    /*
+    If in an ordered container, comments (and reviews) are stored 'latest first'.
+    */
+    @Override
+    public int compareTo(Comment other) {
+        return other.creationtime.compareTo(this.creationtime);
     }
 }

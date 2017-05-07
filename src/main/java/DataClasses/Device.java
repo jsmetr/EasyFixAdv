@@ -23,12 +23,16 @@ public class Device implements Serializable{
     private String model; //ditto
     private DeviceType type;
 
-    public Device(String owner, String name, DeviceType type) {
+    public Device(String owner, String name, DeviceType type, String manufacturer,String model) {
         this.owner = owner;
         this.name = name;
         this.type = type;
+        this.manufacturer=manufacturer;
+        this.model=model;
         this.deviceId = hashCode();
     }
+    
+    public Device(){};
 
     @XmlElement
     public int getId() {

@@ -22,6 +22,7 @@ public class Assignment {
     private String technician;
     private String clerk;
     private int status; //Cancelled(-1), Inwork(0), Repaired(1), Archived(2)
+    private int id;
     private LocalDateTime creationtime;
     private LocalDateTime deadline;
     private Device device;
@@ -38,7 +39,10 @@ public class Assignment {
         this.deadline=LocalDateTime.parse(deadline);
         this.creationtime=LocalDateTime.now();
         this.repairs=new ArrayList<String>();
+        this.id=hashCode();
     }
+    
+    public Assignment(){}
     
     @XmlElement
     public String getCustomer(){
@@ -61,6 +65,11 @@ public class Assignment {
     }
     
     @XmlElement
+    public int getId(){
+        return this.id;
+    }
+    
+    @XmlElement
     public String getCreationtime(){
         return this.creationtime.toString();
     }
@@ -75,6 +84,7 @@ public class Assignment {
         return this.device;
     }
     
+    @XmlElement
     public List<String> getRepairs(){
         return this.repairs;
     }
@@ -102,5 +112,10 @@ public class Assignment {
     
     public void setDeadline(String time){
         this.deadline= LocalDateTime.parse(time);
+    }
+    
+    public int hashCode(){
+        int hash = 1 + 13 * this.customer.hashCode() + 7 * this.creationtime.toString().hashCode();
+        return hash;
     }
 }

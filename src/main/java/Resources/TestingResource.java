@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -114,16 +115,16 @@ public class TestingResource {
     @Path("/Reviews")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public List<Review> grabReviews() {
-        ArrayList<Review> reviews = new ArrayList<Review>();
+    public Set<Review> grabReviews() {
+        Set<Review> reviews = new TreeSet<Review>();
         String junk1 = "This text is filler. This text is filler. This text is filler. This text is filler. This text is filler. This text is filler.";
         String junk2 = "This is a filler review. This is a filler review. This is a filler review. This is a filler review. This is a filler review.";
         String junk3 = "This is another filler review. This is another filler review. This is another filler review. This is another filler review.";
         String junk4 = "This is yet another filler review. This is yet another filler review. This is yet another filler review. This is yet another filler review. ";
-        Review rvw1 = new Review("Junkreview 1", 5, junk1, "ProReviewer", "username1");
         Review rvw2 = new Review("Junkreview 2", 5, junk2, "Junkmaker", "username3");
-        Review rvw3 = new Review("Junkreview 3", 5, junk3, "NotAHacker", "username4");
         Review rvw4 = new Review("Junkreview 4", 5, junk4, "PlainUser", "username2");
+        Review rvw3 = new Review("Junkreview 3", 5, junk3, "NotAHacker", "username4");
+        Review rvw1 = new Review("Junkreview 1", 5, junk1, "ProReviewer", "username1");
         reviews.add(rvw1);
         reviews.add(rvw2);
         reviews.add(rvw3);
