@@ -105,6 +105,26 @@ public class DeviceResource {
         }
         return "SESSION EXPIRED";
     }
+    
+    /*
+    Retrieves all of your (technician) open assignments in order of earliest deadline first.
+    */
+    @Path("/MyAssignments/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Assignment> getByTechnician(@PathParam("sessionId") String sessionId){
+        if (LogMan.CheckSession(sessionId)) {
+            Person me = LogMan.getBySesId(sessionId);
+            Set<Assignment> forMe = new TreeSet<Assignment>();
+            for(Assignment a : DevMan.getAssignments()){
+                if(a.getTechnician().equals(me.getUserName()) && a.getStatus()==0){
+                    forMe.add(a);
+                }
+            }
+            return forMe;
+        }
+        return null;
+    }
 
     /*
     Stores a comment responding directly to a review.
