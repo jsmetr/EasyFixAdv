@@ -8,6 +8,7 @@ package Resources;
 import DataClasses.*;
 import DataManagement.DeviceManager;
 import DataManagement.LoginManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -86,17 +87,18 @@ public class DeviceResource {
         return "SESSION EXPIRED";
     }
 
-    @Path("/CreateAssignment/{deviceid}/{deadline}/{customer}/{technician}/{sessionId}")
+    @Path("/CreateAssignment/{deviceid}/{deadline}/{prio}/{customer}/{technician}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String createAssignment(@PathParam("sessionId") String sessionId,@PathParam("sessionId") String deviceid,@PathParam("sessionId") String deadline,@PathParam("sessionId") String customer,@PathParam("sessionId") String technician) {
+    public String createAssignment(@PathParam("sessionId") String sessionId,@PathParam("deviceid") String deviceid,@PathParam("deadline") String deadline,
+            @PathParam("prio") String priority, @PathParam("customer") String customer,@PathParam("technician") String technician) {
         if (LogMan.CheckSession(sessionId)) {
             if(LogMan.getBySesId(sessionId).getAccess() < 1){
                 return "ACCESS DENIED";
             }
             String clerk=LogMan.getBySesId(sessionId).getUserName();
             Device item=DevMan.getDeviceById(Integer.parseInt(deviceid));
-            Assignment created=new Assignment(item,deadline,customer,clerk,technician);
+            Assignment created=new Assignment(item,deadline,customer,clerk,technician,Integer.parseInt(priority));
             boolean added = DevMan.addAssignment(created);
             if(added){
                 return "ASSIGNMENT CREATED";
@@ -112,12 +114,41 @@ public class DeviceResource {
     @Path("/MyAssignments/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Set<Assignment> getByTechnician(@PathParam("sessionId") String sessionId){
+    public Set<Assignment> myAssignments(@PathParam("sessionId") String sessionId){
         if (LogMan.CheckSession(sessionId)) {
             Person me = LogMan.getBySesId(sessionId);
             Set<Assignment> forMe = new TreeSet<Assignment>();
             for(Assignment a : DevMan.getAssignments()){
                 if(a.getTechnician().equals(me.getUserName()) && a.getStatus()==0){
+                    forMe.add(a);
+                }
+            }
+            return forMe;
+        }
+        return null;
+    }
+    
+    /*
+    Retrieves all of your (technician) open assignments in order of priority, earliest deadline first within tier.
+    */
+    @Path("/MyAssignments/Priority/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Assignment> myAssignmentsByPriority(@PathParam("sessionId") String sessionId){
+        if (LogMan.CheckSession(sessionId)) {
+            Person me = LogMan.getBySesId(sessionId);
+            ArrayList<Set<Assignment>> holder =new ArrayList<Set<Assignment>>();
+            holder.add(new TreeSet<Assignment>());
+            holder.add(new TreeSet<Assignment>());
+            holder.add(new TreeSet<Assignment>());
+            Set<Assignment> forMe = new TreeSet<Assignment>();
+            for(Assignment a : DevMan.getAssignments()){
+                if(a.getTechnician().equals(me.getUserName()) && a.getStatus()==0){
+                    holder.get(a.getSPriority()).add(a);
+                }
+            }
+            for(Set<Assignment> set:holder){
+                for(Assignment a: set){
                     forMe.add(a);
                 }
             }
@@ -132,7 +163,8 @@ public class DeviceResource {
     @Path("/postReview/{assignid}/{title}/{body}/{rating}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String postReview(@PathParam("sessionId") String sessionId, @PathParam("assignid") String assignid, @PathParam("title") String title, @PathParam("rating") String rt, @PathParam("body") String body) {
+    public String postReview(@PathParam("sessionId") String sessionId, @PathParam("assignid") String assignid, @PathParam("title") String title, 
+            @PathParam("rating") String rt, @PathParam("body") String body) {
         if (LogMan.CheckSession(sessionId)) {
             Person u = LogMan.getBySesId(sessionId);
             ReviewShell shell;
@@ -192,7 +224,8 @@ public class DeviceResource {
     @Path("/respondToComment/{body}/{reviewId}/{commentId}/{sessionId}")
     @POST
     @Produces(MediaType.APPLICATION_XML)
-    public String respondToComment(@PathParam("sessionId") String sessionId, @PathParam("reviewId") String reviewId, @PathParam("commentId") String commentId, @PathParam("body") String body) {
+    public String respondToComment(@PathParam("sessionId") String sessionId, @PathParam("reviewId") String reviewId, 
+            @PathParam("commentId") String commentId, @PathParam("body") String body) {
         if (LogMan.CheckSession(sessionId)) {
             ReviewShell shell;
             int rewId = Integer.parseInt(reviewId);
