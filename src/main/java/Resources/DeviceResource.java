@@ -144,7 +144,7 @@ public class DeviceResource {
             Set<Assignment> forMe = new TreeSet<Assignment>();
             for(Assignment a : DevMan.getAssignments()){
                 if(a.getTechnician().equals(me.getUserName()) && a.getStatus()==0){
-                    holder.get(a.getSPriority()).add(a);
+                    holder.get(a.getPriority()).add(a);
                 }
             }
             for(Set<Assignment> set:holder){

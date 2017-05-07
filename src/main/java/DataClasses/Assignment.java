@@ -68,7 +68,7 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     }
     
     @XmlElement
-    public int getSPriority(){
+    public int getPriority(){
         return this.priority;
     }
     
