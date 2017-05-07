@@ -8,6 +8,7 @@ package Resources;
 import DataClasses.*;
 import DataManagement.DeviceManager;
 import DataManagement.LoginManager;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -46,6 +47,25 @@ public class DeviceResource {
     @Produces(MediaType.APPLICATION_XML)
     public Set<DeviceType> getTypes() {
         return DevMan.getTypes();
+    }
+    
+    /*
+    Grabs all devices owned by a customer.
+    */
+    @Path("/Devices/{customer}/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Device> getCustDev(@PathParam("sessionId") String sessionId,@PathParam("customer") String customer){
+        if (LogMan.CheckSession(sessionId)) {
+            Set<Device> devices = new HashSet<Device>();
+            for(Device d: DevMan.getDevices()){
+                if(d.getOwner().equals(customer)){
+                    devices.add(d);
+                }
+            }
+            return devices;
+        }
+        return null;
     }
 
     @Path("/AddDevice/{type}/{name}/{owner}/{manufacturer}/{model}/{sessionId}")
