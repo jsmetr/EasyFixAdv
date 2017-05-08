@@ -82,7 +82,7 @@ public class DeviceResource {
             Device device = new Device(owner,name,devtype,manufacturer,model);//String owner, String name, DeviceType type,String manufacturer,String model
             boolean added=DevMan.addDevice(device);
             if(added){
-                return "DEVICE TYPE ADDED";
+                return "DEVICE ADDED";
             }
             return "FAILURE";
         }

@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class DeviceManager {
 
-    private String filename = "DeviceManagerStorage"; //Must match UserHolder.getManager() deserialization filename.
+    private String filename = "DeviceManagerStorage.txt"; //Must match UserHolder.getManager() deserialization filename.
     private HashSet<Assignment> assignments = new HashSet<Assignment>();
     private HashSet<Device> devices = new HashSet<Device>();
     private HashSet<DeviceType> devicetypes = new HashSet<DeviceType>();
@@ -35,7 +35,7 @@ public class DeviceManager {
 
         private static DeviceManager getManager() {
             try {
-                return (DeviceManager) Serializer.deserialize("DeviceManagerStorage");
+                return (DeviceManager) Serializer.deserialize("DeviceManagerStorage.txt");
             } catch (Exception e) {
                 return new DeviceManager();
             }
@@ -60,36 +60,32 @@ public class DeviceManager {
 
     public boolean addAssignment(Assignment a) {
         boolean added = this.assignments.add(a);
-        if (added) {
-            save();
-        }
+        save();
         return added;
     }
 
     public boolean addDevice(Device newdevice) {
         boolean added = this.devices.add(newdevice);
-        if (added) {
-            save();
-        }
+        save();
         return added;
     }
 
     public boolean addDeviceType(DeviceType newtype) {
         boolean added = this.devicetypes.add(newtype);
-        if (added) {
-            save();
-        }
+        save();
         return added;
     }
 
     public void addToModQueue(Comment cmnt) {
         this.modQueue.add(cmnt);
+        save();
     }
 
     public boolean approveComment(int id) {
         for (Comment c : modQueue) {
             if (c.getId() == id) {
                 modQueue.remove(c);
+                save();
                 return true;
             }
         }
