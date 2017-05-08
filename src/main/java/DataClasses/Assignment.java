@@ -5,6 +5,7 @@
  */
 package DataClasses;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +17,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author JTS
  */
 @XmlRootElement
-public class Assignment {
+public class Assignment implements Serializable, Comparable<Assignment>{
     //Users involved in assignment tracked by username to avoid potential 'double storage' by the datamanagement classes.
     private String customer;
     private String technician;
     private String clerk;
+    private String title;
     private int status; //Cancelled(-1), Inwork(0), Repaired(1), Archived(2)
     private int id;
+    private int priority; //low is more important: 0 top, 1 mid, 2 low priority
     private LocalDateTime creationtime;
     private LocalDateTime deadline;
     private Device device;
@@ -30,12 +33,14 @@ public class Assignment {
     private ReviewShell review;
     
     
-    public Assignment(Device item, String deadline,String customer,String clerk,String technician){
+    public Assignment(String title,Device item, String deadline,String customer,String clerk,String technician,int priority){
+        this.title=title;
         this.clerk=clerk;
         this.technician=technician;
         this.customer=customer;
         this.device=item;
         this.status=0;
+        this.priority=priority;
         this.deadline=LocalDateTime.parse(deadline);
         this.creationtime=LocalDateTime.now();
         this.repairs=new ArrayList<String>();
@@ -47,6 +52,11 @@ public class Assignment {
     @XmlElement
     public String getCustomer(){
         return this.customer;
+    }
+    
+    @XmlElement
+    public String getTitle(){
+        return this.title;
     }
     
     @XmlElement
@@ -62,6 +72,11 @@ public class Assignment {
     @XmlElement
     public int getStatus(){
         return this.status;
+    }
+    
+    @XmlElement
+    public int getPriority(){
+        return this.priority;
     }
     
     @XmlElement
@@ -102,8 +117,16 @@ public class Assignment {
         this.repairs.add(repair);
     }
     
+    public void setTitle(String title){
+        this.title=title;
+    }
+    
     public void setStatus(int status){
         this.status=status;
+    }
+    
+    public void setPriority(int priority){
+        this.priority=priority;
     }
     
     public void setTechnician(String uname){
@@ -117,5 +140,11 @@ public class Assignment {
     public int hashCode(){
         int hash = 1 + 13 * this.customer.hashCode() + 7 * this.creationtime.toString().hashCode();
         return hash;
+    }
+
+    @Override
+    public int compareTo(Assignment t) {
+        //earliest first
+        return this.deadline.compareTo(t.deadline);
     }
 }
