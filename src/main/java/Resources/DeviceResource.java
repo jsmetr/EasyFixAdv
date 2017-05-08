@@ -87,18 +87,18 @@ public class DeviceResource {
         return "SESSION EXPIRED";
     }
 
-    @Path("/CreateAssignment/{deviceid}/{title}/{deadline}/{prio}/{customer}/{technician}/{sessionId}")
+    @Path("/CreateAssignment/{deviceid}/{deadline}/{prio}/{customer}/{technician}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     public String createAssignment(@PathParam("sessionId") String sessionId,@PathParam("deviceid") String deviceid,@PathParam("deadline") String deadline,
-            @PathParam("prio") String priority, @PathParam("customer") String customer,@PathParam("technician") String technician,@PathParam("title") String title) {
+            @PathParam("prio") String priority, @PathParam("customer") String customer,@PathParam("technician") String technician) {
         if (LogMan.CheckSession(sessionId)) {
             if(LogMan.getBySesId(sessionId).getAccess() < 1){
                 return "ACCESS DENIED";
             }
             String clerk=LogMan.getBySesId(sessionId).getUserName();
             Device item=DevMan.getDeviceById(Integer.parseInt(deviceid));
-            Assignment created=new Assignment(item,title,deadline,customer,clerk,technician,Integer.parseInt(priority));
+            Assignment created=new Assignment(item,deadline,customer,clerk,technician,Integer.parseInt(priority));
             boolean added = DevMan.addAssignment(created);
             if(added){
                 return "ASSIGNMENT CREATED";
