@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jarno
  */
 @XmlRootElement
-public class Device implements Serializable{
+public class Device implements Serializable, Comparable<Device>{
 
     private int deviceId;
     private String owner; //owner username
@@ -88,5 +88,18 @@ public class Device implements Serializable{
     public int hashCode() {
         int hash = 1 + 13 * this.name.hashCode() + 7 * this.owner.hashCode();
         return hash;
+    }
+
+    @Override
+    public int compareTo(Device other) {
+        return this.deviceId-other.deviceId;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(this.hashCode() == other.hashCode()) {
+            return true;
+        }
+        return false;
     }
 }

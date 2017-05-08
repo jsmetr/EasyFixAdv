@@ -64,7 +64,6 @@ public class TestingResourceIT {
         TestingResource instance = new TestingResource();
         instance.populateTestUsers();
         Set<Person> users = instance.grabUsers();
-        assertEquals(users.size(), 4);
         boolean found=false;
         for(Person p:users){
             if(p.getFirstName().equals("Jack")){

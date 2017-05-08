@@ -7,7 +7,7 @@ package DataClasses;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,7 +30,7 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     private LocalDateTime deadline;
     private Device device;
     private List<String> repairs; //All repair tasks 
-    private ReviewShell review;
+    private ReviewShell review=null;
     
     
     public Assignment(String title,Device item, String deadline,String customer,String clerk,String technician,int priority){
@@ -43,7 +43,7 @@ public class Assignment implements Serializable, Comparable<Assignment>{
         this.priority=priority;
         this.deadline=LocalDateTime.parse(deadline);
         this.creationtime=LocalDateTime.now();
-        this.repairs=new ArrayList<String>();
+        this.repairs=new LinkedList<String>();
         this.id=hashCode();
     }
     
@@ -138,13 +138,20 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     }
     
     public int hashCode(){
-        int hash = 1 + 13 * this.customer.hashCode() + 7 * this.creationtime.toString().hashCode();
+        int hash = 1 + 13 * this.customer.hashCode() + 7 * this.title.hashCode();
         return hash;
     }
 
     @Override
-    public int compareTo(Assignment t) {
-        //earliest first
-        return this.deadline.compareTo(t.deadline);
+    public int compareTo(Assignment other) {
+        return this.hashCode() - other.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(this.hashCode() == other.hashCode()) {
+            return true;
+        }
+        return false;
     }
 }

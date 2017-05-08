@@ -21,7 +21,7 @@ The handling of device types could easily be expanded to accomodate specific nee
 but in the absence of such requirements we keep this simple.
 */
 @XmlRootElement
-public class DeviceType  implements Serializable{
+public class DeviceType  implements Serializable, Comparable<DeviceType>{
     private String typename;
     private String typedata;
     
@@ -48,5 +48,24 @@ public class DeviceType  implements Serializable{
     
     public void setData(String typedata){
         this.typedata=typedata;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 1 + 13 * this.typename.hashCode();
+        return hash;
+    }
+
+    @Override
+    public int compareTo(DeviceType t) {
+        return this.typename.compareTo(t.typename);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(this.hashCode() == other.hashCode()) {
+            return true;
+        }
+        return false;
     }
 }

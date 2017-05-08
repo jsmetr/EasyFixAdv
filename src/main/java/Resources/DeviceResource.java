@@ -50,6 +50,21 @@ public class DeviceResource {
         return DevMan.getTypes();
     }
     
+    @Path("/AllDevices")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Device> getDevices() {
+        return DevMan.getDevices();
+    }
+    
+    
+    @Path("/Assignments")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Assignment> getAssignment() {
+        return DevMan.getAssignments();
+    }
+    
     /*
     Grabs all devices owned by a customer.
     */

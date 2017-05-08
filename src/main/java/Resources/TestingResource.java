@@ -136,32 +136,91 @@ public class TestingResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String populateTestUsers() {
-        HashSet<String> roles1 = new HashSet<String>();
-        roles1.add("clerk");
+        String roles1 = ("clerk");
         Employee newemp1 = new Employee("Timmy", "Russell", "TimRuss", "drowssap", "email", "phone", 1, roles1);
         UseMan.addEmployee(newemp1);
-        HashSet<String> roles2 = new HashSet<String>();
-        roles2.add("technician");
-        newemp1.changeSkill("iphone", 6);
-        newemp1.changeSkill("television", 2);
+        String roles12 = ("clerk");
+        Employee newemp12 = new Employee("Mike", "Jobbs", "MikeJob", "fiesta","mike@parnanen.fi","555 5555 555",1, roles12);
+        UseMan.addEmployee(newemp12);
+        String roles13 = ("clerk");
+        Employee newemp13 = new Employee("Eddie", "Slate", "EddSlat", "simplistic","eddie@parnanen.fi","555 5555 555", 1, roles13);
+        UseMan.addEmployee(newemp13);
+        String roles2 = ("technician");
         Employee newemp2 = new Employee("Johnny", "Doe", "JohnDoe", "swordfish", "email", "phone", 1, roles2);
         UseMan.addEmployee(newemp2);
-        HashSet<String> roles3 = new HashSet<String>();
-        roles3.add("manager");
-        newemp2.changeSkill("iphone", 2);
+        newemp2.changeSkill("television", 2);
         newemp2.changeSkill("toaster", 9);
+        newemp2.changeSkill("iphone", 5);
+        newemp2.changeSkill("lawnmover", 1);
+        String roles22 = ("technician");
+        Employee newemp22 = new Employee("Jim", "Masters", "JimMast", "putzle","jmasters@parnanen.fi","555 5555 555", 1, roles22);
+        UseMan.addEmployee(newemp22);
+        newemp22.changeSkill("lawnmover", 4);
+        newemp22.changeSkill("iphone", 8);
+        newemp22.changeSkill("electric stove", 3);
+        String roles23 = ("technician");
+        Employee newemp23 = new Employee("Wenhao", "Liang", "WeLiang", "security","wliang@parnanen.fi","555 5555 555", 1, roles23);
+        UseMan.addEmployee(newemp23);
+        newemp23.changeSkill("iphone", 5);
+        newemp23.changeSkill("electric stove", 7);
+        newemp23.changeSkill("toaster", 6);
+        String roles3 = ("manager");
         Employee newemp3 = new Employee("Bob", "Stein", "BobStei", "greenisgood", "email", "phone", 2, roles3);
         UseMan.addEmployee(newemp3);
-        HashSet<String> roles4 = new HashSet<String>();
-        roles4.add("clerk");
-        roles4.add("manager");
-        newemp3.changeSkill("lawnmover", 4);
-        newemp3.changeSkill("iphone", 8);
+        String roles4 =("manager");
         Employee newemp4 = new Employee("Jack", "Quick", "JackQui", "swift", "email", "phone", 2, roles4);
-        newemp4.changeSkill("iphone", 5);
-        newemp4.changeSkill("electric stove", 7);
         UseMan.addEmployee(newemp4);
+        //add customers,
+        Customer cust1 = new Customer("Jill","Doe","JillDoe","secure","email","phone","address","city","state","zipcode"); 
+        Customer cust2 = new Customer("Kirk","Ridge","KirkRid","ironclad","email","phone","address","city","state","zipcode"); 
+        Customer cust3 = new Customer("Gary","Stu","GaryStu","unsinkable","email","phone","address","city","state","zipcode"); 
+        Customer cust4 = new Customer("Monica","Santos","MonicaS","dependable","email","phone","address","city","state","zipcode"); 
+        UseMan.addCustomer(cust1);
+        UseMan.addCustomer(cust2);
+        UseMan.addCustomer(cust3);
+        UseMan.addCustomer(cust4);
         return "populated";
+    }
+    
+    @Path("/stock")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String stockAssignments(){
+        DeviceType iphone= new DeviceType("iphone","Signals status.");
+        DeviceType stove= new DeviceType("electric stove","Cooks food.");
+        DeviceType mower= new DeviceType("lawnmower","Mowns the lawn");
+        DeviceType tv= new DeviceType("television","Old School catode tube telly.");
+        DeviceType toaster= new DeviceType("toaster","A toast for toast.");
+        DevMan.addDeviceType(iphone);
+        DevMan.addDeviceType(mower);
+        DevMan.addDeviceType(tv);
+        DevMan.addDeviceType(stove);
+        Device estove = new Device("JillDoe", "Electrolux", stove, "manufacturer","6300");
+        Device iphone9k = new Device("GaryStu", "iPhone 1t1n", iphone, "Apple","M3H");
+        Device Hondamower = new Device("JillDoe", "ClearCutter X", mower, "Honda","3000-Z");
+        Device btoaster = new Device("KirkRid", "SchorchMaster", toaster, "unknown","unknown");
+        Device iphoned = new Device("JillDoe", "iPhone L3", iphone, "Apple","N34T");
+        Device ttv = new Device("MonicaS", "WideVisio 1720", tv, "unknown","unknown");
+        DevMan.addDevice(estove );
+        DevMan.addDevice(iphone9k );
+        DevMan.addDevice(Hondamower );
+        DevMan.addDevice(btoaster );
+        DevMan.addDevice(iphoned );
+        DevMan.addDevice(ttv ); 
+        Assignment a1 = new Assignment("Stove does not heat up",estove,"2020-12-03T10:15","JillDoe","MikeJob","WeLiang",1); 
+        Assignment a2 = new Assignment("Broken Screen",iphone9k,"2020-12-03T10:15","GaryStu","TimRuss","WeLiang",0);
+        Assignment a3 = new Assignment("Snapped mower blade",Hondamower,"2020-12-03T10:15","JillDoe","TimRuss","JimMast",0);
+        Assignment a4 = new Assignment("Smokes when used",btoaster,"2020-12-03T10:15","KirkRid","MikeJob","JohnDoe",2);
+        Assignment a5 = new Assignment("Virus infection",iphoned,"2020-12-03T10:15","JillDoe","EddSlat","JimMast",1);
+        Assignment a6 = new Assignment("Bad signal",ttv,"2020-12-03T10:15","MonicaS","TimRuss","JohnDoe",1);
+        DevMan.addAssignment(a1);
+        DevMan.addAssignment(a2);
+        DevMan.addAssignment(a3);
+        DevMan.addAssignment(a4);
+        DevMan.addAssignment(a5);
+        DevMan.addAssignment(a6);
+        String hashed=" "+a1.hashCode()+" "+a2.hashCode()+" "+a3.hashCode()+" "+a4.hashCode()+" "+a5.hashCode()+""+a6.hashCode();
+        return "stocked: "+DevMan.getTypes().size()+" devicetypes, "+DevMan.getDevices().size()+" devices, "+DevMan.getAssignments().size()+" assignments, hashes: "+hashed;
     }
 
     @Path("/GrabUsers")
@@ -188,11 +247,12 @@ public class TestingResource {
         return customers;
     }
 
-    @Path("/NukeUsers")
+    @Path("/Nuke")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String nukeUserBase() {
+    public String nuke() {
         UseMan.nullAndVoid();
+        DevMan.nullAndVoid();
         LogMan.UpdateLogins();
         return "BOOM";
     }

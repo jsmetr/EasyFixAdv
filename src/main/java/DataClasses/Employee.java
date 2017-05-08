@@ -5,8 +5,9 @@
  */
 package DataClasses;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -15,13 +16,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jarno
  */
 @XmlRootElement
-public class Employee extends Person{
+public class Employee extends Person implements Serializable{
     private Set<RepairSkill> skills; //Technician skills, you either have it or you don't and the skill level is approximated as an integer (0-10)
     
-    public Employee(String fname, String lname, String uname, String psw, String email, String phone,int access,Set<String> roles){
+    public Employee(String fname, String lname, String uname, String psw, String email, String phone,int access,String role){
         super( fname,  lname,  uname,  psw,  email,  phone, access);
-        this.roles=roles;
-        this.skills =new TreeSet<RepairSkill>();
+        this.role=role;
+        this.skills =new HashSet<RepairSkill>();
     }
     
     public Employee(){}

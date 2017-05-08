@@ -11,6 +11,7 @@ DataClasses\Person.class
 Resources\TestingResource.class
 DataClasses\Customer.class
 DataClasses\DeviceType.class
+DataClasses\LinkedList.class
 DataClasses\Employee.class
 DataClasses\Assignment.class
 DataClasses\Device.class

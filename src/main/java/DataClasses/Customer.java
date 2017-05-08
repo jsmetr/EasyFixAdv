@@ -5,6 +5,7 @@
  */
 package DataClasses;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlElement;
  *
  * @author Jarno
  */
-public class Customer extends Person{
+public class Customer extends Person implements Serializable{
     /*
     Street address, city, state & zipcode are sufficient to mail bills to if customer does not pay on retrieving the item. 
     Phone & email are handled by Person class.
@@ -25,8 +26,11 @@ public class Customer extends Person{
     
     public Customer(String fname, String lname, String uname, String psw, String email, String phone,String address,String city,String state,String zipcode){
         super( fname,  lname,  uname,  psw,  email,  phone, 0);
-        this.roles=new HashSet<String>();
-        this.roles.add("customer");
+        this.address=address;
+        this.city=city;
+        this.state=state;
+        this.zipcode=zipcode;
+        this.role=("customer");
     }
     
     public Customer(){}

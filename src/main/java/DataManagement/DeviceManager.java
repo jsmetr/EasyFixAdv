@@ -7,20 +7,22 @@ package DataManagement;
 
 import java.util.HashSet;
 import DataClasses.*;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
  * @author Jarno
  */
-public class DeviceManager {
+public class DeviceManager implements Serializable{
 
     private String filename = "DeviceManagerStorage.txt"; //Must match UserHolder.getManager() deserialization filename.
-    private HashSet<Assignment> assignments = new HashSet<Assignment>();
-    private HashSet<Device> devices = new HashSet<Device>();
-    private HashSet<DeviceType> devicetypes = new HashSet<DeviceType>();
+    private Set<Assignment> assignments = new HashSet<Assignment>();
+    private Set<Device> devices = new TreeSet<Device>();
+    private Set<DeviceType> devicetypes = new TreeSet<DeviceType>();
     private LinkedList<Comment> modQueue;
     private int typecount = 0;
     public ReviewShell testReview; //there is no separate testmanager, so this is here
@@ -54,13 +56,14 @@ public class DeviceManager {
         try {
             Serializer.serialize(this, filename);
         } catch (Exception e) {
-            System.out.println("Failed to save to " + filename);
+            System.out.println("Failed to save to " + filename+" exception "+e.toString());
         }
     }
 
     public boolean addAssignment(Assignment a) {
         boolean added = this.assignments.add(a);
         save();
+        System.out.println("added assignment");
         return added;
     }
 

@@ -24,7 +24,7 @@ public class Person implements Serializable, Comparable<Person> {
     protected String password;
     protected String email;
     protected String phone;
-    protected Set<String> roles = new TreeSet<String>(); //roles consist of: customer, clerk, technician, manager. Technically, a person can have all roles but generally either is a customer or a combination of non-customer roles.
+    protected String role; //roles consist of: customer, clerk, technician, manager. Technically, a person can have all roles but generally either is a customer or a combination of non-customer roles.
     protected int accessLevel; //level of access to system: <0 =deactivated, 0=customer,1=employee,2=manager
 
     public Person(String fname, String lname, String uname, String psw, String email, String phone, int access) {
@@ -75,8 +75,8 @@ public class Person implements Serializable, Comparable<Person> {
     }
 
     @XmlElement
-    public Set<String> getRoles() {
-        return this.roles;
+    public String getRole() {
+        return this.role;
     }
 
     @XmlElement

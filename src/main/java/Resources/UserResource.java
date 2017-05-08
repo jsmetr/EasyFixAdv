@@ -41,21 +41,23 @@ public class UserResource {
     /*
     Adds a new employee into the system.
      */
-    @Path("/AddEmpl/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{access}/{roles}/{sessionId}")
+    @Path("/AddEmpl/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{access}/{role}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String addEmployee(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw, @PathParam("phone") String phone, @PathParam("email") String email, @PathParam("access") String access, @PathParam("roles") String roleStr) {
+    public String addEmployee(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw, @PathParam("phone") String phone, @PathParam("email") String email, @PathParam("access") String access, @PathParam("role") String role) {
         if (LogMan.CheckSession(sessionId)) {
-            if(LogMan.getBySesId(sessionId).getAccess() < 2){
+            if (LogMan.getBySesId(sessionId).getAccess() < 2) {
                 return "ACCESS DENIED";
             }
-            HashSet<String> roles = new HashSet<String>(Arrays.asList(roleStr.split("&")));
-            Employee newemp = new Employee(fname, lname, uname, psw, email, phone, Integer.parseInt(access), roles); //In order: first name, last name, user name, password, access lvl, jobs
-            if (UseMan.addEmployee(newemp)) {
-                LogMan.UpdateLogins();;
-                return "SUCCESS";
+            for (Person u : UseMan.getUsers()) {
+                if (u.getUserName().equals(uname)) {
+                    return "USERNAME ALREADY IN USE";
+                }
             }
-            return "USERNAME ALREADY IN USE";
+            Employee newemp = new Employee(fname, lname, uname, psw, email, phone, Integer.parseInt(access), role); //In order: first name, last name, user name, password, access lvl, jobs
+            UseMan.addEmployee(newemp);
+            LogMan.UpdateLogins();
+            return "SUCCESS";
         }
         return "SESSION EXPIRED";
     }
@@ -72,15 +74,18 @@ public class UserResource {
             @PathParam("city") String city, @PathParam("state") String state, @PathParam("zipcode") String zipcode) {
 
         if (LogMan.CheckSession(sessionId)) {
-            if(LogMan.getBySesId(sessionId).getAccess() < 1){
+            if (LogMan.getBySesId(sessionId).getAccess() < 1) {
                 return "ACCESS DENIED";
             }
-            Customer newcust = new Customer(fname, lname, uname, psw, email, phone, address, city, state, zipcode);
-            if (UseMan.addCustomer(newcust)) {
-                LogMan.UpdateLogins();;
-                return "SUCCESS";
+            for (Person u : UseMan.getUsers()) {
+                if (u.getUserName().equals(uname)) {
+                    return "USERNAME ALREADY IN USE";
+                }
             }
-            return "USERNAME ALREADY IN USE";
+            Customer newcust = new Customer(fname, lname, uname, psw, email, phone, address, city, state, zipcode);
+            UseMan.addCustomer(newcust);
+            LogMan.UpdateLogins();
+            return "SUCCESS";
         }
         return "SESSION EXPIRED";
     }
@@ -92,36 +97,49 @@ public class UserResource {
     public Person viewInfo(@PathParam("sessionId") String sessionId, @PathParam("uname") String uname) {
         if (LogMan.CheckSession(sessionId)) {
             Person u = UseMan.findUser(uname);
-            if (u.getRoles().contains("customer")) {
-                if ((LogMan.getBySesId(sessionId).getAccess() > 1 || LogMan.getBySesId(sessionId).getRoles().contains("clerk"))) {
+            if (u.getRole().equals("customer")) {
+                if ((LogMan.getBySesId(sessionId).getAccess() > 1 || LogMan.getBySesId(sessionId).getRole().contains("clerk"))) {
                     Customer cust = (Customer) u;
                     return cust;
                 }
-            } else if (!u.getRoles().isEmpty() && LogMan.getBySesId(sessionId).getAccess() > 1) {
+            } else if (!u.getRole().isEmpty() && LogMan.getBySesId(sessionId).getAccess() > 1) {
                 Employee empl = (Employee) u;
                 return empl;
             }
         }
         return null;
     }
-    
+
     @Path("/View/AllUsers/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public List<List<String>>getUserList(@PathParam("sessionId") String sessionId){
+    public Set<Person> getUserList(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 1) {
-            ArrayList<List<String>> users = new ArrayList<List<String>>();
-            users.add(new ArrayList<String>());
-            users.add(new ArrayList<String>());
-            for(Person u:UseMan.getUsers()){
-                users.get(0).add(u.getUserName());
-                users.get(1).add(u.getFirstName()+""+u.getLastName());
-            }
-            return users;
+            return UseMan.getUsers();
         }
         return null;
     }
-    
+
+    @Path("/View/AllEmployees/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Employee> getEmplList(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 1) {
+            return UseMan.getEmployees();
+        }
+        return null;
+    }
+
+    @Path("/View/AllCustomers/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Customer> getCustlList(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 1) {
+            return UseMan.getCustomers();
+        }
+        return null;
+    }
+
     /* Uses the Login Manager to retrieve the data for the user logged in. */
     @Path("/View/Myself/{sessionId}")
     @GET
@@ -196,15 +214,7 @@ public class UserResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getRole(@PathParam("sessionId") String sessionId) {
-        String role = "customer";
         Person I = LogMan.getBySesId(sessionId);
-        if (I.getRoles().contains("manager")) {
-            role = "manager";
-        } else if (I.getRoles().contains("technician")) {
-            role = "technician";
-        } else if (I.getRoles().contains("clerk")) {
-            role = "clerk";
-        }
-        return role;
+        return I.getRole();
     }
 }

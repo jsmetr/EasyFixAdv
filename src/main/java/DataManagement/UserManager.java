@@ -19,9 +19,9 @@ import java.util.TreeSet;
 public class UserManager implements Serializable {
 
     private String filename = "UserManagerStorage.txt"; //Must match UserHolder.getManager() deserialization filename.
-    private TreeSet<Person> users = new TreeSet<Person>(); //A single user shows up in multiple sets. This is for searchability reasons.
-    private TreeSet<Customer> customers = new TreeSet<Customer>();
-    private TreeSet<Employee> employees = new TreeSet<Employee>();
+    private Set<Person> users = new TreeSet<Person>(); //A single user shows up in multiple sets. This is for searchability reasons.
+    private Set<Customer> customers = new TreeSet<Customer>();
+    private Set<Employee> employees = new TreeSet<Employee>();
 
     public static UserManager getInstance() {
         return UserHolder.INSTANCE;
@@ -41,22 +41,17 @@ public class UserManager implements Serializable {
         }
     }
 
-    public boolean addCustomer(Customer cust) {
-        if (users.add(cust)) {
-            customers.add(cust);
-            save();
-            return true;
-        }
-        return false;
+    public void addCustomer(Customer cust) {
+        users.add(cust);
+        customers.add(cust);
+        save();
     }
 
-    public boolean addEmployee(Employee emp) {
-        if (users.add(emp)) {
-            employees.add(emp);
-            save();
-            return true;
-        }
-        return false;
+    public void addEmployee(Employee emp) {
+        users.add(emp);
+        employees.add(emp);
+        save();
+
     }
 
     /*
