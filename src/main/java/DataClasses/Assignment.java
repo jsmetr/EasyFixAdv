@@ -138,13 +138,13 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     }
     
     public int hashCode(){
-        int hash = 1 + 13 * this.customer.hashCode() + 7 * this.title.hashCode();
+        int hash = 1 + this.customer.hashCode() + this.title.hashCode();
         return hash;
     }
 
     @Override
     public int compareTo(Assignment other) {
-        return this.hashCode() - other.hashCode();
+        return new Integer(this.hashCode()).compareTo(new Integer(other.hashCode())) +this.deadline.compareTo(other.deadline)*1000;
     }
 
     @Override

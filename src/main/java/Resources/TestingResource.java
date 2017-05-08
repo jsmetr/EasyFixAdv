@@ -207,12 +207,12 @@ public class TestingResource {
         DevMan.addDevice(btoaster );
         DevMan.addDevice(iphoned );
         DevMan.addDevice(ttv ); 
-        Assignment a1 = new Assignment("Stove does not heat up",estove,"2020-12-03T10:15","JillDoe","MikeJob","WeLiang",1); 
-        Assignment a2 = new Assignment("Broken Screen",iphone9k,"2020-12-03T10:15","GaryStu","TimRuss","WeLiang",0);
-        Assignment a3 = new Assignment("Snapped mower blade",Hondamower,"2020-12-03T10:15","JillDoe","TimRuss","JimMast",0);
-        Assignment a4 = new Assignment("Smokes when used",btoaster,"2020-12-03T10:15","KirkRid","MikeJob","JohnDoe",2);
-        Assignment a5 = new Assignment("Virus infection",iphoned,"2020-12-03T10:15","JillDoe","EddSlat","JimMast",1);
-        Assignment a6 = new Assignment("Bad signal",ttv,"2020-12-03T10:15","MonicaS","TimRuss","JohnDoe",1);
+        Assignment a1 = new Assignment("Stove does not heat up",estove,"2017-09-13T10:15","JillDoe","MikeJob","WeLiang",1); 
+        Assignment a2 = new Assignment("Broken Screen",iphone9k,"2017-11-07T10:15","GaryStu","TimRuss","WeLiang",0);
+        Assignment a3 = new Assignment("Snapped mower blade",Hondamower,"2017-06-01T10:15","JillDoe","TimRuss","JimMast",0);
+        Assignment a4 = new Assignment("Smokes when used",btoaster,"2017-06-05T10:15","KirkRid","MikeJob","JohnDoe",2);
+        Assignment a5 = new Assignment("Virus infection",iphoned,"2017-07-03T10:15","JillDoe","EddSlat","JimMast",1);
+        Assignment a6 = new Assignment("Bad signal",ttv,"2017-06-24T10:15","MonicaS","TimRuss","JohnDoe",1);
         DevMan.addAssignment(a1);
         DevMan.addAssignment(a2);
         DevMan.addAssignment(a3);
