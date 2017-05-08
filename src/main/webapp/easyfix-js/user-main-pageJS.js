@@ -23,6 +23,10 @@ function grabAddr() {
     RESTaddr = addr[1].toString()+"//" + REST;
 }
 
+function getRESTAddr(){
+    return RESTaddr;
+}
+
 function initRequest() {
     if (window.XMLHttpRequest) {
         if (navigator.userAgent.indexOf('MSIE') !== -1) {

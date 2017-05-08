@@ -8,7 +8,7 @@
         <meta name="keyword" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Miminium</title>
-        <script src="easyfix-js/user-main-pageJS.js"></script>
+        <script src="easyfix-js/managerjs.js"></script>
 
         <!-- start: Css -->
         <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
                         <b>EasyFix</b>
                     </a>
                     <ul class="nav navbar-nav navbar-right user-nav">
-                        <li class="user-name"><span id="user-name">Akihiko Avaron</span></li>
+                        <li class="user-name"><span>Akihiko Avaron</span></li>
                         <li class="dropdown avatar-dropdown">
                             <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name"/>
                         </li>
@@ -65,18 +65,26 @@
                                 <span class="fa-angle-right fa right-arrow text-right"></span>
                             </a>
                             <ul class="nav nav-list tree">
-                                <li><a href="chartjs.html">ChartJs</a></li>
-                                <li><a href="morris.html">Morris</a></li>
-                                <li><a href="flot.html">Flot</a></li>
-                                <li><a href="sparkline.html">SparkLine</a></li>
+                                <li><a href="chartjs.html">Orders</a></li>
+                                <li><a href="morris.html">Devices</a></li>
+                                <li><a href="flot.html">Employees</a></li>
+                                <li><a href="sparkline.html">Customers</a></li>
                             </ul>
                         </li>
-
-                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Manage users</a></li>
-                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Manage orders</a></li>
-                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Reviews</a></li>
-                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Profile</a></li>
-                        <li class="ripple" onclick="logout()"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Logout</a></li>
+                        <li class="ripple"><a href="manager_orders.html"><span class="fa fa-shopping-cart"></span>Manage orders</a></li>
+                        <li class="ripple">
+                            <a class="tree-toggle nav-header">
+                                <span class="fa-users fa"></span> Manage users
+                                <span class="fa-angle-right fa right-arrow text-right"></span>
+                            </a>
+                            <ul class="nav nav-list tree">
+                                <li><a href="manager_reports.html">Employees</a></li>
+                                <li><a href="manager_reports.html">Customers</a></li>
+                            </ul>
+                        </li>
+                        <li class="ripple"><a href="#"><span class="fa fa-comments"></span>Reviews</a></li>
+                        <li class="ripple"><a href="#"><span class="fa fa-user"></span>Profile</a></li>
+                        <li class="ripple"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -342,34 +350,34 @@
                 ]
             };
 
-//            window.onload = function () {
-//                var ctx = $(".doughnut-chart")[0].getContext("2d");
-//                window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {
-//                    responsive: true,
-//                    showTooltips: true
-//                });
-//
-//                var ctx2 = $(".line-chart")[0].getContext("2d");
-//                window.myLine = new Chart(ctx2).Line(lineChartData, {
-//                    responsive: true,
-//                    showTooltips: true,
-//                    multiTooltipTemplate: "<%= value %>",
-//                    maintainAspectRatio: false
-//                });
-//
-//                var ctx3 = $(".bar-chart")[0].getContext("2d");
-//                window.myLine = new Chart(ctx3).Bar(barChartData, {
-//                    responsive: true,
-//                    showTooltips: true
-//                });
-//
-//                var ctx4 = $(".doughnut-chart2")[0].getContext("2d");
-//                window.myDoughnut2 = new Chart(ctx4).Doughnut(doughnutData2, {
-//                    responsive: true,
-//                    showTooltips: true
-//                });
-//
-//            };
+            window.onload = function () {
+                var ctx = $(".doughnut-chart")[0].getContext("2d");
+                window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {
+                    responsive: true,
+                    showTooltips: true
+                });
+
+                var ctx2 = $(".line-chart")[0].getContext("2d");
+                window.myLine = new Chart(ctx2).Line(lineChartData, {
+                    responsive: true,
+                    showTooltips: true,
+                    multiTooltipTemplate: "<%= value %>",
+                    maintainAspectRatio: false
+                });
+
+                var ctx3 = $(".bar-chart")[0].getContext("2d");
+                window.myLine = new Chart(ctx3).Bar(barChartData, {
+                    responsive: true,
+                    showTooltips: true
+                });
+
+                var ctx4 = $(".doughnut-chart2")[0].getContext("2d");
+                window.myDoughnut2 = new Chart(ctx4).Doughnut(doughnutData2, {
+                    responsive: true,
+                    showTooltips: true
+                });
+
+            };
 
             //  end:  Chart =============
 
