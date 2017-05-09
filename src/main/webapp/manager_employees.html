@@ -30,54 +30,6 @@
     </head>
 
     <body id="mimin" class="dashboard" onload="init()">
-        <!-- start: modal-add-review -->
-        <div class="modal fade" id="modal-add-review">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">Write your review</h4>
-                    </div><div class="container"></div>
-                    <div class="modal-body padding-0">
-                        <form>
-                            <div class="contentform">
-                                <div class="leftcontact">
-                                    <div class="form-group">
-                                        <p>Title <span>*</span></p>	
-                                        <span class="icon-case"><i class="fa fa-comment-o"></i></span>
-                                        <input type="text" name="rev-title" id="rev-title" data-rule="required"/>
-                                        <div class="validation"></div>
-                                    </div>
-                                </div>
-
-                                <div class="rightcontact">	
-
-                                    <div class="form-group">
-                                        <p>Rating <span>*</span></p>	
-                                        <div class="input-group form-group">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                        </div>
-                                        <div class="validation"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <p>Description</p>
-                                    <span class="icon-case"><i class="fa fa-comments-o"></i></span>
-                                    <textarea name="description" rows="14"></textarea>
-                                </div>
-                            </div>
-
-                        </form>
-                        <button type="submit" class="bouton-contact">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end: modal-add-review>
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -146,7 +98,7 @@
                             <div class="col-md-12 padding-0">
                                 <div class="panel box-v1">
                                     <div class="panel-heading bg-white border-none">
-                                            <h2 class="h2-responsive wow fadeIn">Employees</h2> 
+                                        <h2 class="h2-responsive wow fadeIn">Employees</h2> 
                                     </div>
                                     <div class="panel-body">
                                         <div class="col-md-2 text-left">
@@ -213,22 +165,62 @@
                                                                 <center>
                                                                     <a><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
                                                                     <h3 class="media-heading">Joe Sixpack</h3>
+                                                                    <br>
                                                                     <span><strong>Skills: </strong></span>
-                                                                    <span class="label label-warning">Mobile phones</span>
-                                                                    <span class="label label-info">Kitchen appliances</span>
-                                                                    <span class="label label-danger">Cars</span>
+                                                                    <span class="label label-primary label-lg">Skill_01<span class="padded-left">7</span></span>
+                                                                    <span class="label label-primary label-lg">Skill_02<span class="padded-left">5</span></span>
+                                                                    <span class="label label-primary label-lg">Skill_03<span class="padded-left">9</span></span>
+                                                                    <span class="label label-primary label-lg">Skill_04<span class="padded-left">6</span></span>
                                                                 </center>
                                                                 <hr>
                                                                 <center>
-                                                                    <p class="text-left"><strong>Bio: </strong><br>
-                                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem dui, tempor sit amet commodo a, vulputate vel tellus.</p>
                                                                     <br>
+                                                                    <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1"> 
+                                                                        <table class="table table-user-information">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td><span class="fa fa-user padded"></span>Username:</td>
+                                                                                    <td>Username</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><span class="fa fa-male padded"></span>Role:</td>
+                                                                                    <td>Clerk</td>
+                                                                                </tr>
+
+                                                                                <tr>
+                                                                                <tr>
+                                                                                    <td><span class="fa fa-flag padded"></span>State</td>
+                                                                                    <td>Espoo</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><span class="fa fa-building padded"></span>Home City</td>
+                                                                                    <td>Espoo</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><span class="fa fa-map-marker padded"></span>Zip Code</td>
+                                                                                    <td>Espoo</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><span class="fa fa-map padded"></span>Address</td>
+                                                                                    <td>Espoo</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><span class="fa fa-envelope padded"></span>Email</td>
+                                                                                    <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                                                                </tr>
+                                                                            <td><span class="fa fa-phone padded"></span>Phone Number</td>
+                                                                            <td>123-4567-890
+                                                                            </td>
+
+                                                                            </tr>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
                                                                 </center>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <center>
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                </center>
+                                                            <div class="padding-0">    
+                                                                <button type="button" class="bouton-contact" data-dismiss="modal">Close</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -237,13 +229,13 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- end: content -->
             </div>
-            <!-- end: content -->
         </div>
-
         <!-- start: Javascript -->
         <script src="asset/js/jquery.min.js"></script>
         <script src="asset/js/jquery.ui.min.js"></script>
@@ -254,13 +246,11 @@
         <script src="asset/js/plugins/moment.min.js"></script>
         <script src="asset/js/plugins/fullcalendar.min.js"></script>
         <script src="asset/js/plugins/jquery.nicescroll.js"></script>
-        <script src="asset/js/plugins/jquery.vmap.min.js"></script>
-        <script src="asset/js/plugins/maps/jquery.vmap.world.js"></script>
-        <script src="asset/js/plugins/jquery.vmap.sampledata.js"></script>
         <script src="asset/js/plugins/chart.min.js"></script>
 
 
         <!-- custom -->
         <script src="asset/js/main.js"></script>
+
     </body>
 </html>
