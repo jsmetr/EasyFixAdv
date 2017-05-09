@@ -13,8 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -34,9 +32,6 @@ public class UserResource {
 
     LoginManager LogMan = LoginManager.getInstance();
     UserManager UseMan = UserManager.getInstance();
-
-    @Context
-    private UriInfo context;
 
     /*
     Adds a new employee into the system.
@@ -136,12 +131,12 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Set<Customer> getCustlList(@PathParam("sessionId") String sessionId) {
+        Set<Customer> cust = new HashSet<Customer>();
         if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 0) {
-            Set<Customer> cust = new TreeSet<Customer>();
             cust.addAll(UseMan.getCustomers());
             return cust;
         }
-        return null;
+        return cust;
     }
 
     /* Uses the Login Manager to retrieve the data for the user logged in. */

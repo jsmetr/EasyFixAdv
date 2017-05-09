@@ -95,11 +95,12 @@ function getCustomers() {
     console.log(url);
     req2 = initRequest();
     req2.open("GET", url, true);
-    req2.onreadystatechange = custSelectCallback();
+    req2.onreadystatechange = custselcallback;
     req2.send(null);
 }
 
-function custSelectCallback() {
+function custselcallback() {
+    console.log("herp");
     if (req2.readyState == 4) {
         if (req2.status == 200) {
             console.log("herp");
