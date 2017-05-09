@@ -80,7 +80,7 @@ public class LoginManager {
         Set<Person> users = UM.getUsers();
         logins.clear();
         for(Person user : users){
-            if(user.getAccess()>0){
+            if(user.getAccess()>=0){
                 logins.put(user.getPassword(), user);
             }
         }

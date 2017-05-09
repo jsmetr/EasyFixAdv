@@ -115,7 +115,8 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_XML)
     public Set<Person> getUserList(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 1) {
-            return UseMan.getUsers();
+            Set<Person> users = UseMan.getUsers();
+            return users;
         }
         return null;
     }
@@ -125,7 +126,8 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_XML)
     public Set<Employee> getEmplList(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 1) {
-            return UseMan.getEmployees();
+            Set<Employee> emps = UseMan.getEmployees();
+            return emps;
         }
         return null;
     }
@@ -134,8 +136,10 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Set<Customer> getCustlList(@PathParam("sessionId") String sessionId) {
-        if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 1) {
-            return UseMan.getCustomers();
+        if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 0) {
+            Set<Customer> cust = new TreeSet<Customer>();
+            cust.addAll(UseMan.getCustomers());
+            return cust;
         }
         return null;
     }

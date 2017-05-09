@@ -7,7 +7,8 @@
         <meta name="author" content="Isna Nur Azis">
         <meta name="keyword" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Miminium</title>
+        <title>EasyFix - Technician - Profile</title>
+        <script src="easyfix-js/user-main-pageJS.js"></script>
 
         <!-- start: Css -->
         <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
@@ -28,7 +29,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard">
+    <body id="mimin" class="dashboard" onload="init()">
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -42,7 +43,7 @@
                         <b>EasyFix</b>
                     </a>
                     <ul class="nav navbar-nav navbar-right user-nav">
-                        <li class="user-name"><span>Akihiko Avaron</span></li>
+                        <li class="user-name"><span id="user-name">Akihiko Avaron</span></li>
                         <li>
                             <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name"/>
                         </li>
@@ -58,10 +59,10 @@
                 <div class="sub-left-menu scroll">
                     <ul class="nav nav-list">
                         <li><div class="left-bg"></div></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-tasks"></span>Tasks</a></li>
+                        <li class="ripple"><a href="technician.html"><span class="fa fa-tasks"></span>Tasks</a></li>
                         <li class="ripple"><a href="#"><span class="fa fa-comments"></span>Reviews</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-user"></span>Profile</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
+                        <li class="ripple"><a href="technician_profile.html"><span class="fa fa-user"></span>Profile</a></li>
+                        <li class="ripple" onclick="logout()"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -73,15 +74,63 @@
                     <div class="col-md-12 padding-0">
                         <div class="col-md-12 padding-0">
                             <div class="col-md-12 padding-0">
-                                <div class="panel box-v1">
-                                    <div class="panel-heading bg-white border-none">
-                                        <h2>Profile</h2> 
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h2 class="panel-title">Firstname Lastname</h2>
                                     </div>
                                     <div class="panel-body">
-                                        
+                                        <div class="row">
+                                            <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="img/icons/avatar-technician.png" class="img-circle img-responsive"> </div>
+
+                                            <div class=" col-md-6 col-lg-6 "> 
+                                                <table class="table table-user-information">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Username:</td>
+                                                            <td>Username</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Role:</td>
+                                                            <td>Technician</td>
+                                                        </tr>
+                                                        
+                                                        <tr>
+                                                        <tr>
+                                                            <td>State</td>
+                                                            <td>Espoo</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Home City</td>
+                                                            <td>Espoo</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Zip Code</td>
+                                                            <td>Espoo</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Address</td>
+                                                            <td>Espoo</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="fa fa-envelope padded"></span>Email</td>
+                                                            <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                                        </tr>
+                                                    <td><span class="fa fa-phone padded"></span>Phone Number</td>
+                                                    <td>123-4567-890
+                                                    </td>
+
+                                                    </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>    
-                            </div>    
+                                    <div class="panel-footer">
+                                        <a href="#" class="btn btn-primary">Edit profile</a>
+                                    </div>
+                                </div> 
+                            </div>
                         </div>
                     </div>
                 </div>

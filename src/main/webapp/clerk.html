@@ -7,7 +7,7 @@
         <meta name="author" content="Isna Nur Azis">
         <meta name="keyword" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Miminium</title>
+        <title>EasyFix - Clerk - Tasks</title>
         <script src="easyfix-js/user-main-pageJS.js"></script>
 
         <!-- start: Css -->
@@ -17,7 +17,6 @@
         <link rel="stylesheet" type="text/css" href="asset/css/plugins/font-awesome.min.css"/>
         <link rel="stylesheet" type="text/css" href="asset/css/plugins/simple-line-icons.css"/>
         <link rel="stylesheet" type="text/css" href="asset/css/plugins/animate.min.css"/>
-        <link rel="stylesheet" type="text/css" href="asset/css/plugins/fullcalendar.min.css"/>
         <link href="asset/css/style.css" rel="stylesheet">
         <!-- end: Css -->
 
@@ -29,10 +28,74 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">       
+    <body id="mimin" class="dashboard" onload="init()">
+        <!-- start: modal-view-customer -->
+        <div class="modal fade" id="modal-view-customer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">Customer information</h4>
+                    </div>
+                    <div class="modal-body">
+                        <center>
+                            <a><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                            <h3 class="media-heading">FirstName LastName</h3>
+                            
+                        </center>
+                        <hr>
+                        <center>
+                            <br>
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Username:</td>
+                                        <td>Username</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                    <tr>
+                                        <td>State</td>
+                                        <td>Espoo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Home City</td>
+                                        <td>Espoo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zip Code</td>
+                                        <td>Espoo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>Espoo</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="fa fa-envelope padded"></span>Email</td>
+                                        <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                    </tr>
+                                <td><span class="fa fa-phone padded"></span>Phone Number</td>
+                                <td>123-4567-890
+                                </td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </center>
+                    </div>
+
+                    <div class="padding-0">    
+                            <button type="button" class="bouton-contact" data-dismiss="modal">Close</button>
+                            
+                                            </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: modal-view-customer --!>
         <!-- start: modal-add-task -->
         <!-- Modal -->
-        <div class="modal fade" id="modal-add-task" role="dialog">
+        <div class="modal fade" id="modal-add-task" role="dialog" onload="getCustomers();">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -41,27 +104,27 @@
                         <h4>Create new assignment</h4>
                     </div>
                     <div class="modal-body padding-0">
-                        <form>
+                        <form id="addNewTaskForm" action="javascript:addNewTask()">
                             <div class="contentform">
                                 <div class="leftcontact">
                                     <div class="form-group">
                                         <p>Title <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-comment-o"></i></span>
-                                        <input type="text" name="title" id="title" data-rule="required"/>
+                                        <input type="text" name="title" id="title" required/>
                                         <div class="validation"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <p>Urgency<span>*</span></p>
                                         <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn">
-                                                <input type="radio" name="options" id="option-slow" autocomplete="off" checked> Slow
+                                            <label class="btn" id="2">
+                                                <input type="radio" name="options" id="option-slow" autocomplete="off" checked value="2"> Slow
                                             </label>
-                                            <label class="btn active">
-                                                <input type="radio" name="options" id="option-normal" autocomplete="off"> Normal
+                                            <label class="btn active" id="1">
+                                                <input type="radio" name="options" id="option-normal" autocomplete="off" value="1"> Normal
                                             </label>
-                                            <label class="btn">
-                                                <input type="radio" name="options" id="option-fast" autocomplete="off"> Fast
+                                            <label class="btn" id="0">
+                                                <input type="radio" name="options" id="option-fast" autocomplete="off" value="0"> Fast
                                             </label>
                                         </div>
                                         <div class="validation"></div>
@@ -70,7 +133,7 @@
                                     <div class="form-group">
                                         <p>Description <span>*</span></p>
                                         <span class="icon-case"><i class="fa fa-comments-o"></i></span>
-                                        <textarea name="description" rows="14" data-rule="required"></textarea>
+                                        <textarea name="description" rows="14" required></textarea>
                                         <div class="validation"></div>
                                     </div>	
 
@@ -84,7 +147,7 @@
                                         <p>Customer<span>*</span></p>
                                         <div class="input-group form-group">
                                             <span class="input-group-addon"><i class="fa fa-male"></i></span>
-                                            <select id="lunch" class="selectpicker form-control" data-live-search="true" title="Please select a lunch ...">
+                                            <select id="customer" class="selectpicker form-control" data-live-search="true">
                                                 <option>Surname01 Name01</option>
                                                 <option>Surname02 Name02</option>
                                                 <option>Surname03 Name03</option>
@@ -99,7 +162,7 @@
                                         <p>Device <span>*</span></p>	
                                         <div class="input-group form-group">
                                             <span class="input-group-addon"><i class="fa fa-cogs"></i></span>
-                                            <select id="lunch" class="selectpicker form-control" data-live-search="true">
+                                            <select id="device" class="selectpicker form-control" data-live-search="true">
                                                 <option>Device 01</option>
                                                 <option>Device 02</option>
                                                 <option>Device 03</option>
@@ -126,7 +189,7 @@
                                     <div class="form-group">
                                         <p>Due date <span>*</span></p>
                                         <span class="icon-case"><i class="fa fa-info"></i></span>
-                                        <input type="date" name="due-date" id="due-date" data-rule="required"/>
+                                        <input type="date" name="due-date" id="due-date" required/>
                                         <div class="validation"></div>
                                     </div>
                                 </div>
@@ -246,13 +309,7 @@
                                         <span class="icon-case"><i class="fa fa-user"></i></span>
                                         <input type="text" name="lname" id="lname" data-rule="required"/>
                                         <div class="validation"></div>
-                                    </div>	
-
-
-
-                                </div>
-
-                                <div class="rightcontact">	
+                                    </div>
 
                                     <div class="form-group">
                                         <p>Password <span>*</span></p>	
@@ -268,10 +325,44 @@
                                         <div class="validation"></div>
                                     </div>
 
+
+
+                                </div>
+
+                                <div class="rightcontact">	
+
+                                    <div class="form-group">
+                                        <p>State <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-flag"></i></span>
+                                        <input type="text" name="lname" id="lname" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Zip code <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-map-marker"></i></span>
+                                        <input type="text" name="phone" id="phone" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>City <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-building"></i></span>
+                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Address <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-map-o"></i></span>
+                                        <input type="text" name="lname" id="lname" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
                                     <div class="form-group">
                                         <p>Phone <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-phone"></i></span>
-                                        <input type="text" name="phone" id="phone" data-rule="required"/>
+                                        <input type="text" name="fname" id="fname" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
                                 </div>
@@ -360,10 +451,10 @@
                 <div class="sub-left-menu scroll">
                     <ul class="nav nav-list">
                         <li><div class="left-bg"></div></li>
-                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Active tasks</a></li>
-                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Reviews</a></li>
-                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Profile</a></li>
-                        <li class="ripple"><a href="calendar.html"><span class="fa fa-calendar-o"></span>Logout</a></li>
+                        <li class="ripple"><a href="clerk.html"><span class="fa fa-tasks"></span>Active tasks</a></li>
+                        <li class="ripple"><a href="#"><span class="fa fa-comments"></span>Reviews</a></li>
+                        <li class="ripple"><a href="clerk_profile.html"><span class="fa fa-user"></span>Profile</a></li>
+                        <li class="ripple" onclick="logout()"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -376,46 +467,114 @@
                         <div class="col-md-12 padding-0">
                             <div class="col-md-12 padding-0">
                                 <div class="col-md-6">
-                                    <h2>Returned tasks</h2>
-                                    <div class="panel box-v1">
-                                        <div class="panel-heading bg-white border-none">
-                                            <div class="col-md-6 col-sm-6 col-xs-6 text-left padding-0">
-                                                <h4 class="text-left">Visit</h4>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                                                <h4>
-                                                    <span class="icon-user icons icon text-right"></span>
-                                                </h4>
-                                            </div>
+                                    <h2>Tasks in work</h2>
+                                    
+                                    <div id="new-tasks">
+                                        
+                                    </div>
+                                    
+                                    <template id="newTask-template">
+                                    <div class="box box-widget widget-user">
+                                        <div class="widget-user-header bg-aqua">
+                                            <h3 class="widget-user-username">Reinstall OS</h3>
+                                            <h5 class="widget-user-desc"><i class="fa fa-laptop padded" aria-hidden="true"></i><span id="device-name">Device Name</span></h5>
                                         </div>
-                                        <div class="panel-body text-center">
-                                            <p>User active</p>
-                                            <hr/>
+                                        <div class="widget-user-image">
+                                            <img class="img-circle" src="http://365psd.com/images/istock/previews/9353/93539553-flat-vector-avatar-face-character-person-portrait-user-icon.jpg">
+                                        </div>
+                                        <div class="box-footer">
+                                            <div class="row">
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+
+                                                        <span class="description-text"><a data-toggle="modal" data-target="#modal-view-customer"><i class="fa fa-user padded"></i><span id="customerRequest">Customer Name</span></a></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+
+                                                        <span class="description-text"><i class="fa fa-calendar-o padded"></i><span id="due-dateTask">28 Jun 2015</span></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <span class="description-text"><i class="fa fa-spinner padded"></i>In Progress</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    </template>
                                 </div>
                                 <div class="col-md-6">
-                                    <h2>Unassigned tasks</h2>
-                                    <div class="panel box-v1">
-                                        <div class="panel-heading bg-white border-none">
-                                            <div class="col-md-6 col-sm-6 col-xs-6 text-left padding-0">
-                                                <h4 class="text-left">Orders</h4>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                                                <h4>
-                                                    <span class="icon-basket-loaded icons icon text-right"></span>
-                                                </h4>
+                                    <h2>Returned tasks</h2>
+                                    <div class="box box-widget widget-user">
+                                        <div class="widget-user-header bg-green">
+                                            <span class='pull-right'><i class="fa fa-archive fa-2x" aria-hidden="true"></i></span>
+                                            <h3 class="widget-user-username">Replace screen</h3>
+                                            <h5 class="widget-user-desc"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
+                                        </div>
+                                        <div class="widget-user-image">
+                                            <img class="img-circle" src="http://365psd.com/images/istock/previews/9353/93539553-flat-vector-avatar-face-character-person-portrait-user-icon.jpg">
+                                        </div>
+                                        <div class="box-footer">
+                                            <div class="row">
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+
+                                                        <span class="description-text"><a data-toggle="modal" data-target="#modal-view-customer"><i class="fa fa-user padded"></i>Customer Name</a></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+
+                                                        <span class="description-text"><i class="fa fa-calendar-o padded"></i>28 Jun 2015</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <span class="description-text"><i class="fa fa-check padded"></i>Repaired</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="panel-body text-center">
-                                            <p>New Orders</p>
-                                            <hr/>
+                                    </div>
+                                    <div class="box box-widget widget-user">
+                                        <div class="widget-user-header bg-red">
+                                            <span class='pull-right'><i class="fa fa-archive fa-2x" aria-hidden="true"></i></span>
+                                            <h3 class="widget-user-username">Replace screen</h3>
+                                            <h5 class="widget-user-desc"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
+                                        </div>
+                                        <div class="widget-user-image">
+                                            <img class="img-circle" src="http://365psd.com/images/istock/previews/9353/93539553-flat-vector-avatar-face-character-person-portrait-user-icon.jpg">
+                                        </div>
+                                        <div class="box-footer">
+                                            <div class="row">
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+
+                                                        <span class="description-text"><a data-toggle='modal' data-target='#modal-view-customer'><i class="fa fa-user padded"></i>Customer Name</a></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+
+                                                        <span class="description-text"><i class="fa fa-calendar-o padded"></i>28 Jun 2015</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <span class="description-text"><i class="fa fa-times padded"></i>Returned</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
+
                     </div>
                 </div>
             </div>
