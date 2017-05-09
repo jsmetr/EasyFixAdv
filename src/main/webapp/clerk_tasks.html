@@ -7,7 +7,7 @@
         <meta name="author" content="Isna Nur Azis">
         <meta name="keyword" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Miminium</title>
+        <title>EasyFix - Clerk - Tasks</title>
         <script src="easyfix-js/user-main-pageJS.js"></script>
 
         <!-- start: Css -->
@@ -29,7 +29,71 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">       
+    <body id="mimin" class="dashboard" onload="init()">
+        <!-- start: modal-view-customer -->
+        <div class="modal fade" id="modal-view-customer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">Customer information</h4>
+                    </div>
+                    <div class="modal-body">
+                        <center>
+                            <a><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                            <h3 class="media-heading">FirstName LastName</h3>
+                            
+                        </center>
+                        <hr>
+                        <center>
+                            <br>
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Username:</td>
+                                        <td>Username</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                    <tr>
+                                        <td>State</td>
+                                        <td>Espoo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Home City</td>
+                                        <td>Espoo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zip Code</td>
+                                        <td>Espoo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>Espoo</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="fa fa-envelope padded"></span>Email</td>
+                                        <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                    </tr>
+                                <td><span class="fa fa-phone padded"></span>Phone Number</td>
+                                <td>123-4567-890
+                                </td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </center>
+                    </div>
+
+                    <div class="padding-0">    
+                            <button type="button" class="bouton-contact" data-dismiss="modal">Close</button>
+                            
+                                            </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: modal-view-customer --!>
         <!-- start: modal-add-task -->
         <!-- Modal -->
         <div class="modal fade" id="modal-add-task" role="dialog">
@@ -247,7 +311,7 @@
                                         <input type="text" name="lname" id="lname" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <p>Password <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-lock"></i></span>
@@ -281,7 +345,7 @@
                                         <input type="text" name="phone" id="phone" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <p>City <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-building"></i></span>
@@ -295,7 +359,7 @@
                                         <input type="text" name="lname" id="lname" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <p>Phone <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-phone"></i></span>
@@ -417,8 +481,8 @@
                                             <div class="row">
                                                 <div class="col-sm-4 border-right">
                                                     <div class="description-block">
-                                                        
-                                                        <span class="description-text"><a href='#'>Customer Name</a></span>
+
+                                                        <span class="description-text"><a data-toggle="modal" data-target="#modal-view-customer">Customer Name</a></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 border-right">
@@ -451,7 +515,7 @@
                                             <div class="row">
                                                 <div class="col-sm-4 border-right">
                                                     <div class="description-block">
-                                                        
+
                                                         <span class="description-text"><a href='#'>Customer Name</a></span>
                                                     </div>
                                                 </div>
@@ -482,7 +546,7 @@
                                             <div class="row">
                                                 <div class="col-sm-4 border-right">
                                                     <div class="description-block">
-                                                        
+
                                                         <span class="description-text"><a href='#'>Customer Name</a></span>
                                                     </div>
                                                 </div>
@@ -508,8 +572,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end: content -->
+            <!-- end: content -->
         </div>
 
         <!-- start: Javascript -->
