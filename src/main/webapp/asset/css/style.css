@@ -6,7 +6,17 @@
 .padded {
     padding-right: 1em;
 }
+
+.padded-left {
+    margin-left: 1em;
+}
 /* padded icon */
+
+/* start: label */
+.label-lg {
+  font-size: 14px;
+}
+/* end: label */
 
 /* start: profile */
 .user-row {
