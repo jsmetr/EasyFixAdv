@@ -90,7 +90,6 @@ function whoCallback() {
  * Retrieves a list of customers from the backend and files them into the selector (on callback).
  */
 function getCustomers() {
-    console.log("hur");
     var url = RESTaddr + "webresources/Users/View/AllCustomers/" + localStorage.getItem("sessionId");
     console.log(url);
     req2 = initRequest();
@@ -100,17 +99,14 @@ function getCustomers() {
 }
 
 function custselcallback() {
-    console.log("herp");
     if (req2.readyState == 4) {
         if (req2.status == 200) {
-            console.log("herp");
             fileCustomers(req2.responseXML);
         }
     }
 }
 
 function fileCustomers(XML) {
-    console.log("derp");
     var custSel = document.getElementById('customer');
     $('#customer').empty();
     if (XML.childNodes[0].childNodes.length > 0) {
@@ -119,9 +115,49 @@ function fileCustomers(XML) {
             var user = XML.childNodes[0].childNodes[loop];
             option.value = user.getElementsByTagName("userName")[0].childNodes[0].nodeValue;
             option.innerHTML = "" + user.getElementsByTagName("firstName")[0].childNodes[0].nodeValue + " " + user.getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
+            console.log(option);
             custSel.appendChild(option);
         }
     }
+    getDevices();
+}
+
+function getDevices() {
+    var url = RESTaddr + "webresources/Devices/" + document.getElementById('customer').value + "/" + localStorage.getItem("sessionId");
+    console.log(url);
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = devselcallback;
+    req.send(null);
+}
+
+function devselcallback() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            fileDevices(req.responseXML);
+        }
+    }
+}
+
+function fileDevices(XML) {
+    console.log(XML);
+    var devSel = document.getElementById('device');
+    $('#device').empty();
+    if (XML.childNodes[0].childNodes.length > 0) {
+        for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+            console.log(XML.childNodes[0]);
+            console.log(XML.childNodes[0].childNodes[0]);
+            var option = document.createElement("option");
+            var device = XML.childNodes[0].childNodes[loop];
+            console.log(device);
+            console.log(device.getElementsByTagName("type")[0].childNodes[1]);
+            console.log(device.getElementsByTagName("id")[0].childNodes[0]);
+            option.value = [device.getElementsByTagName("id")[0].childNodes[0].nodeValue,device.getElementsByTagName("type")[0].getElementsByTagName("name")[0].childNodes[0].nodeValue];
+            option.innerHTML = "" + device.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+            devSel.appendChild(option);
+        }
+    }
+    //getTechnicians();
 }
 
 function addNewTask() {

@@ -68,7 +68,7 @@ public class DeviceResource {
     /*
     Grabs all devices owned by a customer.
     */
-    @Path("/Devices/{customer}/{sessionId}")
+    @Path("/{customer}/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Set<Device> getCustDev(@PathParam("sessionId") String sessionId,@PathParam("customer") String customer){
