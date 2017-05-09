@@ -8,6 +8,7 @@
         <meta name="keyword" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Miminium</title>
+        <script src="easyfix-js/user-main-pageJS.js"></script>
 
         <!-- start: Css -->
         <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
@@ -28,7 +29,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard">
+    <body id="mimin" class="dashboard" onload="init()">
         <!-- start: modal-add-review -->
         <div class="modal fade" id="modal-add-review">
             <div class="modal-dialog">
@@ -90,7 +91,7 @@
                         <b>EasyFix</b>
                     </a>
                     <ul class="nav navbar-nav navbar-right user-nav">
-                        <li class="user-name"><span>Akihiko Avaron</span></li>
+                        <li class="user-name"><span id="user-name">Akihiko Avaron</span></li>
                         <li>
                             <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name"/>
                         </li>
@@ -125,13 +126,13 @@
                                 <span class="fa-angle-right fa right-arrow text-right"></span>
                             </a>
                             <ul class="nav nav-list tree">
-                                <li><a href="manager_reports.html">Employees</a></li>
-                                <li><a href="manager_reports.html">Customers</a></li>                           
+                                <li><a href="manager_employees.html">Employees</a></li>
+                                <li><a href="manager_customers.html">Customers</a></li>                           
                             </ul>
                         </li>
                         <li class="ripple"><a href="#"><span class="fa fa-comments"></span>Reviews</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-user"></span>Profile</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
+                        <li class="ripple"><a href="manager_profile.html"><span class="fa fa-user"></span>Profile</a></li>
+                        <li class="ripple" onclick="logout()"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
                     </ul>
                 </div>
             </div>

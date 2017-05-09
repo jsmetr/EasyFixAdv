@@ -8,7 +8,7 @@
         <meta name="keyword" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Miminium</title>
-        <script src="easyfix-js/managerjs.js"></script>
+        <script src="easyfix-js/user-main-pageJS.js"></script>
 
         <!-- start: Css -->
         <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
                         <b>EasyFix</b>
                     </a>
                     <ul class="nav navbar-nav navbar-right user-nav">
-                        <li class="user-name"><span>Akihiko Avaron</span></li>
+                        <li class="user-name"><span id="user-name">Akihiko Avaron</span></li>
                         <li class="dropdown avatar-dropdown">
                             <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name"/>
                         </li>
@@ -65,10 +65,10 @@
                                 <span class="fa-angle-right fa right-arrow text-right"></span>
                             </a>
                             <ul class="nav nav-list tree">
-                                <li><a href="chartjs.html">Orders</a></li>
-                                <li><a href="morris.html">Devices</a></li>
-                                <li><a href="flot.html">Employees</a></li>
-                                <li><a href="sparkline.html">Customers</a></li>
+                                <li><a href="manager_reports.html">Orders</a></li>
+                                <li><a href="manager_reports.html">Devices</a></li>
+                                <li><a href="manager_reports.html">Employees</a></li>
+                                <li><a href="manager_reports.html">Customers</a></li>
                             </ul>
                         </li>
                         <li class="ripple"><a href="manager_orders.html"><span class="fa fa-shopping-cart"></span>Manage orders</a></li>
@@ -78,13 +78,13 @@
                                 <span class="fa-angle-right fa right-arrow text-right"></span>
                             </a>
                             <ul class="nav nav-list tree">
-                                <li><a href="manager_reports.html">Employees</a></li>
-                                <li><a href="manager_reports.html">Customers</a></li>
+                                <li><a href="manager_employees.html">Employees</a></li>
+                                <li><a href="manager_customers.html">Customers</a></li>
                             </ul>
                         </li>
                         <li class="ripple"><a href="#"><span class="fa fa-comments"></span>Reviews</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-user"></span>Profile</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
+                        <li class="ripple"><a href="manager_profile.html"><span class="fa fa-user"></span>Profile</a></li>
+                        <li class="ripple" onclick="logout()"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -193,6 +193,7 @@
         <script src="asset/js/main.js"></script>
         <script type="text/javascript">
         (function (jQuery) {
+            init();
 
             // start: Chart =============
 

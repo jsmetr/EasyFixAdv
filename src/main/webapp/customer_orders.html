@@ -8,7 +8,7 @@
         <meta name="keyword" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Miminium</title>
-        <script src="easyfix-js/customerjs.js"></script>
+        <script src="easyfix-js/user-main-pageJS.js"></script>
 
         <!-- start: Css -->
         <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
@@ -91,7 +91,7 @@
                         <b>EasyFix</b>
                     </a>
                     <ul class="nav navbar-nav navbar-right user-nav">
-                        <li class="user-name"><span>Akihiko Avaron</span></li>
+                        <li class="user-name"><span id="user-name">Akihiko Avaron</span></li>
                         <li>
                             <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name"/>
                         </li>
@@ -107,10 +107,10 @@
                 <div class="sub-left-menu scroll">
                     <ul class="nav nav-list">
                         <li><div class="left-bg"></div></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-calendar-o"></span>Orders</a></li>
+                        <li class="ripple"><a href="customer_orders.html"><span class="fa fa-calendar-o"></span>Orders</a></li>
                         <li class="ripple"><a href="#"><span class="fa fa-calendar-o"></span>Reviews</a></li>
                         <li class="ripple"><a href="customer_profile.html"><span class="fa fa-calendar-o"></span>Profile</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-calendar-o"></span>Logout</a></li>
+                        <li class="ripple" onclick="logout()"><a href="#"><span class="fa fa-calendar-o"></span>Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -207,6 +207,7 @@
         <script src="asset/js/main.js"></script>
         <script type="text/javascript">
             (function (jQuery) {
+                init();
 
                 // start: Chart =============
 
