@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Miminium</title>
         <script src="easyfix-js/user-main-pageJS.js"></script>
+        <script src="easyfix-js/reports.js"></script>
         <!-- start: Css -->
         <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
         <!-- plugins -->
@@ -180,6 +181,8 @@
         <script src="asset/js/main.js"></script>
         <script type="text/javascript">
             (function (jQuery) {
+                init();
+                reportInit();
                 var radarData = {
                     labels: ["Device type 01", "Device type 02", "Device type 03", "Device type 04", "Device type 05", "Device type 06", "Device type 07"]
                     , datasets: [
@@ -251,41 +254,41 @@
                         }
                     ]
                 };
-                var doughnutData = [
-                    {
-                        value: 100
-                        , color: "#4ED18F"
-                        , highlight: "#15BA67"
-                        , label: "Device type 01"
-                    }
-                    , {
-                        value: 250
-                        , color: "#15BA67"
-                        , highlight: "#15BA67"
-                        , label: "Device type 02"
-                    }
-                    , {
-                        value: 100
-                        , color: "#5BAABF"
-                        , highlight: "#15BA67"
-                        , label: "Device type 03"
-                    }
-                    , {
-                        value: 40
-                        , color: "#94D7E9"
-                        , highlight: "#15BA67"
-                        , label: "Device type 04"
-                    }
-                    , {
-                        value: 120
-                        , color: "#BBE0E9"
-                        , highlight: "#15BA67"
-                        , label: "Device type 05"
-                    }
-
-                ];
+                var doughnutData = setDoughnut();/*[
+                 {
+                 value: 100
+                 , color: "#4ED18F"
+                 , highlight: "#15BA67"
+                 , label: "Device type 01"
+                 }
+                 , {
+                 value: 250
+                 , color: "#15BA67"
+                 , highlight: "#15BA67"
+                 , label: "Device type 02"
+                 }
+                 , {
+                 value: 100
+                 , color: "#5BAABF"
+                 , highlight: "#15BA67"
+                 , label: "Device type 03"
+                 }
+                 , {
+                 value: 40
+                 , color: "#94D7E9"
+                 , highlight: "#15BA67"
+                 , label: "Device type 04"
+                 }
+                 , {
+                 value: 120
+                 , color: "#BBE0E9"
+                 , highlight: "#15BA67"
+                 , label: "Device type 05"
+                 }
+                 
+                 ];
+                 */
                 window.onload = function () {
-                    init();
                     var ctx = $(".doughnut-chart")[0].getContext("2d");
                     window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {
                         responsive: true

@@ -8,7 +8,7 @@
         <meta name="keyword" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Miminium</title>
-        <script src="easyfix-js/managerjs.js"></script>
+        <script src="easyfix-js/user-main-pageJS.js"></script>
 
         <!-- start: Css -->
         <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css">
@@ -29,7 +29,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">
+    <body id="mimin" class="dashboard">
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -43,7 +43,7 @@
                         <b>EasyFix</b>
                     </a>
                     <ul class="nav navbar-nav navbar-right user-nav">
-                        <li class="user-name"><span>Akihiko Avaron</span></li>
+                        <li class="user-name"><span id="user-name">Akihiko Avaron</span></li>
                         <li class="dropdown avatar-dropdown">
                             <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name"/>
                         </li>
@@ -293,7 +293,7 @@
 
             ];
 
-
+/*
             var doughnutData2 = [
                 {
                     value: 100,
@@ -326,7 +326,7 @@
                     label: "X"
                 }
 
-            ];
+            ];*/
 
             var barChartData = {
                 labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -351,6 +351,7 @@
             };
 
             window.onload = function () {
+                //init();
                 var ctx = $(".doughnut-chart")[0].getContext("2d");
                 window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {
                     responsive: true,

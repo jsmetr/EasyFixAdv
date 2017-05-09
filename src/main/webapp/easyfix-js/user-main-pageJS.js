@@ -16,11 +16,13 @@ function grabAddr() {
     var addr = document.location.href.toString().split("/");
     var REST = "";
     for (var i = 1; i < addr.length; i++) {
-        if (!addr[i].includes("html") && addr[i].toString().length > 0) {
+        if (!addr[i].includes("html") && addr[i].toString().length > 0 && (typeof addr[i] !== 'undefined')) {
             REST = REST + addr[i] + "/";
+            console.log(REST);
         }
     }
     RESTaddr = addr[1].toString()+"//" + REST;
+    console.log("done");
 }
 
 function getRESTAddr(){
@@ -78,13 +80,6 @@ function whoCallback(){
             for(loop=0;loop<crntUser[0].getElementsByTagName("jobs").length;loop++){
                 myJobs.push(String(crntUser[0].getElementsByTagName("jobs")[loop].childNodes[0].nodeValue));
             }
-//            if(crntUser[0].getElementsByTagName("access")[0].childNodes[0].nodeValue<2){
-//                //hide UI stuff
-//                $("#addNewUserButton").hide();
-//                $("#newTaskButton").hide();
-//                $("#taskManagementButton").hide();
-//            }
-//            retrieveAll();
         }
     }
 }
