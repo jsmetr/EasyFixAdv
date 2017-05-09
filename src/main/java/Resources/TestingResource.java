@@ -151,11 +151,11 @@ public class TestingResource {
         newemp2.changeSkill("television", 2);
         newemp2.changeSkill("toaster", 9);
         newemp2.changeSkill("iphone", 5);
-        newemp2.changeSkill("lawnmover", 1);
+        newemp2.changeSkill("lawnmower", 1);
         String roles22 = ("technician");
         Employee newemp22 = new Employee("Jim", "Masters", "JimMast", "putzle","jmasters@parnanen.fi","555 5555 555", 1, roles22);
         UseMan.addEmployee(newemp22);
-        newemp22.changeSkill("lawnmover", 4);
+        newemp22.changeSkill("lawnmower", 4);
         newemp22.changeSkill("iphone", 8);
         newemp22.changeSkill("electric stove", 3);
         String roles23 = ("technician");
@@ -211,7 +211,7 @@ public class TestingResource {
         Assignment a2 = new Assignment("Broken Screen",iphone9k,"2017-11-07T10:15","GaryStu","TimRuss","WeLiang",0);
         Assignment a3 = new Assignment("Snapped mower blade",Hondamower,"2017-06-01T10:15","JillDoe","TimRuss","JimMast",0);
         Assignment a4 = new Assignment("Smokes when used",btoaster,"2017-06-05T10:15","KirkRid","MikeJob","JohnDoe",2);
-        Assignment a5 = new Assignment("Virus infection",iphoned,"2017-07-03T10:15","JillDoe","EddSlat","JimMast",1);
+        Assignment a5 = new Assignment("Virus infection",iphoned,"2017-07-03T10:15","JillDoe","EddSlat","JohnDoe",1);
         Assignment a6 = new Assignment("Bad signal",ttv,"2017-06-24T10:15","MonicaS","TimRuss","JohnDoe",1);
         DevMan.addAssignment(a1);
         DevMan.addAssignment(a2);

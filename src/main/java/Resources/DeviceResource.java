@@ -8,7 +8,9 @@ package Resources;
 import DataClasses.*;
 import DataManagement.DeviceManager;
 import DataManagement.LoginManager;
+import DataManagement.UserManager;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +34,7 @@ public class DeviceResource {
 
     LoginManager LogMan = LoginManager.getInstance();
     DeviceManager DevMan = DeviceManager.getInstance();
-
+    UserManager UseMan = UserManager.getInstance();
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
@@ -42,40 +44,39 @@ public class DeviceResource {
         }
         return "SESSION EXPIRED";
     }
-    
+
     @Path("/Devicetypes")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Set<DeviceType> getTypes() {
         return DevMan.getTypes();
     }
-    
+
     @Path("/AllDevices")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Set<Device> getDevices() {
         return DevMan.getDevices();
     }
-    
-    
+
     @Path("/Assignments")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Set<Assignment> getAssignment() {
         return DevMan.getAssignments();
     }
-    
+
     /*
     Grabs all devices owned by a customer.
-    */
+     */
     @Path("/{customer}/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Set<Device> getCustDev(@PathParam("sessionId") String sessionId,@PathParam("customer") String customer){
+    public Set<Device> getCustDev(@PathParam("sessionId") String sessionId, @PathParam("customer") String customer) {
         if (LogMan.CheckSession(sessionId)) {
             Set<Device> devices = new HashSet<Device>();
-            for(Device d: DevMan.getDevices()){
-                if(d.getOwner().equals(customer)){
+            for (Device d : DevMan.getDevices()) {
+                if (d.getOwner().equals(customer)) {
                     devices.add(d);
                 }
             }
@@ -87,16 +88,16 @@ public class DeviceResource {
     @Path("/AddDevice/{type}/{name}/{owner}/{manufacturer}/{model}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String addDevice(@PathParam("sessionId") String sessionId, @PathParam("name") String name, @PathParam("type") String type, 
+    public String addDevice(@PathParam("sessionId") String sessionId, @PathParam("name") String name, @PathParam("type") String type,
             @PathParam("owner") String owner, @PathParam("model") String model, @PathParam("manufacturer") String manufacturer) {
         if (LogMan.CheckSession(sessionId)) {
-            if(LogMan.getBySesId(sessionId).getAccess() < 1){
+            if (LogMan.getBySesId(sessionId).getAccess() < 1) {
                 return "ACCESS DENIED";
             }
             DeviceType devtype = DevMan.getTypeByName(type);
-            Device device = new Device(owner,name,devtype,manufacturer,model);//String owner, String name, DeviceType type,String manufacturer,String model
-            boolean added=DevMan.addDevice(device);
-            if(added){
+            Device device = new Device(owner, name, devtype, manufacturer, model);//String owner, String name, DeviceType type,String manufacturer,String model
+            boolean added = DevMan.addDevice(device);
+            if (added) {
                 return "DEVICE ADDED";
             }
             return "FAILURE";
@@ -109,12 +110,12 @@ public class DeviceResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String addType(@PathParam("sessionId") String sessionId, @PathParam("name") String typename, @PathParam("data") String typedata) {
         if (LogMan.CheckSession(sessionId)) {
-            if(LogMan.getBySesId(sessionId).getAccess() < 1){
+            if (LogMan.getBySesId(sessionId).getAccess() < 1) {
                 return "ACCESS DENIED";
             }
-            DeviceType newtype = new DeviceType(typename,typedata);
+            DeviceType newtype = new DeviceType(typename, typedata);
             boolean added = DevMan.addDeviceType(newtype);
-            if(added){
+            if (added) {
                 return "DEVICE TYPE ADDED";
             }
             return "FAILURE";
@@ -125,36 +126,41 @@ public class DeviceResource {
     @Path("/CreateAssignment/{title}/{deviceid}/{deadline}/{prio}/{customer}/{technician}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String createAssignment(@PathParam("sessionId") String sessionId,@PathParam("deviceid") String deviceid,@PathParam("deadline") String deadline,
-            @PathParam("prio") String priority, @PathParam("customer") String customer,@PathParam("technician") String technician,@PathParam("title") String title) {
+    public String createAssignment(@PathParam("sessionId") String sessionId, @PathParam("deviceid") String deviceid, @PathParam("deadline") String deadline,
+            @PathParam("prio") String priority, @PathParam("customer") String customer, @PathParam("technician") String technician, @PathParam("title") String title) {
         if (LogMan.CheckSession(sessionId)) {
-            if(LogMan.getBySesId(sessionId).getAccess() < 1){
+            if (LogMan.getBySesId(sessionId).getAccess() < 1) {
                 return "ACCESS DENIED";
             }
-            String clerk=LogMan.getBySesId(sessionId).getUserName();
-            Device item=DevMan.getDeviceById(Integer.parseInt(deviceid));
-            Assignment created=new Assignment(title,item,deadline,customer,clerk,technician,Integer.parseInt(priority));
+            String clerk = LogMan.getBySesId(sessionId).getUserName();
+            Device item = DevMan.getDeviceById(Integer.parseInt(deviceid));
+            if (technician.equals("automate")) {
+                UserResource temp= new UserResource();
+                Set<Employee> techs = temp.getTechByType(sessionId, item.getType().getName());
+                technician = pickTech(item.getType().getName(), techs);
+            }
+            Assignment created = new Assignment(title, item, deadline+"T10:15", customer, clerk, technician, Integer.parseInt(priority));
             boolean added = DevMan.addAssignment(created);
-            if(added){
+            if (added) {
                 return "ASSIGNMENT CREATED";
             }
             return "FAILURE";
         }
         return "SESSION EXPIRED";
     }
-    
+
     /*
     Retrieves all of your (technician) open assignments in order of earliest deadline first.
-    */
+     */
     @Path("/MyAssignments/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Set<Assignment> myAssignments(@PathParam("sessionId") String sessionId){
+    public Set<Assignment> myAssignments(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId)) {
             Person me = LogMan.getBySesId(sessionId);
             Set<Assignment> forMe = new TreeSet<Assignment>();
-            for(Assignment a : DevMan.getAssignments()){
-                if(a.getTechnician().equals(me.getUserName()) && a.getStatus()==0){
+            for (Assignment a : DevMan.getAssignments()) {
+                if (a.getTechnician().equals(me.getUserName()) && a.getStatus() == 0) {
                     forMe.add(a);
                 }
             }
@@ -162,28 +168,28 @@ public class DeviceResource {
         }
         return null;
     }
-    
+
     /*
     Retrieves all of your (technician) open assignments in order of priority, earliest deadline first within tier.
-    */
+     */
     @Path("/MyAssignments/Priority/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Set<Assignment> myAssignmentsByPriority(@PathParam("sessionId") String sessionId){
+    public Set<Assignment> myAssignmentsByPriority(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId)) {
             Person me = LogMan.getBySesId(sessionId);
-            ArrayList<Set<Assignment>> holder =new ArrayList<Set<Assignment>>();
+            ArrayList<Set<Assignment>> holder = new ArrayList<Set<Assignment>>();
             holder.add(new TreeSet<Assignment>());
             holder.add(new TreeSet<Assignment>());
             holder.add(new TreeSet<Assignment>());
             Set<Assignment> forMe = new TreeSet<Assignment>();
-            for(Assignment a : DevMan.getAssignments()){
-                if(a.getTechnician().equals(me.getUserName()) && a.getStatus()==0){
+            for (Assignment a : DevMan.getAssignments()) {
+                if (a.getTechnician().equals(me.getUserName()) && a.getStatus() == 0) {
                     holder.get(a.getPriority()).add(a);
                 }
             }
-            for(Set<Assignment> set:holder){
-                for(Assignment a: set){
+            for (Set<Assignment> set : holder) {
+                for (Assignment a : set) {
                     forMe.add(a);
                 }
             }
@@ -198,7 +204,7 @@ public class DeviceResource {
     @Path("/postReview/{assignid}/{title}/{body}/{rating}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String postReview(@PathParam("sessionId") String sessionId, @PathParam("assignid") String assignid, @PathParam("title") String title, 
+    public String postReview(@PathParam("sessionId") String sessionId, @PathParam("assignid") String assignid, @PathParam("title") String title,
             @PathParam("rating") String rt, @PathParam("body") String body) {
         if (LogMan.CheckSession(sessionId)) {
             Person u = LogMan.getBySesId(sessionId);
@@ -207,12 +213,12 @@ public class DeviceResource {
             int id = Integer.parseInt(assignid);
             Set<Assignment> assignments = DevMan.getAssignments();
             for (Assignment a : assignments) {
-                if (a.getId()==id) {
-                    if(u.getUserName()!=a.getCustomer()){
+                if (a.getId() == id) {
+                    if (u.getUserName() != a.getCustomer()) {
                         return "You are not the customer of this assignment.";
                     }
-                    String signed=LogMan.getBySesId(sessionId).getFirstName()+""+LogMan.getBySesId(sessionId).getLastName();
-                    Review newreview = new Review(title,rating,body,LogMan.getBySesId(sessionId).getUserName(),signed);
+                    String signed = LogMan.getBySesId(sessionId).getFirstName() + "" + LogMan.getBySesId(sessionId).getLastName();
+                    Review newreview = new Review(title, rating, body, LogMan.getBySesId(sessionId).getUserName(), signed);
                     ReviewShell newshell = new ReviewShell(newreview);
                     a.addReview(newshell);
                     DevMan.save();
@@ -259,7 +265,7 @@ public class DeviceResource {
     @Path("/respondToComment/{body}/{reviewId}/{commentId}/{sessionId}")
     @POST
     @Produces(MediaType.APPLICATION_XML)
-    public String respondToComment(@PathParam("sessionId") String sessionId, @PathParam("reviewId") String reviewId, 
+    public String respondToComment(@PathParam("sessionId") String sessionId, @PathParam("reviewId") String reviewId,
             @PathParam("commentId") String commentId, @PathParam("body") String body) {
         if (LogMan.CheckSession(sessionId)) {
             ReviewShell shell;
@@ -328,5 +334,22 @@ public class DeviceResource {
             }
         }
         return reviews; //even if there are not enough to fill the quota, whatever was found is returned.
+    }
+
+    public String pickTech(String type, Set<Employee> techs) {
+        ArrayList<WorkLoad> wlset = new ArrayList<WorkLoad>();
+        for (Employee t : techs) {
+            WorkLoad wl = new WorkLoad(t.getUserName());
+            wlset.add(wl);
+        }
+        for (Assignment a : DevMan.getAssignments()) {
+            for (WorkLoad load : wlset) {
+                if (load.getName().equals(a.getTechnician())) {
+                    load.countUp();
+                }
+            }
+        }
+        Collections.sort(wlset);
+        return wlset.get(0).getName();
     }
 }

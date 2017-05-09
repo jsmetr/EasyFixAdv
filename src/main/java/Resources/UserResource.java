@@ -32,6 +32,7 @@ public class UserResource {
 
     LoginManager LogMan = LoginManager.getInstance();
     UserManager UseMan = UserManager.getInstance();
+    DeviceManager DevMan = DeviceManager.getInstance();
 
     /*
     Adds a new employee into the system.
@@ -123,6 +124,28 @@ public class UserResource {
         if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 1) {
             Set<Employee> emps = UseMan.getEmployees();
             return emps;
+        }
+        return null;
+    }
+
+    @Path("/GetTech/{devtype}/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Employee> getTechByType(@PathParam("sessionId") String sessionId, @PathParam("devtype") String type) {
+        if (LogMan.CheckSession(sessionId) && LogMan.getBySesId(sessionId).getAccess() > 0) {
+            Set<Employee> emps = UseMan.getEmployees();
+            Set<Employee> techs = new TreeSet<Employee>();
+            for (Employee e : emps) {
+                if (e.getRole().equals("technician")) {
+                    for (RepairSkill rs : e.getSkills()) {
+                        if (rs.getDevicetype().equals(type)) {
+                            techs.add(e);
+                            break;
+                        }
+                    }
+                }
+            }
+            return techs;
         }
         return null;
     }
