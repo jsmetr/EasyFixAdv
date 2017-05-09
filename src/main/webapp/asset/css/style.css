@@ -98,8 +98,8 @@
     margin-left: -45px;
 }
 .widget-user .widget-user-image>img {
-    width: 90px;
-    height: auto;
+    width: 90px !important;
+    height: auto !important;
     border: 3px solid #fff;
 }
 .widget-user .box-footer {
