@@ -88,3 +88,22 @@ function whoCallback(){
         }
     }
 }
+
+function addNewTask() {
+    var taskList = document.getElementById('new-tasks');
+    var newTaskTemp = document.getElementById('newTask-template').content.cloneNode(true);
+    
+    var title = document.getElementById('title').value;
+    var customer = document.getElementById('customer').value;
+    var device = document.getElementById('device').value;
+    var dueDate = document.getElementById('due-date').value;
+    
+    newTaskTemp.querySelector('.widget-user-username').innerText = title;
+    newTaskTemp.querySelector('#device-name').innerText = device;
+    newTaskTemp.querySelector('#customerRequest').innerText = customer;
+    newTaskTemp.querySelector('#due-dateTask').innerText = dueDate;
+    
+    
+    taskList.appendChild(newTaskTemp);
+    document.getElementById('addNewTaskForm').reset();    
+}
