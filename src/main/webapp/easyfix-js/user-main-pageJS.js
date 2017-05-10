@@ -20,6 +20,11 @@ function clerkInit(){
     getAssignments();
 }
 
+function initForProfile() {
+    grabAddr();
+    printProfile();
+}
+
 function grabAddr() {
     var addr = document.location.href.toString().split("/");
     var REST = "";
@@ -277,6 +282,7 @@ function gettypescallback() {
 }
 
 function fileTypes(XML) {
+    console.log(XML);
     var devSel = document.getElementById('dev-types');
     $('#dev-types').empty();
     if (XML.childNodes[0].childNodes.length > 0) {
@@ -502,3 +508,46 @@ function archivecallback(){
  uSel.value=selUser;
  }
  */
+
+function printProfile() {
+    console.log("hei-profile");
+    var url = RESTaddr + "webresources/Users/View/Myself/" + localStorage.getItem("sessionId");
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = printProfileCallBack;
+    req.send(null);
+}
+
+function printProfileCallBack() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            crntUser = req.responseXML.childNodes;
+            console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
+            var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
+            var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
+            var uname = crntUser[0].getElementsByTagName("userName")[0].childNodes[0].nodeValue;
+            var email = crntUser[0].getElementsByTagName("email")[0].childNodes[0].nodeValue;
+            var phone = crntUser[0].getElementsByTagName("phone")[0].childNodes[0].nodeValue;
+            
+            document.getElementById("fullName-profile").innerHTML = fname + " " + lname;
+            document.getElementById("user-name").innerHTML = fname + " " + lname;
+            document.getElementById("uName-profile").innerHTML = uname;
+            document.getElementById("email-profile").innerHTML = email;
+            document.getElementById("phone-profile").innerHTML = phone;
+            
+                        
+            if(crntUser[0].getElementsByTagName("role")[0].childNodes[0].nodeValue == "customer") {
+                var address = crntUser[0].getElementsByTagName("address")[0].childNodes[0].nodeValue;
+                var city = crntUser[0].getElementsByTagName("city")[0].childNodes[0].nodeValue;
+                var state = crntUser[0].getElementsByTagName("state")[0].childNodes[0].nodeValue;
+                var zipcode = crntUser[0].getElementsByTagName("zipcode")[0].childNodes[0].nodeValue;
+                
+                document.getElementById("address-profile").innerHTML = address;
+                document.getElementById("city-profile").innerHTML = city;
+                document.getElementById("state-profile").innerHTML = state;
+                document.getElementById("zipCode-profile").innerHTML = zipcode;
+            }
+            console.log(crntUser[0].getElementsByTagName("access")[0].childNodes[0].nodeValue);//           
+        }
+    }
+}
