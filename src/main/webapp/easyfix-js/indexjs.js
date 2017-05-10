@@ -27,7 +27,7 @@ function grabAddr() {
     RESTaddr = addr[1].toString() + "//" + REST;
     console.log(addr);
     console.log(REST);
-    getDeviceTypes();
+    populate();
 }
 
 function initRequest() {
@@ -95,6 +95,7 @@ function popcallback() {
         if (req.status == 200) {
             if (req.responseText !== "FAILURE") {
                 console.log(req.responseText);
+                getDeviceTypes();
             }
         }
     }
@@ -135,25 +136,25 @@ function fileTypes(XML) {
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var type = XML.childNodes[0].childNodes[loop];
-            filetype(type,menuitems);
+            filetype(type, menuitems);
         }
     }
     console.log(menuitems);
     getFreshReviews();
 }
 
-function filetype(type,menu){
-            var option = document.createElement('a');
-            option.classList.add("dropdown-item");
-            var typename = type.getElementsByTagName("name")[0].childNodes[0].nodeValue.toString();
-            option.onclick = function () {
-                getReviews(typename);
-            };
-            option.value = type.getElementsByTagName("name")[0].childNodes[0].nodeValue.toString();
-            option.innerHTML = "" + type.getElementsByTagName("name")[0].childNodes[0].nodeValue;
-            menu.appendChild(option);
-    
-    
+function filetype(type, menu) {
+    var option = document.createElement('a');
+    option.classList.add("dropdown-item");
+    var typename = type.getElementsByTagName("name")[0].childNodes[0].nodeValue.toString();
+    option.onclick = function () {
+        getReviews(typename);
+    };
+    option.value = type.getElementsByTagName("name")[0].childNodes[0].nodeValue.toString();
+    option.innerHTML = "" + type.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+    menu.appendChild(option);
+
+
 }
 
 function getFreshReviews() {
