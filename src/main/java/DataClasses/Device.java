@@ -20,15 +20,13 @@ public class Device implements Serializable, Comparable<Device>{
     private String owner; //owner username
     private String name; //name of device
     private String manufacturer; //unknown is valid, and serves as the default
-    private String model; //ditto
     private DeviceType type;
 
-    public Device(String owner, String name, DeviceType type, String manufacturer,String model) {
+    public Device(String owner, String name, DeviceType type, String manufacturer) {
         this.owner = owner;
         this.name = name;
         this.type = type;
         this.manufacturer=manufacturer;
-        this.model=model;
         this.deviceId = hashCode();
     }
     
@@ -55,11 +53,6 @@ public class Device implements Serializable, Comparable<Device>{
     }
 
     @XmlElement
-    public String getModel() {
-        return this.model;
-    }
-
-    @XmlElement
     public DeviceType getType() {
         return this.type;
     }
@@ -70,10 +63,6 @@ public class Device implements Serializable, Comparable<Device>{
     
     public void setName(String input){
         this.name=input;
-    }
-    
-    public void setModel(String input){
-        this.model=input;
     }
     
     public void setManufacturer(String input){

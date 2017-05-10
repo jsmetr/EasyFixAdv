@@ -160,14 +160,14 @@
                                     <div class="form-group">
                                         <p>Device <span>*</span></p>	
                                         <div class="input-group form-group">
-                                            <span class="input-group-addon" onclick="getDeviceTypes()"><i class="fa fa-cogs"></i></span>
+                                            <span class="input-group-addon" ><i class="fa fa-cogs" ></i></span>
                                             <select id="device" class="selectpicker form-control" data-live-search="true" onchange="getTechnicians()">
                                                 <option>Device 01</option>
                                                 <option>Device 02</option>
                                                 <option>Device 03</option>
                                                 <option>Device 04</option>
                                             </select>
-                                            <span class="input-group-addon"><a data-toggle="modal" href="#modal-add-device"><i class="fa fa-plus"></i></a></span>
+                                            <span class="input-group-addon"><a data-toggle="modal" href="#modal-add-device"><i class="fa fa-plus" onclick="getDeviceTypes()"></i></a></span>
                                         </div>                                        <div class="validation"></div>
                                     </div>
 
@@ -230,7 +230,7 @@
                                                 <option>Type 03</option>
                                                 <option>Type 04</option>
                                             </select>
-                                            <span class="input-group-addon"><a data-toggle="modal" href='#modal-add-device-type' onclick="getTypes()"><i class="fa fa-plus"></i></a></span>
+                                            <span class="input-group-addon"><a data-toggle="modal" href='#modal-add-device-type'><i class="fa fa-plus"></i></a></span>
                                         </div>                                        <div class="validation"></div>
                                     </div>
 
@@ -264,7 +264,7 @@
                             </div>
 
                         </form>
-                        <button type="button" class="bouton-contact" onclick="addDevice()">Save</button>
+                        <button type="button" class="bouton-contact" onclick="addDevice()" data-dismiss="modal">Save</button>
                     </div>
                 </div>
             </div>
@@ -280,7 +280,7 @@
                         <h4 class="modal-title">Add new customer</h4>
                     </div><div class="container"></div>
                     <div class="modal-body padding-0">
-                        <form>
+                        <form id="addCustForm">
                             <div class="contentform">
                                 <div class="leftcontact">
 
@@ -308,7 +308,7 @@
                                     <div class="form-group">
                                         <p>Password <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-lock"></i></span>
-                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <input type="text" name="fname" id="password" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div> 	
 
@@ -328,40 +328,40 @@
                                     <div class="form-group">
                                         <p>State <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-flag"></i></span>
-                                        <input type="text" name="lname" id="lname" data-rule="required"/>
+                                        <input type="text" name="lname" id="state" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <p>Zip code <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-map-marker"></i></span>
-                                        <input type="text" name="phone" id="phone" data-rule="required"/>
+                                        <input type="text" name="phone" id="zipcode" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <p>City <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-building"></i></span>
-                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <input type="text" name="fname" id="city" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <p>Address <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-map-o"></i></span>
-                                        <input type="text" name="lname" id="lname" data-rule="required"/>
+                                        <input type="text" name="lname" id="address" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <p>Phone <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-phone"></i></span>
-                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <input type="text" name="fname" id="phone" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="bouton-contact">Save</button>
+                            <button type="button" class="bouton-contact" onclick="addCustomer()" data-dismiss="modal">Save</button>
                         </form>
                     </div>
                 </div>
@@ -378,7 +378,7 @@
                         <h4 class="modal-title">Add new device type</h4>
                     </div><div class="container"></div>
                     <div class="modal-body padding-0">
-                        <form>
+                        <form id="addTypeForm">
                             <div class="contentform">
                                 <div class="leftcontact">
                                     <div class="form-group">
@@ -403,7 +403,7 @@
                             </div>
 
                         </form>
-                        <button type="submit" class="bouton-contact">Save</button>
+                        <button type="button" class="bouton-contact" onclick="addType()" data-dismiss="modal">Save</button>
                     </div>
                 </div>
             </div>

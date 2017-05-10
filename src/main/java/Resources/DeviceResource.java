@@ -36,8 +36,6 @@ public class DeviceResource {
     DeviceManager DevMan = DeviceManager.getInstance();
     UserManager UseMan = UserManager.getInstance();
 
-    @POST
-    @Produces(MediaType.TEXT_PLAIN)
     public String herp(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId)) {
 
@@ -66,6 +64,16 @@ public class DeviceResource {
         return DevMan.getAssignments();
     }
 
+    @Path("/Assignments/Active/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Assignment> getActiveAssignment(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+
+        }
+        return null;
+    }
+
     /*
     Grabs all devices owned by a customer.
      */
@@ -85,7 +93,7 @@ public class DeviceResource {
         return null;
     }
 
-    @Path("/AddDevice/{type}/{name}/{owner}/{manufacturer}/{model}/{sessionId}")
+    @Path("/AddDevice/{type}/{name}/{owner}/{manufacturer}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     public String addDevice(@PathParam("sessionId") String sessionId, @PathParam("name") String name, @PathParam("type") String type,
@@ -95,7 +103,7 @@ public class DeviceResource {
                 return "ACCESS DENIED";
             }
             DeviceType devtype = DevMan.getTypeByName(type);
-            Device device = new Device(owner, name, devtype, manufacturer, model);//String owner, String name, DeviceType type,String manufacturer,String model
+            Device device = new Device(owner, name, devtype, manufacturer);//String owner, String name, DeviceType type,String manufacturer,String model
             boolean added = DevMan.addDevice(device);
             if (added) {
                 return "DEVICE ADDED";
@@ -131,6 +139,9 @@ public class DeviceResource {
         if (LogMan.CheckSession(sessionId)) {
             if (LogMan.getBySesId(sessionId).getAccess() < 1) {
                 return "ACCESS DENIED";
+            }
+            if (technician.equals("noqualified")) {
+                return "NO QUALIFIED STAFF";
             }
             String clerk = LogMan.getBySesId(sessionId).getUserName();
             Device item = DevMan.getDeviceById(Integer.parseInt(deviceid));

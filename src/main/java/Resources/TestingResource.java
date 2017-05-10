@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.ws.rs.GET;
@@ -30,7 +31,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/Testing")
 public class TestingResource {
-
+    
     DeviceManager DevMan = DeviceManager.getInstance();
     LoginManager LogMan = LoginManager.getInstance();
     UserManager UseMan = UserManager.getInstance();
@@ -50,7 +51,7 @@ public class TestingResource {
         }
         return comments;
     }
-
+    
     @Path("/Comments")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -65,7 +66,7 @@ public class TestingResource {
         }
         return comments;
     }
-
+    
     @Path("/Review")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -84,8 +85,8 @@ public class TestingResource {
             Comment cmnt4 = new Comment(junk5, "Junkmaker", "username3");
             shell.commentOn(cmnt1);
             shell.commentOn(cmnt4);
-            shell.respond(cmnt2,cmnt1.getId());
-            shell.respond(cmnt3,cmnt1.getId());
+            shell.respond(cmnt2, cmnt1.getId());
+            shell.respond(cmnt3, cmnt1.getId());
             DevMan.testReview = shell;
         }
         return DevMan.testReview;
@@ -94,8 +95,8 @@ public class TestingResource {
     @Path("/removeComment/{commentId}")
     @PUT
     @Produces(MediaType.TEXT_PLAIN)
-    public String removeComment(@PathParam("commentId") String commentId){
-        if(DevMan.testReview.removeComment(Integer.parseInt(commentId))==true){
+    public String removeComment(@PathParam("commentId") String commentId) {
+        if (DevMan.testReview.removeComment(Integer.parseInt(commentId)) == true) {
             return "Comment found and removed.";
         }
         return "Comment not found.";
@@ -104,9 +105,9 @@ public class TestingResource {
     @Path("/respondToComment/{body}/{commentId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String respondToComment(@PathParam("commentId") String commentId,@PathParam("body") String body){
-        Comment cmnt = new Comment(body,"ProReviewer", "username1");
-        if(DevMan.testReview.respond(cmnt,Integer.parseInt(commentId))==true){
+    public String respondToComment(@PathParam("commentId") String commentId, @PathParam("body") String body) {
+        Comment cmnt = new Comment(body, "ProReviewer", "username1");
+        if (DevMan.testReview.respond(cmnt, Integer.parseInt(commentId)) == true) {
             return "Comment found and responded to.";
         }
         return "Comment not found.";
@@ -131,7 +132,7 @@ public class TestingResource {
         reviews.add(rvw4);
         return reviews;
     }
-
+    
     @Path("/populate")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -140,10 +141,10 @@ public class TestingResource {
         Employee newemp1 = new Employee("Timmy", "Russell", "TimRuss", "drowssap", "email", "phone", 1, roles1);
         UseMan.addEmployee(newemp1);
         String roles12 = ("clerk");
-        Employee newemp12 = new Employee("Mike", "Jobbs", "MikeJob", "fiesta","mike@parnanen.fi","555 5555 555",1, roles12);
+        Employee newemp12 = new Employee("Mike", "Jobbs", "MikeJob", "fiesta", "mike@parnanen.fi", "555 5555 555", 1, roles12);
         UseMan.addEmployee(newemp12);
         String roles13 = ("clerk");
-        Employee newemp13 = new Employee("Eddie", "Slate", "EddSlat", "simplistic","eddie@parnanen.fi","555 5555 555", 1, roles13);
+        Employee newemp13 = new Employee("Eddie", "Slate", "EddSlat", "simplistic", "eddie@parnanen.fi", "555 5555 555", 1, roles13);
         UseMan.addEmployee(newemp13);
         String roles2 = ("technician");
         Employee newemp2 = new Employee("Johnny", "Doe", "JohnDoe", "swordfish", "email", "phone", 1, roles2);
@@ -153,13 +154,13 @@ public class TestingResource {
         newemp2.changeSkill("iphone", 5);
         newemp2.changeSkill("lawnmower", 1);
         String roles22 = ("technician");
-        Employee newemp22 = new Employee("Jim", "Masters", "JimMast", "putzle","jmasters@parnanen.fi","555 5555 555", 1, roles22);
+        Employee newemp22 = new Employee("Jim", "Masters", "JimMast", "putzle", "jmasters@parnanen.fi", "555 5555 555", 1, roles22);
         UseMan.addEmployee(newemp22);
         newemp22.changeSkill("lawnmower", 4);
         newemp22.changeSkill("iphone", 8);
         newemp22.changeSkill("electric stove", 3);
         String roles23 = ("technician");
-        Employee newemp23 = new Employee("Wenhao", "Liang", "WeLiang", "security","wliang@parnanen.fi","555 5555 555", 1, roles23);
+        Employee newemp23 = new Employee("Wenhao", "Liang", "WeLiang", "security", "wliang@parnanen.fi", "555 5555 555", 1, roles23);
         UseMan.addEmployee(newemp23);
         newemp23.changeSkill("iphone", 5);
         newemp23.changeSkill("electric stove", 7);
@@ -167,14 +168,14 @@ public class TestingResource {
         String roles3 = ("manager");
         Employee newemp3 = new Employee("Bob", "Stein", "BobStei", "greenisgood", "email", "phone", 2, roles3);
         UseMan.addEmployee(newemp3);
-        String roles4 =("manager");
+        String roles4 = ("manager");
         Employee newemp4 = new Employee("Jack", "Quick", "JackQui", "swift", "email", "phone", 2, roles4);
         UseMan.addEmployee(newemp4);
         //add customers,
-        Customer cust1 = new Customer("Jill","Doe","JillDoe","secure","email","phone","address","city","state","zipcode"); 
-        Customer cust2 = new Customer("Kirk","Ridge","KirkRid","ironclad","email","phone","address","city","state","zipcode"); 
-        Customer cust3 = new Customer("Gary","Stu","GaryStu","unsinkable","email","phone","address","city","state","zipcode"); 
-        Customer cust4 = new Customer("Monica","Santos","MonicaS","dependable","email","phone","address","city","state","zipcode"); 
+        Customer cust1 = new Customer("Jill", "Doe", "JillDoe", "secure", "email", "phone", "address", "city", "state", "zipcode");        
+        Customer cust2 = new Customer("Kirk", "Ridge", "KirkRid", "ironclad", "email", "phone", "address", "city", "state", "zipcode");        
+        Customer cust3 = new Customer("Gary", "Stu", "GaryStu", "unsinkable", "email", "phone", "address", "city", "state", "zipcode");        
+        Customer cust4 = new Customer("Monica", "Santos", "MonicaS", "dependable", "email", "phone", "address", "city", "state", "zipcode");        
         UseMan.addCustomer(cust1);
         UseMan.addCustomer(cust2);
         UseMan.addCustomer(cust3);
@@ -186,45 +187,58 @@ public class TestingResource {
     @Path("/stock")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String stockAssignments(){
-        DeviceType iphone= new DeviceType("iphone","Signals status.");
-        DeviceType stove= new DeviceType("electric stove","Cooks food.");
-        DeviceType mower= new DeviceType("lawnmower","Mowns the lawn");
-        DeviceType tv= new DeviceType("television","Old School catode tube telly.");
-        DeviceType toaster= new DeviceType("toaster","A toast for toast.");
+    public String stockAssignments() {
+        DeviceType iphone = new DeviceType("iphone", "Signals status.");
+        DeviceType stove = new DeviceType("electric stove", "Cooks food.");
+        DeviceType mower = new DeviceType("lawnmower", "Mowns the lawn");
+        DeviceType tv = new DeviceType("television", "Old School catode tube telly.");
+        DeviceType toaster = new DeviceType("toaster", "A toast for toast.");
         DevMan.addDeviceType(iphone);
         DevMan.addDeviceType(mower);
         DevMan.addDeviceType(tv);
         DevMan.addDeviceType(stove);
-        Device estove = new Device("JillDoe", "Electrolux", stove, "manufacturer","6300");
-        Device iphone9k = new Device("GaryStu", "iPhone 1t1n", iphone, "Apple","M3H");
-        Device Hondamower = new Device("JillDoe", "ClearCutter X", mower, "Honda","3000-Z");
-        Device btoaster = new Device("KirkRid", "SchorchMaster", toaster, "unknown","unknown");
-        Device iphoned = new Device("JillDoe", "iPhone L3", iphone, "Apple","N34T");
-        Device ttv = new Device("MonicaS", "WideVisio 1720", tv, "unknown","unknown");
-        DevMan.addDevice(estove );
-        DevMan.addDevice(iphone9k );
-        DevMan.addDevice(Hondamower );
-        DevMan.addDevice(btoaster );
-        DevMan.addDevice(iphoned );
-        DevMan.addDevice(ttv ); 
-        Assignment a1 = new Assignment("Stove does not heat up",estove,"2017-09-13T10:15","JillDoe","MikeJob","WeLiang",1); 
-        Assignment a2 = new Assignment("Broken Screen",iphone9k,"2017-11-07T10:15","GaryStu","TimRuss","WeLiang",0);
-        Assignment a3 = new Assignment("Snapped mower blade",Hondamower,"2017-06-01T10:15","JillDoe","TimRuss","JimMast",0);
-        Assignment a4 = new Assignment("Smokes when used",btoaster,"2017-06-05T10:15","KirkRid","MikeJob","JohnDoe",2);
-        Assignment a5 = new Assignment("Virus infection",iphoned,"2017-07-03T10:15","JillDoe","EddSlat","JohnDoe",1);
-        Assignment a6 = new Assignment("Bad signal",ttv,"2017-06-24T10:15","MonicaS","TimRuss","JohnDoe",1);
+        Device estove = new Device("JillDoe", "Electrolux", stove, "manufacturer");
+        Device iphone9k = new Device("GaryStu", "iPhone 1t1n", iphone, "Apple");
+        Device Hondamower = new Device("JillDoe", "ClearCutter X", mower, "Honda");
+        Device btoaster = new Device("KirkRid", "SchorchMaster", toaster, "unknown");
+        Device iphoned = new Device("JillDoe", "iPhone L3", iphone, "Apple");
+        Device ttv = new Device("MonicaS", "WideVisio 1720", tv, "unknown");
+        DevMan.addDevice(estove);
+        DevMan.addDevice(iphone9k);
+        DevMan.addDevice(Hondamower);
+        DevMan.addDevice(btoaster);
+        DevMan.addDevice(iphoned);
+        DevMan.addDevice(ttv);        
+        Assignment a1 = new Assignment("Stove does not heat up", estove, "2017-09-13T10:15", "JillDoe", "MikeJob", "WeLiang", 1);        
+        Assignment a2 = new Assignment("Broken Screen", iphone9k, "2017-11-07T10:15", "GaryStu", "TimRuss", "WeLiang", 0);
+        Assignment a3 = new Assignment("Snapped mower blade", Hondamower, "2017-06-01T10:15", "JillDoe", "TimRuss", "JimMast", 0);
+        Assignment a4 = new Assignment("Smokes when used", btoaster, "2017-06-05T10:15", "KirkRid", "MikeJob", "JohnDoe", 2);
+        Assignment a5 = new Assignment("Virus infection", iphoned, "2017-07-03T10:15", "JillDoe", "EddSlat", "JohnDoe", 1);
+        Assignment a6 = new Assignment("Bad signal", ttv, "2017-06-24T10:15", "MonicaS", "TimRuss", "JohnDoe", 1);        
+        Assignment a7 = new Assignment("Makes odd noise", estove, "2017-09-13T10:15", "JillDoe", "MikeJob", "WeLiang", 1);        
+        Assignment a8 = new Assignment("Bad reception", iphone9k, "2017-11-07T10:15", "GaryStu", "TimRuss", "WeLiang", 0);
+        Assignment a9 = new Assignment("Does not start", Hondamower, "2017-06-01T10:15", "JillDoe", "EddSlat", "JimMast", 0);
+        Assignment a10 = new Assignment("Springs do not work", btoaster, "2017-06-05T10:15", "KirkRid", "MikeJob", "WeLiang", 2);
+        Assignment a11 = new Assignment("Ransomware removal", iphoned, "2017-07-03T10:15", "JillDoe", "EddSlat", "JohnDoe", 1);
+        Assignment a12 = new Assignment("Sound bugs out randomly", ttv, "2017-06-24T10:15", "MonicaS", "MikeJob", "JimMast", 1);
         DevMan.addAssignment(a1);
         DevMan.addAssignment(a2);
         DevMan.addAssignment(a3);
         DevMan.addAssignment(a4);
         DevMan.addAssignment(a5);
         DevMan.addAssignment(a6);
-        String hashed=" "+a1.hashCode()+" "+a2.hashCode()+" "+a3.hashCode()+" "+a4.hashCode()+" "+a5.hashCode()+""+a6.hashCode();
-        
-        return "stocked: "+DevMan.getTypes().size()+" devicetypes, "+DevMan.getDevices().size()+" devices, "+DevMan.getAssignments().size()+" assignments, hashes: "+hashed;
+        String hashed = " " + a1.hashCode() + " " + a2.hashCode() + " " + a3.hashCode() + " " + a4.hashCode() + " " + a5.hashCode() + "" + a6.hashCode();
+        a1.setStatus(1);
+        a6.setStatus(1);
+        a2.setStatus(1);
+        a3.setStatus(1);
+        createReview(7,a1);
+        createReview(4,a6);
+        createReview(8,a2);
+        createReview(10,a3);
+        return "stocked: " + DevMan.getTypes().size() + " devicetypes, " + DevMan.getDevices().size() + " devices, " + DevMan.getAssignments().size() + " assignments, hashes: " + hashed;
     }
-
+    
     @Path("/GrabUsers")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -232,7 +246,7 @@ public class TestingResource {
         Set<Person> users = UseMan.getUsers();
         return users;
     }
-
+    
     @Path("/GrabEmployees")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -240,7 +254,7 @@ public class TestingResource {
         Set<Employee> emps = UseMan.getEmployees();
         return emps;
     }
-
+    
     @Path("/GrabCustomers")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -248,7 +262,7 @@ public class TestingResource {
         Set<Customer> customers = UseMan.getCustomers();
         return customers;
     }
-
+    
     @Path("/Nuke")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
@@ -258,46 +272,58 @@ public class TestingResource {
         LogMan.UpdateLogins();
         return "BOOM";
     }
-
+    
     @Path("/Response")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String respond() {
         return "This is a response.";
     }
-
+    
     @Path("/TickTock")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String checkingTheClock() {
         return LocalDateTime.now().toString();
     }
-
+    
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String defaulting() {
         return "Swing and a miss.";
     }
     
-    public ReviewShell createReview(int rating) {
-        if (DevMan.testReview == null) {
-            String junk1 = "This text is filler. This text is filler. This text is filler. This text is filler. This text is filler. This text is filler.";
-            String junk2 = "This is a filler review. This is a filler review. This is a filler review. This is a filler review. This is a filler review.";
-            String junk3 = "This comment on comment is filler. This comment on comment is filler. This comment on comment is filler. This comment on comment is filler. ";
-            String junk4 = "This is another comment on comment as well as filler. This is another comment on comment as well as filler. This is another comment on comment as well as filler.";
-            String junk5 = "This is another direct response. This is another direct response. This is another direct response. ";
-            Review rvw = new Review("Junkreview", rating, junk2, "ProReviewer", "username1");
-            ReviewShell shell = new ReviewShell(rvw);
-            Comment cmnt1 = new Comment(junk1, "PlainUser", "username2");
-            Comment cmnt2 = new Comment(junk3, "ProReviewer", "username1");
-            Comment cmnt3 = new Comment(junk4, "Junkmaker", "username3");
-            Comment cmnt4 = new Comment(junk5, "Junkmaker", "username3");
-            shell.commentOn(cmnt1);
-            shell.commentOn(cmnt4);
-            shell.respond(cmnt2,cmnt1.getId());
-            shell.respond(cmnt3,cmnt1.getId());
-            DevMan.testReview = shell;
-        }
-        return DevMan.testReview;
+    public void createReview(int rating, Assignment a) {
+        Set<Customer> cust = UseMan.getCustomers();
+        List<Customer> clist = new ArrayList<Customer>();
+        clist.addAll(cust);
+        Set<Person> users = UseMan.getUsers();
+        List<Person> ulist = new ArrayList<Person>();
+        clist.addAll(cust);
+        ulist.addAll(users);
+        Random rng = new Random();
+        clist.get(rng.nextInt(clist.size())).getUserName();
+        String junk1 = "This text is filler. This text is filler. This text is filler. This text is filler. This text is filler. This text is filler.";
+        String junk2 = "This is a filler review. This is a filler review. This is a filler review. This is a filler review. This is a filler review.";
+        String junk3 = "This comment on comment is filler. This comment on comment is filler. This comment on comment is filler. This comment on comment is filler. ";
+        String junk4 = "This is another comment on comment as well as filler. This is another comment on comment as well as filler. This is another comment on comment as well as filler.";
+        String junk5 = "This is another direct response. This is another direct response. This is another direct response. ";
+        Customer c = clist.get(rng.nextInt(clist.size()));
+        Person p = ulist.get(rng.nextInt(ulist.size()));
+        Review rvw = new Review("Junkreview", rating, junk2, c.getFirstName() + " " + c.getFirstName(), c.getUserName());
+        ReviewShell shell = new ReviewShell(rvw);
+        
+        Comment cmnt1 = new Comment(junk1, p.getFirstName() + " " + p.getLastName(), p.getUserName());
+        p = ulist.get(rng.nextInt(ulist.size()));
+        Comment cmnt2 = new Comment(junk3, p.getFirstName() + " " + p.getLastName(), p.getUserName());
+        p = ulist.get(rng.nextInt(ulist.size()));
+        Comment cmnt3 = new Comment(junk4, p.getFirstName() + " " + p.getLastName(), p.getUserName());
+        p = ulist.get(rng.nextInt(ulist.size()));
+        Comment cmnt4 = new Comment(junk5, p.getFirstName() + " " + p.getLastName(), p.getUserName());
+        shell.commentOn(cmnt1);
+        shell.commentOn(cmnt4);
+        shell.respond(cmnt2, cmnt1.getId());
+        shell.respond(cmnt3, cmnt1.getId());
+        a.addReview(shell);
     }
 }

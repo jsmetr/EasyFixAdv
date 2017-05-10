@@ -169,6 +169,11 @@ public class UserResource {
     public Person viewMyInfo(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId)) {
             Person crnt = LogMan.getBySesId(sessionId);
+            if(crnt.getRole().equals("customer")){
+            crnt=(Customer)crnt;
+            } else {
+            crnt=(Employee)crnt;
+            }
             return crnt;
         }
         return null;

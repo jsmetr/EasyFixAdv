@@ -181,12 +181,12 @@ function techselcallback() {
 function fileTechs(XML) {
     var techSel = document.getElementById('technician');
     $('#technician').empty();
-    var option = document.createElement("option");
-    option.value = "automate";
-    option.innerHTML = "automate";
-    techSel.appendChild(option);
-    var option = document.createElement("option");
     if (XML.childNodes[0].childNodes.length > 0) {
+        var option = document.createElement("option");
+        option.value = "automate";
+        option.innerHTML = "automate";
+        techSel.appendChild(option);
+        var option = document.createElement("option");
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             option = document.createElement("option");
             var user = XML.childNodes[0].childNodes[loop];
@@ -194,8 +194,15 @@ function fileTechs(XML) {
             option.innerHTML = "" + user.getElementsByTagName("firstName")[0].childNodes[0].nodeValue + " " + user.getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
             techSel.appendChild(option);
         }
+    } else {
+    var option = document.createElement("option");
+    option.value = "noqualified";
+    option.innerHTML = "No qualified techs";
+    techSel.appendChild(option);
+    var option = document.createElement("option");
     }
     console.log(document.getElementById('device').value.toString().split(',')[1]);
+    getDeviceTypes();
 }
 
 function addNewTask() {
@@ -212,9 +219,9 @@ function addNewTask() {
     console.log(dueDate);
     var prio = document.getElementsByClassName("btn active").item(0).id;
     console.log(prio);
-    var deviceid=document.getElementById('device').value.toString().split(',')[0].toString();
+    var deviceid = document.getElementById('device').value.toString().split(',')[0].toString();
     console.log(deviceid);
-    var technician=document.getElementById('technician').value;
+    var technician = document.getElementById('technician').value;
     console.log(document.getElementById('device').value.toString().split(',')[0]);
 
     newTaskTemp.querySelector('.widget-user-username').innerText = title;
@@ -222,7 +229,7 @@ function addNewTask() {
     newTaskTemp.querySelector('#customerRequest').innerText = customer;
     newTaskTemp.querySelector('#due-dateTask').innerText = dueDate;
 
-    var url = RESTaddr + "webresources/Devices/CreateAssignment/"+title+"/"+deviceid+"/"+dueDate+"/"+prio+"/"+customer+"/"+technician+"/"+localStorage.getItem("sessionId");
+    var url = RESTaddr + "webresources/Devices/CreateAssignment/" + title + "/" + deviceid + "/" + dueDate + "/" + prio + "/" + customer + "/" + technician + "/" + localStorage.getItem("sessionId");
     req = initRequest();
     ///CreateAssignment/{title}/{deviceid}/{deadline}/{prio}/{customer}/{technician}/{sessionId}
     req.open("POST", url, true);
@@ -231,16 +238,16 @@ function addNewTask() {
 
     taskList.appendChild(newTaskTemp);
     /*
-    document.getElementById('addNewTaskForm').reset();
-    document.body.className ="dashboard";
-    document.getElementById('modal-add-task').className="modal fade";
-    document.getElementById('modal-add-task').style.display="none";
-    document.getElementsByClassName('modal-backdrop fade in').entries()[0].
-    */
+     document.getElementById('addNewTaskForm').reset();
+     document.body.className ="dashboard";
+     document.getElementById('modal-add-task').className="modal fade";
+     document.getElementById('modal-add-task').style.display="none";
+     document.getElementsByClassName('modal-backdrop fade in').entries()[0].
+     */
     //document.body.className.replace("no-javascript","")"dashboard";
 }
 
-function taskaddcallback(){
+function taskaddcallback() {
     if (req.readyState == 4) {
         if (req.status == 200) {
             console.log(req.responseText);
@@ -248,63 +255,121 @@ function taskaddcallback(){
     }
 }
 
-function getDeviceTypes(){
+function getDeviceTypes() {
     var url = RESTaddr + "webresources/Devices/Devicetypes";
-    req3 = initRequest();
-    req3.open("GET", url, true);
-    req3.onreadystatechange = gettypescallback;
-    req3.send(null);
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = gettypescallback;
+    req.send(null);
 }
 
-function gettypescallback(){
-    if (req3.readyState == 4) {
-        if (req3.status == 200) {
-            fileTypes(req3.responseXML);
+function gettypescallback() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            fileTypes(req.responseXML);
         }
     }
 }
 
-function fileTypes(){
-    var techSel = document.getElementById('technician');
-    $('#technician').empty();
-    var option = document.createElement("option");
-    option.value = "automate";
-    option.innerHTML = "automate";
-    techSel.appendChild(option);
-    var option = document.createElement("option");
+function fileTypes(XML) {
+    console.log(XML);
+    var devSel = document.getElementById('dev-types');
+    $('#dev-types').empty();
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
-            option = document.createElement("option");
+            var option = document.createElement("option");
             var user = XML.childNodes[0].childNodes[loop];
-            option.value = user.getElementsByTagName("userName")[0].childNodes[0].nodeValue;
-            option.innerHTML = "" + user.getElementsByTagName("firstName")[0].childNodes[0].nodeValue + " " + user.getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
-            techSel.appendChild(option);
+            option.value = user.getElementsByTagName("name")[0].childNodes[0].nodeValue.toString();
+            option.innerHTML = "" + user.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+            devSel.appendChild(option);
         }
     }
 }
 
 function addDevice() {
     ///AddDevice/{type}/{name}/{owner}/{manufacturer}/{model}/{sessionId}
-    var devtype= document.getElementById('dev-types').value;
+    var devtype = document.getElementById('dev-types').value;
     console.log(devtype);
     var name = document.getElementById('dev-name').value;
-    var owner = document.getElementById('owner').value;
-    var manu = document.getElementById('manufacturer').value;
-    var url = RESTaddr + "webresources/Devices/AddDevice/" +devtype+ "/" +name+ "/" +owner+ "/" +manu+ "/" + localStorage.getItem("sessionId");
+    var owner = document.getElementById('dev-owner').value;
+    var manu = document.getElementById('dev-manufacturer').value;
+    var url = RESTaddr + "webresources/Devices/AddDevice/" + devtype + "/" + name + "/" + owner + "/" + manu + "/" + localStorage.getItem("sessionId");
+    console.log(url);
     req = initRequest();
     req.open("POST", url, true);
     req.onreadystatechange = techselcallback;
     req.send(null);
     document.getElementById('addDeviceForm').reset();
+    getCustomers();
 }
 
-function adddevicecallback(){
+function adddevicecallback() {
     if (req.readyState == 4) {
         if (req.status == 200) {
             console.log(req.responseText);
         }
     }
 }
+
+function addType() {
+    console.log("hue");
+    //  /AddType/{name}/{data}/{sessionId}
+    var name = document.getElementById('type-name').value;
+    var data = document.getElementById('type-data').value;
+    var url = RESTaddr + "webresources/Devices/AddType/" + name + "/" + data + "/" + localStorage.getItem("sessionId");
+    console.log(url)
+    console.log(url);
+    req = initRequest();
+    req.open("POST", url, true);
+    req.onreadystatechange = addtypecallback;
+    req.send(null);
+    document.getElementById('addTypeForm').reset();
+    getCustomers();
+}
+
+function addtypecallback() {
+    console.log("hue");
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            console.log(req.responseText);
+        }
+    }
+}
+
+function addCustomer(){
+    // /AddCust/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{address}/{city}/{state}/{zipcode}/{sessionId}
+    var devtype = document.getElementById('dev-types').value;
+    console.log(devtype);
+    var fname = document.getElementById('fname').value.toString();
+    var lname = document.getElementById('lname').value.toString();
+    var uname = document.getElementById('username').value.toString();
+    var psw = document.getElementById('password').value.toString();
+    var email = document.getElementById('email').value.toString();
+    var phone = document.getElementById('phone').value.toString();
+    var address = document.getElementById('address').value.toString();
+    var city = document.getElementById('city').value.toString();
+    var state = document.getElementById('state').value.toString();
+    var zipcode = document.getElementById('zipcode').value.toString();
+    var url = RESTaddr + "webresources/Users/AddCust/" + fname+"/"+lname+"/"+uname+"/"+psw +  "/" + email + "/" + phone + "/" + address + "/" + city + "/" + state + "/" + zipcode + "/" + localStorage.getItem("sessionId");
+    console.log(url);
+    req = initRequest();
+    req.open("POST", url, true);
+    req.onreadystatechange = addcustcallback;
+    req.send(null);
+    document.getElementById('addCustForm').reset();
+    getCustomers();
+}
+
+function addcustcallback(){
+    console.log("hue");
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            console.log(req.responseText);
+        }
+    }
+}
+
+function fileAssignments(){}
 
 /* 
  //
