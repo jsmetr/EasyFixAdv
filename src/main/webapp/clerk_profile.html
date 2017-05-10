@@ -29,7 +29,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">
+    <body id="mimin" class="dashboard" onload="initForProfile()">
         <!-- start: modal-add-task -->
         <!-- Modal -->
         <div class="modal fade" id="modal-add-task" role="dialog">
@@ -388,7 +388,7 @@
                     <ul class="nav nav-list">
                         <li><div class="left-bg"></div></li>
                         <li class="ripple"><a href="clerk.html"><span class="fa fa-tasks"></span>Active tasks</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-comments"></span>Reviews</a></li>
+                        <li class="ripple"><a href="reviews.html"><span class="fa fa-comments"></span>Reviews</a></li>
                         <li class="ripple"><a href="clerk_profile.html"><span class="fa fa-user"></span>Profile</a></li>
                         <li class="ripple" onclick="logout()"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
                     </ul>
@@ -404,7 +404,7 @@
                             <div class="col-md-12 padding-0">
                                 <div class="panel panel-info">
                                     <div class="panel-heading">
-                                        <h2 class="panel-title">Firstname Lastname</h2>
+                                        <h2 class="panel-title" id="fullName-profile">Firstname Lastname</h2>
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -415,7 +415,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td><span class="fa fa-user padded"></span>Username:</td>
-                                                            <td>Username</td>
+                                                            <td id="uName-profile">Username</td>
                                                         </tr>
                                                         <tr>
                                                             <td><span class="fa fa-male padded"></span>Role:</td>
@@ -441,10 +441,10 @@
                                                         </tr>
                                                         <tr>
                                                             <td><span class="fa fa-envelope padded"></span>Email</td>
-                                                            <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                                            <td><a href="#"><span id="email-profile">info@support.com</span></a></td>
                                                         </tr>
                                                     <td><span class="fa fa-phone padded"></span>Phone Number</td>
-                                                    <td>123-4567-890
+                                                    <td id="phone-profile">123-4567-890
                                                     </td>
 
                                                     </tr>

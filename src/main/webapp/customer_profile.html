@@ -29,7 +29,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">
+    <body id="mimin" class="dashboard" onload="initForProfile()">
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -59,8 +59,8 @@
                 <div class="sub-left-menu scroll">
                     <ul class="nav nav-list">
                         <li><div class="left-bg"></div></li>
-                        <li class="ripple"><a href="customer_orders.html"><span class="fa fa-shopping-cart"></span>Orders</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-comments"></span>Reviews</a></li>
+                        <li class="ripple"><a href="customer.html"><span class="fa fa-shopping-cart"></span>Orders</a></li>
+                        <li class="ripple"><a href="reviews.html"><span class="fa fa-comments"></span>Reviews</a></li>
                         <li class="ripple"><a href="customer_profile.html"><span class="fa fa-user"></span>Profile</a></li>
                         <li class="ripple" onclick="logout()"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
                     </ul>
@@ -76,7 +76,7 @@
                             <div class="col-md-12 padding-0">
                                 <div class="panel panel-info">
                                     <div class="panel-heading">
-                                        <h2 class="panel-title">Firstname Lastname</h2>
+                                        <h2 class="panel-title" id="fullName-profile">Firstname Lastname</h2>
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
@@ -86,37 +86,37 @@
                                                 <table class="table table-user-information">
                                                     <tbody>
                                                         <tr>
-                                                            <td>Username:</td>
-                                                            <td>Username</td>
+                                                            <td><span class="fa fa-user padded"></span>Username:</td>
+                                                            <td id="uName-profile">Username</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Role:</td>
+                                                            <td><span class="fa fa-male padded"></span>Role:</td>
                                                             <td>Customer</td>
                                                         </tr>
                                                         
                                                         <tr>
                                                         <tr>
-                                                            <td>State</td>
-                                                            <td>Espoo</td>
+                                                            <td><span class="fa fa-flag padded"></span>State</td>
+                                                            <td id="state-profile">Espoo</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Home City</td>
-                                                            <td>Espoo</td>
+                                                            <td><span class="fa fa-building padded"></span>Home City</td>
+                                                            <td id="city-profile">Espoo</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Zip Code</td>
-                                                            <td>Espoo</td>
+                                                            <td><span class="fa fa-map-marker padded"></span>Zip Code</td>
+                                                            <td id="zipCode-profile">Espoo</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Address</td>
-                                                            <td>Espoo</td>
+                                                            <td><span class="fa fa-map padded"></span>Address</td>
+                                                            <td id="address-profile">Espoo</td>
                                                         </tr>
                                                         <tr>
                                                             <td><span class="fa fa-envelope padded"></span>Email</td>
-                                                            <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                                            <td><a href="#"><span id="email-profile">info@support.com</span></a></td>
                                                         </tr>
                                                     <td><span class="fa fa-phone padded"></span>Phone Number</td>
-                                                    <td>123-4567-890
+                                                    <td id="phone-profile">123-4567-890
                                                     </td>
 
                                                     </tr>
