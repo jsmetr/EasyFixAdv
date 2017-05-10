@@ -151,11 +151,11 @@ public class TestingResource {
         newemp2.changeSkill("television", 2);
         newemp2.changeSkill("toaster", 9);
         newemp2.changeSkill("iphone", 5);
-        newemp2.changeSkill("lawnmover", 1);
+        newemp2.changeSkill("lawnmower", 1);
         String roles22 = ("technician");
         Employee newemp22 = new Employee("Jim", "Masters", "JimMast", "putzle","jmasters@parnanen.fi","555 5555 555", 1, roles22);
         UseMan.addEmployee(newemp22);
-        newemp22.changeSkill("lawnmover", 4);
+        newemp22.changeSkill("lawnmower", 4);
         newemp22.changeSkill("iphone", 8);
         newemp22.changeSkill("electric stove", 3);
         String roles23 = ("technician");
@@ -179,6 +179,7 @@ public class TestingResource {
         UseMan.addCustomer(cust2);
         UseMan.addCustomer(cust3);
         UseMan.addCustomer(cust4);
+        stockAssignments();
         return "populated";
     }
     
@@ -211,7 +212,7 @@ public class TestingResource {
         Assignment a2 = new Assignment("Broken Screen",iphone9k,"2017-11-07T10:15","GaryStu","TimRuss","WeLiang",0);
         Assignment a3 = new Assignment("Snapped mower blade",Hondamower,"2017-06-01T10:15","JillDoe","TimRuss","JimMast",0);
         Assignment a4 = new Assignment("Smokes when used",btoaster,"2017-06-05T10:15","KirkRid","MikeJob","JohnDoe",2);
-        Assignment a5 = new Assignment("Virus infection",iphoned,"2017-07-03T10:15","JillDoe","EddSlat","JimMast",1);
+        Assignment a5 = new Assignment("Virus infection",iphoned,"2017-07-03T10:15","JillDoe","EddSlat","JohnDoe",1);
         Assignment a6 = new Assignment("Bad signal",ttv,"2017-06-24T10:15","MonicaS","TimRuss","JohnDoe",1);
         DevMan.addAssignment(a1);
         DevMan.addAssignment(a2);
@@ -220,6 +221,7 @@ public class TestingResource {
         DevMan.addAssignment(a5);
         DevMan.addAssignment(a6);
         String hashed=" "+a1.hashCode()+" "+a2.hashCode()+" "+a3.hashCode()+" "+a4.hashCode()+" "+a5.hashCode()+""+a6.hashCode();
+        
         return "stocked: "+DevMan.getTypes().size()+" devicetypes, "+DevMan.getDevices().size()+" devices, "+DevMan.getAssignments().size()+" assignments, hashes: "+hashed;
     }
 
@@ -275,5 +277,27 @@ public class TestingResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String defaulting() {
         return "Swing and a miss.";
+    }
+    
+    public ReviewShell createReview(int rating) {
+        if (DevMan.testReview == null) {
+            String junk1 = "This text is filler. This text is filler. This text is filler. This text is filler. This text is filler. This text is filler.";
+            String junk2 = "This is a filler review. This is a filler review. This is a filler review. This is a filler review. This is a filler review.";
+            String junk3 = "This comment on comment is filler. This comment on comment is filler. This comment on comment is filler. This comment on comment is filler. ";
+            String junk4 = "This is another comment on comment as well as filler. This is another comment on comment as well as filler. This is another comment on comment as well as filler.";
+            String junk5 = "This is another direct response. This is another direct response. This is another direct response. ";
+            Review rvw = new Review("Junkreview", rating, junk2, "ProReviewer", "username1");
+            ReviewShell shell = new ReviewShell(rvw);
+            Comment cmnt1 = new Comment(junk1, "PlainUser", "username2");
+            Comment cmnt2 = new Comment(junk3, "ProReviewer", "username1");
+            Comment cmnt3 = new Comment(junk4, "Junkmaker", "username3");
+            Comment cmnt4 = new Comment(junk5, "Junkmaker", "username3");
+            shell.commentOn(cmnt1);
+            shell.commentOn(cmnt4);
+            shell.respond(cmnt2,cmnt1.getId());
+            shell.respond(cmnt3,cmnt1.getId());
+            DevMan.testReview = shell;
+        }
+        return DevMan.testReview;
     }
 }

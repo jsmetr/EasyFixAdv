@@ -20,7 +20,7 @@ import java.util.TreeSet;
 public class DeviceManager implements Serializable{
 
     private String filename = "DeviceManagerStorage.txt"; //Must match UserHolder.getManager() deserialization filename.
-    private Set<Assignment> assignments = new HashSet<Assignment>();
+    private Set<Assignment> assignments = new TreeSet<Assignment>();
     private Set<Device> devices = new TreeSet<Device>();
     private Set<DeviceType> devicetypes = new TreeSet<DeviceType>();
     private LinkedList<Comment> modQueue;
@@ -101,6 +101,15 @@ public class DeviceManager implements Serializable{
 
     public Set<Assignment> getAssignments() {
         return this.assignments;
+    }
+
+    public Assignment getAssignmentById(int id) {
+        for (Assignment a : assignments) {
+            if (a.getId() == id) {
+                return a;
+            }
+        }
+        return null;
     }
 
     public Set<Device> getDevices() {
