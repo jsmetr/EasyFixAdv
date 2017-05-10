@@ -29,6 +29,7 @@
     </head>
 
     <body id="mimin" class="dashboard">
+        
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -96,7 +97,7 @@
                     <div class="col-md-12 padding-0">
                         <div class="col-md-12 padding-0">
                             <div class="col-md-12 padding-0">
-                                <template id="newTask-template">
+<!--                                <template id="reply-template">-->
                                 <div class="panel panel-white post panel-shadow">
                                     <div class="post-heading">
                                         <div class="pull-left image">
@@ -122,6 +123,29 @@
                                             </a>
                                         </div>
                                     </div>
+            <!-- start: modal-reply -->
+        <div class="modal fade" id="modal-reply">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Reply</h4>
+                    </div><div class="container"></div>
+                    <div class="modal-body padding-0">
+                        <form>
+                            <div class="contentform">          
+                                    <div class="form-group">
+                                        <p>Write your comment</p>	
+                                        <textarea name="reply" rows="14" data-rule="required"></textarea>
+                                    </div>
+                            </div>
+                        </form>
+                        <button type="submit" class="bouton-contact">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: modal-reply>
             <!-- start: collapse-comments -->
             <div class="collapse" id="collapse-comments">
                 <div class="post-footer">
@@ -133,7 +157,7 @@
                             <div class="comment-body">
                                 <div class="comment-heading">
                                     <h4 class="user">Gavino Free</h4>
-                                    <h5 class="time">Posting date | Reply</h5>
+                                    <h5 class="time">Posting date | <a data-target="#modal-reply" data-toggle="modal"> Reply</a></h5>
                                 </div>
                                 <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
                             </div>
@@ -176,7 +200,7 @@
             </div>
             <!-- end: content -->
         </div>
-                                </template>
+<!--        </template>-->
 
         <!-- start: Javascript -->
         <script src="asset/js/jquery.min.js"></script>
