@@ -28,7 +28,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">
+    <body id="mimin" class="dashboard" onload="clerkInit()">
         <!-- start: modal-view-customer -->
         <div class="modal fade" id="modal-view-customer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -160,14 +160,14 @@
                                     <div class="form-group">
                                         <p>Device <span>*</span></p>	
                                         <div class="input-group form-group">
-                                            <span class="input-group-addon" onclick="getDeviceTypes()"><i class="fa fa-cogs"></i></span>
+                                            <span class="input-group-addon" ><i class="fa fa-cogs" ></i></span>
                                             <select id="device" class="selectpicker form-control" data-live-search="true" onchange="getTechnicians()">
                                                 <option>Device 01</option>
                                                 <option>Device 02</option>
                                                 <option>Device 03</option>
                                                 <option>Device 04</option>
                                             </select>
-                                            <span class="input-group-addon"><a data-toggle="modal" href="#modal-add-device"><i class="fa fa-plus"></i></a></span>
+                                            <span class="input-group-addon"><a data-toggle="modal" href="#modal-add-device"><i class="fa fa-plus" onclick="getDeviceTypes()"></i></a></span>
                                         </div>                                        <div class="validation"></div>
                                     </div>
 
@@ -230,7 +230,7 @@
                                                 <option>Type 03</option>
                                                 <option>Type 04</option>
                                             </select>
-                                            <span class="input-group-addon"><a data-toggle="modal" href='#modal-add-device-type' onclick="getTypes()"><i class="fa fa-plus"></i></a></span>
+                                            <span class="input-group-addon"><a data-toggle="modal" href='#modal-add-device-type'><i class="fa fa-plus"></i></a></span>
                                         </div>                                        <div class="validation"></div>
                                     </div>
 
@@ -264,7 +264,7 @@
                             </div>
 
                         </form>
-                        <button type="button" class="bouton-contact" onclick="addDevice()">Save</button>
+                        <button type="button" class="bouton-contact" onclick="addDevice()" data-dismiss="modal">Save</button>
                     </div>
                 </div>
             </div>
@@ -280,7 +280,7 @@
                         <h4 class="modal-title">Add new customer</h4>
                     </div><div class="container"></div>
                     <div class="modal-body padding-0">
-                        <form>
+                        <form id="addCustForm">
                             <div class="contentform">
                                 <div class="leftcontact">
 
@@ -308,7 +308,7 @@
                                     <div class="form-group">
                                         <p>Password <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-lock"></i></span>
-                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <input type="text" name="fname" id="password" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div> 	
 
@@ -328,40 +328,40 @@
                                     <div class="form-group">
                                         <p>State <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-flag"></i></span>
-                                        <input type="text" name="lname" id="lname" data-rule="required"/>
+                                        <input type="text" name="lname" id="state" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <p>Zip code <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-map-marker"></i></span>
-                                        <input type="text" name="phone" id="phone" data-rule="required"/>
+                                        <input type="text" name="phone" id="zipcode" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <p>City <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-building"></i></span>
-                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <input type="text" name="fname" id="city" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <p>Address <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-map-o"></i></span>
-                                        <input type="text" name="lname" id="lname" data-rule="required"/>
+                                        <input type="text" name="lname" id="address" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <p>Phone <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-phone"></i></span>
-                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <input type="text" name="fname" id="phone" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="bouton-contact">Save</button>
+                            <button type="button" class="bouton-contact" onclick="addCustomer()" data-dismiss="modal">Save</button>
                         </form>
                     </div>
                 </div>
@@ -378,7 +378,7 @@
                         <h4 class="modal-title">Add new device type</h4>
                     </div><div class="container"></div>
                     <div class="modal-body padding-0">
-                        <form>
+                        <form id="addTypeForm">
                             <div class="contentform">
                                 <div class="leftcontact">
                                     <div class="form-group">
@@ -403,7 +403,7 @@
                             </div>
 
                         </form>
-                        <button type="submit" class="bouton-contact">Save</button>
+                        <button type="button" class="bouton-contact" onclick="addType()" data-dismiss="modal">Save</button>
                     </div>
                 </div>
             </div>
@@ -569,69 +569,77 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h2>Returned tasks</h2>
-                                    <div class="box box-widget widget-user">
-                                        <div class="widget-user-header bg-green">
-                                            <span class='pull-right'><i class="fa fa-archive fa-2x" aria-hidden="true"></i></span>
-                                            <h3 class="widget-user-username">Replace screen</h3>
-                                            <h5 class="widget-user-desc"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
-                                        </div>
-                                        <div class="widget-user-image">
-                                            <a data-toggle="modal" data-target="#modal-view-technician"><img class="img-circle" src="asset/img/avatar-face.jpg"></a>
-                                        </div>
-                                        <div class="box-footer">
-                                            <div class="row">
-                                                <div class="col-sm-4 border-right">
-                                                    <div class="description-block">
 
-                                                        <span class="description-text"><a data-toggle="modal" data-target="#modal-view-customer"><i class="fa fa-user padded"></i>Customer Name</a></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 border-right">
-                                                    <div class="description-block">
+                                    <div id="returned-tasks">
 
-                                                        <span class="description-text"><i class="fa fa-calendar-o padded"></i>28 Jun 2015</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="description-block">
-                                                        <span class="description-text"><i class="fa fa-check padded"></i>Repaired</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box box-widget widget-user">
-                                        <div class="widget-user-header bg-red">
-                                            <span class='pull-right'><i class="fa fa-archive fa-2x" aria-hidden="true"></i></span>
-                                            <h3 class="widget-user-username">Replace screen</h3>
-                                            <h5 class="widget-user-desc"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
-                                        </div>
-                                        <div class="widget-user-image">
-                                            <a data-toggle="modal" data-target="#modal-view-technician"><img class="img-circle" src="asset/img/avatar-face.jpg"></a>
-                                        </div>
-                                        <div class="box-footer">
-                                            <div class="row">
-                                                <div class="col-sm-4 border-right">
-                                                    <div class="description-block">
-
-                                                        <span class="description-text"><a data-toggle='modal' data-target='#modal-view-customer'><i class="fa fa-user padded"></i>Customer Name</a></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 border-right">
-                                                    <div class="description-block">
-
-                                                        <span class="description-text"><i class="fa fa-calendar-o padded"></i>28 Jun 2015</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="description-block">
-                                                        <span class="description-text"><i class="fa fa-times padded"></i>Returned</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
+                                    <template id="canceled-template">
+                                        <div class="box box-widget widget-user">
+                                            <div class="widget-user-header bg-green">
+                                                <span class='pull-right'><i class="fa fa-archive fa-2x" aria-hidden="true"></i></span>
+                                                <h3 class="widget-user-username">Replace screen</h3>
+                                                <h5 class="widget-user-desc" id="cancelname"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
+                                            </div>
+                                            <div class="widget-user-image">
+                                                <a data-toggle="modal" data-target="#modal-view-technician"><img class="img-circle" src="asset/img/avatar-face.jpg"></a>
+                                            </div>
+                                            <div class="box-footer">
+                                                <div class="row">
+                                                    <div class="col-sm-4 border-right">
+                                                        <div class="description-block">
+
+                                                            <span class="description-text" id="customer"><a data-toggle="modal" data-target="#modal-view-customer"><i class="fa fa-user padded"></i>Customer Name</a></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 border-right">
+                                                        <div class="description-block">
+
+                                                            <span class="description-text" id="canceldate"><i class="fa fa-calendar-o padded"></i>28 Jun 2015</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="description-block">
+                                                            <span class="description-text"><i class="fa fa-check padded"></i>Repaired</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template id="repaired-template">
+                                        <div class="box box-widget widget-user">
+                                            <div class="widget-user-header bg-red">
+                                                <span class='pull-right'><i class="fa fa-archive fa-2x" aria-hidden="true"></i></span>
+                                                <h3 class="widget-user-username">Replace screen</h3>
+                                                <h5 class="widget-user-desc"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
+                                            </div>
+                                            <div class="widget-user-image">
+                                                <a data-toggle="modal" data-target="#modal-view-technician"><img class="img-circle" src="asset/img/avatar-face.jpg"></a>
+                                            </div>
+                                            <div class="box-footer">
+                                                <div class="row">
+                                                    <div class="col-sm-4 border-right">
+                                                        <div class="description-block">
+
+                                                            <span class="description-text"><a data-toggle='modal' data-target='#modal-view-customer'><i class="fa fa-user padded"></i>Customer Name</a></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 border-right">
+                                                        <div class="description-block">
+
+                                                            <span class="description-text"><i class="fa fa-calendar-o padded"></i>28 Jun 2015</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="description-block">
+                                                            <span class="description-text"><i class="fa fa-times padded"></i>Returned</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
                             </div>
 
                         </div>

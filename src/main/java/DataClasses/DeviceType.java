@@ -52,7 +52,7 @@ public class DeviceType  implements Serializable, Comparable<DeviceType>{
 
     @Override
     public int hashCode() {
-        int hash = 1 + 13 * this.typename.hashCode();
+        int hash = 1 + 13 * this.typename.hashCode()+7*this.typedata.hashCode();
         return hash;
     }
 

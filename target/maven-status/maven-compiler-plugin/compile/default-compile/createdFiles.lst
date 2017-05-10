@@ -19,6 +19,7 @@ DataClasses\Comment.class
 DataManagement\SessionGen$1.class
 DataManagement\LoginManager$LoginHolder.class
 Resources\DeviceResource.class
+DataClasses\WorkLoad.class
 DataClasses\RepairSkill.class
 DataManagement\Serializer.class
 DataManagement\DeviceManager.class

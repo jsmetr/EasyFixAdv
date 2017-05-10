@@ -36,8 +36,6 @@ public class DeviceResource {
     DeviceManager DevMan = DeviceManager.getInstance();
     UserManager UseMan = UserManager.getInstance();
 
-    @POST
-    @Produces(MediaType.TEXT_PLAIN)
     public String herp(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId)) {
 
@@ -66,6 +64,74 @@ public class DeviceResource {
         return DevMan.getAssignments();
     }
 
+    @Path("/Assignments/Active/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Assignment> getActiveAssignment(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+            Set<Assignment> all = DevMan.getAssignments();
+            Set<Assignment> active = new TreeSet<Assignment>();
+            for (Assignment a : all) {
+                if (a.getStatus() == 0) {
+                    active.add(a);
+                }
+            }
+            return active;
+        }
+        return null;
+    }
+
+    @Path("/Assignments/Canceled/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Assignment> getCanceledAssignment(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+            Set<Assignment> all = DevMan.getAssignments();
+            Set<Assignment> active = new TreeSet<Assignment>();
+            for (Assignment a : all) {
+                if (a.getStatus() < 0) {
+                    active.add(a);
+                }
+            }
+            return active;
+        }
+        return null;
+    }
+
+    @Path("/Assignments/Repaired/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Assignment> getRepairedAssignment(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+            Set<Assignment> all = DevMan.getAssignments();
+            Set<Assignment> active = new TreeSet<Assignment>();
+            for (Assignment a : all) {
+                if (a.getStatus() == 1) {
+                    active.add(a);
+                }
+            }
+            return active;
+        }
+        return null;
+    }
+
+    @Path("/Assignments/Archived/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Assignment> getArchivedAssignment(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+            Set<Assignment> all = DevMan.getAssignments();
+            Set<Assignment> active = new TreeSet<Assignment>();
+            for (Assignment a : all) {
+                if (a.getStatus() == 2) {
+                    active.add(a);
+                }
+            }
+            return active;
+        }
+        return null;
+    }
+
     /*
     Grabs all devices owned by a customer.
      */
@@ -85,7 +151,7 @@ public class DeviceResource {
         return null;
     }
 
-    @Path("/AddDevice/{type}/{name}/{owner}/{manufacturer}/{model}/{sessionId}")
+    @Path("/AddDevice/{type}/{name}/{owner}/{manufacturer}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     public String addDevice(@PathParam("sessionId") String sessionId, @PathParam("name") String name, @PathParam("type") String type,
@@ -95,7 +161,7 @@ public class DeviceResource {
                 return "ACCESS DENIED";
             }
             DeviceType devtype = DevMan.getTypeByName(type);
-            Device device = new Device(owner, name, devtype, manufacturer, model);//String owner, String name, DeviceType type,String manufacturer,String model
+            Device device = new Device(owner, name, devtype, manufacturer);//String owner, String name, DeviceType type,String manufacturer,String model
             boolean added = DevMan.addDevice(device);
             if (added) {
                 return "DEVICE ADDED";
@@ -132,14 +198,17 @@ public class DeviceResource {
             if (LogMan.getBySesId(sessionId).getAccess() < 1) {
                 return "ACCESS DENIED";
             }
+            if (technician.equals("noqualified")) {
+                return "NO QUALIFIED STAFF";
+            }
             String clerk = LogMan.getBySesId(sessionId).getUserName();
             Device item = DevMan.getDeviceById(Integer.parseInt(deviceid));
             if (technician.equals("automate")) {
-                UserResource temp= new UserResource();
+                UserResource temp = new UserResource();
                 Set<Employee> techs = temp.getTechByType(sessionId, item.getType().getName());
                 technician = pickTech(item.getType().getName(), techs);
             }
-            Assignment created = new Assignment(title, item, deadline+"T15:00", customer, clerk, technician, Integer.parseInt(priority));
+            Assignment created = new Assignment(title, item, deadline + "T15:00", customer, clerk, technician, Integer.parseInt(priority));
             boolean added = DevMan.addAssignment(created);
             if (added) {
                 return "ASSIGNMENT CREATED";
@@ -168,11 +237,11 @@ public class DeviceResource {
         }
         return null;
     }
-    
+
     @Path("/Assignment/{assignmentid}/{newstatus}/{sessionId}")
     @PUT
     @Produces(MediaType.TEXT_PLAIN)
-    public String updateStatus(@PathParam("sessionId") String sessionId,@PathParam("assignmentid") String id,@PathParam("newstatus") String status){
+    public String updateStatus(@PathParam("sessionId") String sessionId, @PathParam("assignmentid") String id, @PathParam("newstatus") String status) {
         if (LogMan.CheckSession(sessionId)) {
             int getid = Integer.parseInt(id);
             int setstatus = Integer.parseInt(status);
@@ -349,6 +418,32 @@ public class DeviceResource {
         return reviews; //even if there are not enough to fill the quota, whatever was found is returned.
     }
 
+    @Path("/Graph/Assignments/ByType/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<WorkLoad> grabbystatus(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+            Set<Assignment> all = DevMan.getAssignments();
+            Set<WorkLoad> active = new TreeSet<WorkLoad>();
+            boolean addnew = true;
+            for (Assignment a : all) {
+                addnew = true;
+                for (WorkLoad wl : active) {
+                    if (wl.getName().equals(a.getDevice().getType().getName())) {
+                        wl.countUp();
+                        addnew = false;
+                    }
+                }
+                if(addnew){
+                WorkLoad newload = new WorkLoad(a.getDevice().getType().getName());
+                active.add(newload);
+                }
+            }
+            return active;
+        }
+        return null;
+    }
+
     public String pickTech(String type, Set<Employee> techs) {
         ArrayList<WorkLoad> wlset = new ArrayList<WorkLoad>();
         for (Employee t : techs) {
@@ -356,12 +451,12 @@ public class DeviceResource {
             wlset.add(wl);
         }
         for (Assignment a : DevMan.getAssignments()) {
-            if(a.getStatus()==0){
-            for (WorkLoad load : wlset) {
-                if (load.getName().equals(a.getTechnician())) {
-                    load.countUp();
+            if (a.getStatus() == 0) {
+                for (WorkLoad load : wlset) {
+                    if (load.getName().equals(a.getTechnician())) {
+                        load.countUp();
+                    }
                 }
-            }
             }
         }
         Collections.sort(wlset);
