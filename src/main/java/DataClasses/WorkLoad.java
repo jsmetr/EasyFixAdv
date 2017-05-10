@@ -5,6 +5,7 @@
  */
 package DataClasses;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jarno
  */
 @XmlRootElement
-public class WorkLoad implements Comparable<WorkLoad>{
+public class WorkLoad implements Comparable<WorkLoad>, Serializable{
 
     /*
     A simple Employee+integer shell to help sort technicians by workload.
