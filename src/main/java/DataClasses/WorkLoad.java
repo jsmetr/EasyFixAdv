@@ -5,10 +5,14 @@
  */
 package DataClasses;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author Jarno
  */
+@XmlRootElement
 public class WorkLoad implements Comparable<WorkLoad>{
 
     /*
@@ -25,10 +29,12 @@ public class WorkLoad implements Comparable<WorkLoad>{
         this.jobcount++;
     }
     
+    @XmlElement
     public int getCount(){
         return this.jobcount;
     }
     
+    @XmlElement
     public String getName(){
         return this.techname;
     }

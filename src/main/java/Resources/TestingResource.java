@@ -245,6 +245,7 @@ public class TestingResource {
         createReview(4,a6);
         createReview(8,a2);
         createReview(10,a3);
+        DevMan.save();
         return "stocked: " + DevMan.getTypes().size() + " devicetypes, " + DevMan.getDevices().size() + " devices, " + DevMan.getAssignments().size() + " assignments, hashes: " + hashed;
     }
     
