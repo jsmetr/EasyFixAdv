@@ -6,6 +6,7 @@
 
 var req;
 var req2;
+var req3;
 var RESTaddr;
 
 function init() {
@@ -110,6 +111,7 @@ function fileCustomers(XML) {
     var ownSel = document.getElementById('dev-owner');
     $('#customer').empty();
     $('#dev-owner').empty();
+    console.log(XML);
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var option = document.createElement("option");
@@ -128,6 +130,7 @@ function fileCustomers(XML) {
 
 function getDevices() {
     var url = RESTaddr + "webresources/Devices/" + document.getElementById('customer').value + "/" + localStorage.getItem("sessionId");
+    console.log(url);
     req = initRequest();
     req.open("GET", url, true);
     req.onreadystatechange = devselcallback;
@@ -145,6 +148,7 @@ function devselcallback() {
 function fileDevices(XML) {
     var devSel = document.getElementById('device');
     $('#device').empty();
+    console.log(XML);
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var option = document.createElement("option");
@@ -226,7 +230,14 @@ function addNewTask() {
     req.send(null);
 
     taskList.appendChild(newTaskTemp);
+    /*
     document.getElementById('addNewTaskForm').reset();
+    document.body.className ="dashboard";
+    document.getElementById('modal-add-task').className="modal fade";
+    document.getElementById('modal-add-task').style.display="none";
+    document.getElementsByClassName('modal-backdrop fade in').entries()[0].
+    */
+    //document.body.className.replace("no-javascript","")"dashboard";
 }
 
 function taskaddcallback(){
@@ -237,8 +248,62 @@ function taskaddcallback(){
     }
 }
 
-function addCustomer() {
+function getDeviceTypes(){
+    var url = RESTaddr + "webresources/Devices/Devicetypes";
+    req3 = initRequest();
+    req3.open("GET", url, true);
+    req3.onreadystatechange = gettypescallback;
+    req3.send(null);
+}
 
+function gettypescallback(){
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            fileTypes(req3.responseXML);
+        }
+    }
+}
+
+function fileTypes(){
+    var techSel = document.getElementById('technician');
+    $('#technician').empty();
+    var option = document.createElement("option");
+    option.value = "automate";
+    option.innerHTML = "automate";
+    techSel.appendChild(option);
+    var option = document.createElement("option");
+    if (XML.childNodes[0].childNodes.length > 0) {
+        for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+            option = document.createElement("option");
+            var user = XML.childNodes[0].childNodes[loop];
+            option.value = user.getElementsByTagName("userName")[0].childNodes[0].nodeValue;
+            option.innerHTML = "" + user.getElementsByTagName("firstName")[0].childNodes[0].nodeValue + " " + user.getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
+            techSel.appendChild(option);
+        }
+    }
+}
+
+function addDevice() {
+    ///AddDevice/{type}/{name}/{owner}/{manufacturer}/{model}/{sessionId}
+    var devtype= document.getElementById('dev-types').value;
+    console.log(devtype);
+    var name = document.getElementById('dev-name').value;
+    var owner = document.getElementById('owner').value;
+    var manu = document.getElementById('manufacturer').value;
+    var url = RESTaddr + "webresources/Devices/AddDevice/" +devtype+ "/" +name+ "/" +owner+ "/" +manu+ "/" + localStorage.getItem("sessionId");
+    req = initRequest();
+    req.open("POST", url, true);
+    req.onreadystatechange = techselcallback;
+    req.send(null);
+    document.getElementById('addDeviceForm').reset();
+}
+
+function adddevicecallback(){
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            console.log(req.responseText);
+        }
+    }
 }
 
 /* 

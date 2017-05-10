@@ -145,7 +145,7 @@
                                     <div class="form-group">
                                         <p>Customer<span>*</span></p>
                                         <div class="input-group form-group">
-                                            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                                            <span class="input-group-addon" ><i class="fa fa-male"></i></span>
                                             <select id="customer" class="selectpicker form-control" data-live-search="true" onchange="getDevices()">
                                                 <option>Surname01 Name01</option>
                                                 <option>Surname02 Name02</option>
@@ -160,7 +160,7 @@
                                     <div class="form-group">
                                         <p>Device <span>*</span></p>	
                                         <div class="input-group form-group">
-                                            <span class="input-group-addon"><i class="fa fa-cogs"></i></span>
+                                            <span class="input-group-addon" onclick="getDeviceTypes()"><i class="fa fa-cogs"></i></span>
                                             <select id="device" class="selectpicker form-control" data-live-search="true" onchange="getTechnicians()">
                                                 <option>Device 01</option>
                                                 <option>Device 02</option>
@@ -193,7 +193,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="bouton-contact">Save</button>
+                            <button type="button" class="bouton-contact" onclick="addNewTask()" data-dismiss="modal">Save</button>
                         </form>
                     </div>
                 </div>
@@ -210,7 +210,7 @@
                         <h4 class="modal-title">Add new device</h4>
                     </div><div class="container"></div>
                     <div class="modal-body padding-0">
-                        <form>
+                        <form id="addDeviceForm">
                             <div class="contentform">
                                 <div class="leftcontact">
                                     <div class="form-group">
@@ -230,7 +230,7 @@
                                                 <option>Type 03</option>
                                                 <option>Type 04</option>
                                             </select>
-                                            <span class="input-group-addon"><a data-toggle="modal" href='#modal-add-device-type'><i class="fa fa-plus"></i></a></span>
+                                            <span class="input-group-addon"><a data-toggle="modal" href='#modal-add-device-type' onclick="getTypes()"><i class="fa fa-plus"></i></a></span>
                                         </div>                                        <div class="validation"></div>
                                     </div>
 
@@ -256,12 +256,7 @@
                                         <p>Manufacturer <span>*</span></p>	
                                         <div class="input-group form-group">
                                             <span class="input-group-addon"><i class="fa fa-male"></i></span>
-                                            <select id="dev-manufacturer" class="selectpicker form-control" data-live-search="true">
-                                                <option>Samsung</option>
-                                                <option>Bosch</option>
-                                                <option>Sony</option>
-                                                <option>Other</option>
-                                            </select>
+                                            <input type="text" name="dev-name" id="dev-manufacturer" data-rule="required"/>
                                         </div>
                                         <div class="validation"></div>
                                     </div>
@@ -269,7 +264,7 @@
                             </div>
 
                         </form>
-                        <button type="submit" class="bouton-contact">Save</button>
+                        <button type="button" class="bouton-contact" onclick="addDevice()">Save</button>
                     </div>
                 </div>
             </div>
@@ -389,7 +384,7 @@
                                     <div class="form-group">
                                         <p>Device type name <span>*</span></p>	
                                         <span class="icon-case"><i class="fa fa-comment-o"></i></span>
-                                        <input type="text" name="dev-name" id="dev-name" data-rule="required"/>
+                                        <input type="text" name="dev-name" id="type-name" data-rule="required"/>
                                         <div class="validation"></div>
                                     </div>
                                 </div>
@@ -397,15 +392,10 @@
                                 <div class="rightcontact">	
 
                                     <div class="form-group">
-                                        <p>Manufacturer <span>*</span></p>	
+                                        <p>Type Data<span>*</span></p>	
                                         <div class="input-group form-group">
                                             <span class="input-group-addon"><i class="fa fa-male"></i></span>
-                                            <select id="dev-manufacturer" class="selectpicker form-control" data-live-search="true">
-                                                <option>Samsung</option>
-                                                <option>Bosch</option>
-                                                <option>Sony</option>
-                                                <option>Other</option>
-                                            </select>
+                                            <textarea name="typedata" rows="14" id="type-data" required></textarea>
                                         </div>
                                         <div class="validation"></div>
                                     </div>

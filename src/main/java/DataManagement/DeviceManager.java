@@ -103,6 +103,15 @@ public class DeviceManager implements Serializable{
         return this.assignments;
     }
 
+    public Assignment getAssignmentById(int id) {
+        for (Assignment a : assignments) {
+            if (a.getId() == id) {
+                return a;
+            }
+        }
+        return null;
+    }
+
     public Set<Device> getDevices() {
         return this.devices;
     }

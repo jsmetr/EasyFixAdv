@@ -139,7 +139,7 @@ public class DeviceResource {
                 Set<Employee> techs = temp.getTechByType(sessionId, item.getType().getName());
                 technician = pickTech(item.getType().getName(), techs);
             }
-            Assignment created = new Assignment(title, item, deadline+"T10:15", customer, clerk, technician, Integer.parseInt(priority));
+            Assignment created = new Assignment(title, item, deadline+"T15:00", customer, clerk, technician, Integer.parseInt(priority));
             boolean added = DevMan.addAssignment(created);
             if (added) {
                 return "ASSIGNMENT CREATED";
@@ -167,6 +167,19 @@ public class DeviceResource {
             return forMe;
         }
         return null;
+    }
+    
+    @Path("/Assignment/{assignmentid}/{newstatus}/{sessionId}")
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+    public String updateStatus(@PathParam("sessionId") String sessionId,@PathParam("assignmentid") String id,@PathParam("newstatus") String status){
+        if (LogMan.CheckSession(sessionId)) {
+            int getid = Integer.parseInt(id);
+            int setstatus = Integer.parseInt(status);
+            DevMan.getAssignmentById(getid).setStatus(setstatus);
+            DevMan.save();
+        }
+        return "SESSION EXPIRED";
     }
 
     /*
@@ -343,10 +356,12 @@ public class DeviceResource {
             wlset.add(wl);
         }
         for (Assignment a : DevMan.getAssignments()) {
+            if(a.getStatus()==0){
             for (WorkLoad load : wlset) {
                 if (load.getName().equals(a.getTechnician())) {
                     load.countUp();
                 }
+            }
             }
         }
         Collections.sort(wlset);

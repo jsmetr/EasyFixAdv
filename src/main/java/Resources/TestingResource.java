@@ -179,6 +179,7 @@ public class TestingResource {
         UseMan.addCustomer(cust2);
         UseMan.addCustomer(cust3);
         UseMan.addCustomer(cust4);
+        stockAssignments();
         return "populated";
     }
     
@@ -220,6 +221,7 @@ public class TestingResource {
         DevMan.addAssignment(a5);
         DevMan.addAssignment(a6);
         String hashed=" "+a1.hashCode()+" "+a2.hashCode()+" "+a3.hashCode()+" "+a4.hashCode()+" "+a5.hashCode()+""+a6.hashCode();
+        
         return "stocked: "+DevMan.getTypes().size()+" devicetypes, "+DevMan.getDevices().size()+" devices, "+DevMan.getAssignments().size()+" assignments, hashes: "+hashed;
     }
 
@@ -275,5 +277,27 @@ public class TestingResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String defaulting() {
         return "Swing and a miss.";
+    }
+    
+    public ReviewShell createReview(int rating) {
+        if (DevMan.testReview == null) {
+            String junk1 = "This text is filler. This text is filler. This text is filler. This text is filler. This text is filler. This text is filler.";
+            String junk2 = "This is a filler review. This is a filler review. This is a filler review. This is a filler review. This is a filler review.";
+            String junk3 = "This comment on comment is filler. This comment on comment is filler. This comment on comment is filler. This comment on comment is filler. ";
+            String junk4 = "This is another comment on comment as well as filler. This is another comment on comment as well as filler. This is another comment on comment as well as filler.";
+            String junk5 = "This is another direct response. This is another direct response. This is another direct response. ";
+            Review rvw = new Review("Junkreview", rating, junk2, "ProReviewer", "username1");
+            ReviewShell shell = new ReviewShell(rvw);
+            Comment cmnt1 = new Comment(junk1, "PlainUser", "username2");
+            Comment cmnt2 = new Comment(junk3, "ProReviewer", "username1");
+            Comment cmnt3 = new Comment(junk4, "Junkmaker", "username3");
+            Comment cmnt4 = new Comment(junk5, "Junkmaker", "username3");
+            shell.commentOn(cmnt1);
+            shell.commentOn(cmnt4);
+            shell.respond(cmnt2,cmnt1.getId());
+            shell.respond(cmnt3,cmnt1.getId());
+            DevMan.testReview = shell;
+        }
+        return DevMan.testReview;
     }
 }
