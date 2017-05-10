@@ -24,10 +24,10 @@ function grabAddr() {
             REST = REST + addr[i] + "/";
         }
     }
-    RESTaddr = addr[1].toString()+"//" + REST;
+    RESTaddr = addr[1].toString() + "//" + REST;
     console.log(addr);
     console.log(REST);
-    testrest();
+    getDeviceTypes();
 }
 
 function initRequest() {
@@ -100,14 +100,6 @@ function popcallback() {
     }
 }
 
-function testrest() {
-    var url = RESTaddr + "webresources/Testing/TickTock";
-    req = initRequest();
-    req.open("GET", url, true);
-    req.onreadystatechange = resttestcallback;
-    req.send(null);
-}
-
 function resttestcallback() {
     if (req.readyState == 4) {
         if (req.status == 200) {
@@ -118,3 +110,107 @@ function resttestcallback() {
         }
     }
 }
+
+function getDeviceTypes() {
+    var url = RESTaddr + "webresources/Devices/Devicetypes";
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = gettypescallback;
+    req.send(null);
+}
+
+function gettypescallback() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            fileTypes(req.responseXML);
+        }
+    }
+}
+
+function fileTypes(XML) {
+    console.log(XML);
+    var menuitems = document.getElementById('dropdowncontents');
+    console.log(menuitems);
+    $('#dropdowncontents').empty();
+    if (XML.childNodes[0].childNodes.length > 0) {
+        for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+            var type = XML.childNodes[0].childNodes[loop];
+            filetype(type,menuitems);
+        }
+    }
+    console.log(menuitems);
+    getFreshReviews();
+}
+
+function filetype(type,menu){
+            var option = document.createElement('a');
+            option.classList.add("dropdown-item");
+            var typename = type.getElementsByTagName("name")[0].childNodes[0].nodeValue.toString();
+            option.onclick = function () {
+                getReviews(typename);
+            };
+            option.value = type.getElementsByTagName("name")[0].childNodes[0].nodeValue.toString();
+            option.innerHTML = "" + type.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+            menu.appendChild(option);
+    
+    
+}
+
+function getFreshReviews() {
+    //getReviews/ByType/{type}/{amount}
+    var url = RESTaddr + "webresources/Devices/getReviews/Latest/4";
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = getlatestreviewcallback;
+    req.send(null);
+}
+
+function getlatestreviewcallback() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            fileReviews(req.responseXML);
+        }
+    }
+}
+
+function getReviews(typename) {
+    console.log(typename);
+    var url = RESTaddr + "webresources/Devices/getReviews/ByType/" + typename;
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = getreviewcallback;
+    req.send(null);
+}
+
+function getreviewcallback() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            fileReviews(req.responseXML);
+        }
+    }
+}
+
+function fileReviews(XML) {
+    console.log(XML);
+    console.log(XML.childNodes[0].childNodes.length);
+    for (loop = 0; loop < 4; loop++) {
+        var card = "#reviewname" + loop
+        if (XML.childNodes[0].childNodes.length <= loop) {
+            console.log("hide");
+            document.getElementById("reviewname" + loop);
+        } else {
+            console.log("run");
+            var title = document.getElementById("reviewname" + loop);
+            var body = document.getElementById("reviewbody" + loop);
+            var review = XML.childNodes[0].childNodes[loop];
+            console.log(review);
+            console.log(review.getElementsByTagName("title")[0].childNodes[0].nodeValue.toString());
+            console.log(review.getElementsByTagName("body")[0].childNodes[0].nodeValue);
+            console.log(title);
+            console.log(body);
+            title.innerHTML = review.getElementsByTagName("title")[0].childNodes[0].nodeValue.toString();
+            body.innerHTML = review.getElementsByTagName("body")[0].childNodes[0].nodeValue.toString();
+        }
+    }
+}
+

@@ -388,7 +388,7 @@ public class DeviceResource {
             if (a.getReview() != null) {
                 reviews.add(a.getReview().getReview());
                 count++;
-                if (!(count < amount)) {
+                if (!(count <= amount)) {
                     return reviews;
                 }
             }
@@ -400,20 +400,14 @@ public class DeviceResource {
     Returns a desired amount of recent reviews for the selected type of device.
     Not controlled by sessionId since this is supposed to be open to all browsers.
      */
-    @Path("/getReviews/ByType/{type}/{amount}")
+    @Path("/getReviews/ByType/{type}")
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public Set<Review> getByType(@PathParam("amount") String amnt, @PathParam("type") String type) {
-        Set<Review> reviews = new TreeSet<Review>();
-        int amount = Integer.parseInt(amnt);
-        int count = 0;
+    @Produces(MediaType.APPLICATION_XML)
+    public List<Review> getByType(@PathParam("type") String type) {
+        List<Review> reviews = new ArrayList<Review>();
         for (Assignment a : DevMan.getAssignments()) {
             if (a.getReview() != null && a.getDevice().getType().getName().equals(type)) {
                 reviews.add(a.getReview().getReview());
-                count++;
-                if (!(count < amount)) {
-                    return reviews;
-                }
             }
         }
         return reviews; //even if there are not enough to fill the quota, whatever was found is returned.

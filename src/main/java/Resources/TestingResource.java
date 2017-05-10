@@ -138,7 +138,7 @@ public class TestingResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String populateTestUsers() {
         String roles1 = ("clerk");
-        Employee newemp1 = new Employee("Timmy", "Russell", "TimRuss", "drowssap", "email", "phone", 1, roles1);
+        Employee newemp1 = new Employee("Timmy", "Russell", "TimRuss", "drowssap", "mememail@parnanen.fi", "phone", 1, roles1);
         UseMan.addEmployee(newemp1);
         String roles12 = ("clerk");
         Employee newemp12 = new Employee("Mike", "Jobbs", "MikeJob", "fiesta", "mike@parnanen.fi", "555 5555 555", 1, roles12);
@@ -147,7 +147,7 @@ public class TestingResource {
         Employee newemp13 = new Employee("Eddie", "Slate", "EddSlat", "simplistic", "eddie@parnanen.fi", "555 5555 555", 1, roles13);
         UseMan.addEmployee(newemp13);
         String roles2 = ("technician");
-        Employee newemp2 = new Employee("Johnny", "Doe", "JohnDoe", "swordfish", "email", "phone", 1, roles2);
+        Employee newemp2 = new Employee("Johnny", "Doe", "JohnDoe", "swordfish", "daDoe@parnanen.fi", "phone", 1, roles2);
         UseMan.addEmployee(newemp2);
         newemp2.changeSkill("television", 2);
         newemp2.changeSkill("toaster", 9);
@@ -166,16 +166,16 @@ public class TestingResource {
         newemp23.changeSkill("electric stove", 7);
         newemp23.changeSkill("toaster", 6);
         String roles3 = ("manager");
-        Employee newemp3 = new Employee("Bob", "Stein", "BobStei", "greenisgood", "email", "phone", 2, roles3);
+        Employee newemp3 = new Employee("Bob", "Stein", "BobStei", "greenisgood", "Bobs@parnanen.fi", "phone", 2, roles3);
         UseMan.addEmployee(newemp3);
         String roles4 = ("manager");
-        Employee newemp4 = new Employee("Jack", "Quick", "JackQui", "swift", "email", "phone", 2, roles4);
+        Employee newemp4 = new Employee("Jack", "Quick", "JackQui", "swift", "JQuick@parnanen.fi", "phone", 2, roles4);
         UseMan.addEmployee(newemp4);
         //add customers,
-        Customer cust1 = new Customer("Jill", "Doe", "JillDoe", "secure", "email", "phone", "address", "city", "state", "zipcode");        
-        Customer cust2 = new Customer("Kirk", "Ridge", "KirkRid", "ironclad", "email", "phone", "address", "city", "state", "zipcode");        
-        Customer cust3 = new Customer("Gary", "Stu", "GaryStu", "unsinkable", "email", "phone", "address", "city", "state", "zipcode");        
-        Customer cust4 = new Customer("Monica", "Santos", "MonicaS", "dependable", "email", "phone", "address", "city", "state", "zipcode");        
+        Customer cust1 = new Customer("Jill", "Doe", "JillDoe", "secure", "email@snail.com", "345 6523", "Distant Street 6", "Closesby", "Of Emergency", "00700");        
+        Customer cust2 = new Customer("Kirk", "Ridge", "KirkRid", "ironclad", "RidgeRacer@maille.com", "125 7442", "5th Avenue", "city", "Of Nation", "04040");        
+        Customer cust3 = new Customer("Gary", "Stu", "GaryStu", "unsinkable", "Stu@warudo.com", "335 7635", "Nearsby Street 5", "Faraway", "Your Business", "00500");        
+        Customer cust4 = new Customer("Monica", "Santos", "MonicaS", "dependable", "viva@mailure.com", "998 8899", "Dim Street 4", "Shady Sands", "of Being", "04030");        
         UseMan.addCustomer(cust1);
         UseMan.addCustomer(cust2);
         UseMan.addCustomer(cust3);
@@ -221,6 +221,9 @@ public class TestingResource {
         Assignment a10 = new Assignment("Springs do not work", btoaster, "2017-06-05T10:15", "KirkRid", "MikeJob", "WeLiang", 2);
         Assignment a11 = new Assignment("Ransomware removal", iphoned, "2017-07-03T10:15", "JillDoe", "EddSlat", "JohnDoe", 1);
         Assignment a12 = new Assignment("Sound bugs out randomly", ttv, "2017-06-24T10:15", "MonicaS", "MikeJob", "JimMast", 1);
+        Assignment a13 = new Assignment("Fell into water", iphoned, "2017-08-03T10:15", "JillDoe", "MikeJob", "JohnDoe", 1);
+        Assignment a14 = new Assignment("Buttons jammed", iphoned, "2017-07-09T10:15", "JillDoe", "EddSlat", "WeLiang", 1);
+        Assignment a15 = new Assignment("Oozing strange fluid", iphoned, "2017-07-23T10:15", "JillDoe", "TimRuss", "JohnDoe", 1);
         DevMan.addAssignment(a1);
         DevMan.addAssignment(a2);
         DevMan.addAssignment(a3);
@@ -233,6 +236,9 @@ public class TestingResource {
         DevMan.addAssignment(a10);
         DevMan.addAssignment(a11);
         DevMan.addAssignment(a12);
+        DevMan.addAssignment(a13);
+        DevMan.addAssignment(a14);
+        DevMan.addAssignment(a15);
         String hashed = " " + a1.hashCode() + " " + a2.hashCode() + " " + a3.hashCode() + " " + a4.hashCode() + " " + a5.hashCode() + "" + a6.hashCode();
         a1.setStatus(1);
         a6.setStatus(1);
@@ -241,10 +247,13 @@ public class TestingResource {
         a12.setStatus(-1);
         a9.setStatus(-1);
         a10.setStatus(-1);
-        createReview(7,a1);
-        createReview(4,a6);
-        createReview(8,a2);
-        createReview(10,a3);
+        createReview(7,a1,"#1");
+        createReview(4,a6,"#2");
+        createReview(8,a2,"#3");
+        createReview(10,a3,"#4");
+        createReview(10,a13,"#5");
+        createReview(6,a14,"#6");
+        createReview(8,a15,"#7");
         DevMan.save();
         return "stocked: " + DevMan.getTypes().size() + " devicetypes, " + DevMan.getDevices().size() + " devices, " + DevMan.getAssignments().size() + " assignments, hashes: " + hashed;
     }
@@ -303,7 +312,7 @@ public class TestingResource {
         return "Swing and a miss.";
     }
     
-    public void createReview(int rating, Assignment a) {
+    public void createReview(int rating, Assignment a,String number) {
         Set<Customer> cust = UseMan.getCustomers();
         List<Customer> clist = new ArrayList<Customer>();
         clist.addAll(cust);
@@ -320,7 +329,7 @@ public class TestingResource {
         String junk5 = "This is another direct response. This is another direct response. This is another direct response. ";
         Customer c = clist.get(rng.nextInt(clist.size()));
         Person p = ulist.get(rng.nextInt(ulist.size()));
-        Review rvw = new Review("Junkreview", rating, junk2, c.getFirstName() + " " + c.getFirstName(), c.getUserName());
+        Review rvw = new Review("Demo Review "+number+" - "+a.getDevice().getType().getName(), rating, junk2, c.getFirstName() + " " + c.getFirstName(), c.getUserName());
         ReviewShell shell = new ReviewShell(rvw);
         
         Comment cmnt1 = new Comment(junk1, p.getFirstName() + " " + p.getLastName(), p.getUserName());

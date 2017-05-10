@@ -144,7 +144,12 @@ public class Assignment implements Serializable, Comparable<Assignment>{
 
     @Override
     public int compareTo(Assignment other) {
-        return new Integer(this.hashCode()).compareTo(new Integer(other.hashCode())) +this.deadline.compareTo(other.deadline)*1000;
+        int time =this.deadline.compareTo(other.deadline);
+        if(time==0){
+            return this.title.compareTo(other.title);
+        } else{
+            return time;
+        }
     }
 
     @Override

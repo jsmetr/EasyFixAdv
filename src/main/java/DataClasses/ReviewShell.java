@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jarno
  */
 @XmlRootElement
-public class ReviewShell implements Serializable{
+public class ReviewShell implements Serializable, Comparable<ReviewShell>{
 
     private Review review;
     private LinkedList<Comment> comments;
@@ -71,5 +71,10 @@ public class ReviewShell implements Serializable{
     @XmlElement
     public List<Comment> getComments() {
         return this.comments;
+    }
+
+    @Override
+    public int compareTo(ReviewShell other) {
+        return this.getReviewId()-other.getReviewId();
     }
 }

@@ -111,6 +111,12 @@ public class Comment implements Serializable, Comparable<Comment> {
     */
     @Override
     public int compareTo(Comment other) {
+        int time=other.creationtime.compareTo(this.creationtime);
+        if(time==0){
+            return this.hashCode()-other.hashCode();
+        }
+        else{
         return other.creationtime.compareTo(this.creationtime);
+        }
     }
 }
