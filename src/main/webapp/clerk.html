@@ -409,7 +409,79 @@
             </div>
         </div>
         <!-- end: modal-add-device-type>
-        
+        <!-- start: modal-view-technician -->
+        <div class="modal fade" id="modal-view-technician" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title" id="myModalLabel">More About Joe</h4>
+                    </div>
+                    <div class="modal-body">
+                        <center>
+                            <a><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                            <h3 class="media-heading">Joe Sixpack</h3>
+                            <br>
+                            <span><strong>Skills: </strong></span>
+                            <span class="label label-primary label-lg">Skill_01<span class="padded-left">7</span></span>
+                            <span class="label label-primary label-lg">Skill_02<span class="padded-left">5</span></span>
+                            <span class="label label-primary label-lg">Skill_03<span class="padded-left">9</span></span>
+                            <span class="label label-primary label-lg">Skill_04<span class="padded-left">6</span></span>
+                        </center>
+                        <hr>
+                        <center>
+                            <br>
+                            <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1"> 
+                                <table class="table table-user-information">
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="fa fa-user padded"></span>Username:</td>
+                                            <td>Username</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="fa fa-male padded"></span>Role:</td>
+                                            <td>Clerk</td>
+                                        </tr>
+
+                                        <tr>
+                                        <tr>
+                                            <td><span class="fa fa-flag padded"></span>State</td>
+                                            <td>Espoo</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="fa fa-building padded"></span>Home City</td>
+                                            <td>Espoo</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="fa fa-map-marker padded"></span>Zip Code</td>
+                                            <td>Espoo</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="fa fa-map padded"></span>Address</td>
+                                            <td>Espoo</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="fa fa-envelope padded"></span>Email</td>
+                                            <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                        </tr>
+                                    <td><span class="fa fa-phone padded"></span>Phone Number</td>
+                                    <td>123-4567-890
+                                    </td>
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </center>
+                    </div>
+                    <div class="padding-0">    
+                        <button type="button" class="bouton-contact" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: modal-view-technician --!>
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -469,7 +541,7 @@
                                                 <h5 class="widget-user-desc"><i class="fa fa-laptop padded" aria-hidden="true"></i><span id="device-name">Device Name</span></h5>
                                             </div>
                                             <div class="widget-user-image">
-                                                <img class="img-circle" src="http://365psd.com/images/istock/previews/9353/93539553-flat-vector-avatar-face-character-person-portrait-user-icon.jpg">
+                                                <a data-toggle="modal" data-target="#modal-view-technician"><img class="img-circle" src="asset/img/avatar-face.jpg"></a>
                                             </div>
                                             <div class="box-footer">
                                                 <div class="row">
@@ -504,7 +576,7 @@
                                             <h5 class="widget-user-desc"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
                                         </div>
                                         <div class="widget-user-image">
-                                            <img class="img-circle" src="http://365psd.com/images/istock/previews/9353/93539553-flat-vector-avatar-face-character-person-portrait-user-icon.jpg">
+                                            <a data-toggle="modal" data-target="#modal-view-technician"><img class="img-circle" src="asset/img/avatar-face.jpg"></a>
                                         </div>
                                         <div class="box-footer">
                                             <div class="row">
@@ -535,7 +607,7 @@
                                             <h5 class="widget-user-desc"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
                                         </div>
                                         <div class="widget-user-image">
-                                            <img class="img-circle" src="http://365psd.com/images/istock/previews/9353/93539553-flat-vector-avatar-face-character-person-portrait-user-icon.jpg">
+                                            <a data-toggle="modal" data-target="#modal-view-technician"><img class="img-circle" src="asset/img/avatar-face.jpg"></a>
                                         </div>
                                         <div class="box-footer">
                                             <div class="row">
@@ -579,10 +651,6 @@
         <script src="asset/js/plugins/moment.min.js"></script>
         <script src="asset/js/plugins/fullcalendar.min.js"></script>
         <script src="asset/js/plugins/jquery.nicescroll.js"></script>
-        <script src="asset/js/plugins/jquery.vmap.min.js"></script>
-        <script src="asset/js/plugins/maps/jquery.vmap.world.js"></script>
-        <script src="asset/js/plugins/jquery.vmap.sampledata.js"></script>
-        <script src="asset/js/plugins/chart.min.js"></script>
 
         <!-- custom -->
         <script src="asset/js/main.js"></script>
