@@ -12,7 +12,12 @@ var RESTaddr;
 function init() {
     grabAddr();
     whoAmI();
+}
+
+function clerkInit(){
+    init();
     getCustomers();
+    getAssignments();
 }
 
 function grabAddr() {
@@ -195,11 +200,11 @@ function fileTechs(XML) {
             techSel.appendChild(option);
         }
     } else {
-    var option = document.createElement("option");
-    option.value = "noqualified";
-    option.innerHTML = "No qualified techs";
-    techSel.appendChild(option);
-    var option = document.createElement("option");
+        var option = document.createElement("option");
+        option.value = "noqualified";
+        option.innerHTML = "No qualified techs";
+        techSel.appendChild(option);
+        var option = document.createElement("option");
     }
     console.log(document.getElementById('device').value.toString().split(',')[1]);
     getDeviceTypes();
@@ -336,7 +341,7 @@ function addtypecallback() {
     }
 }
 
-function addCustomer(){
+function addCustomer() {
     // /AddCust/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{address}/{city}/{state}/{zipcode}/{sessionId}
     var devtype = document.getElementById('dev-types').value;
     console.log(devtype);
@@ -350,7 +355,7 @@ function addCustomer(){
     var city = document.getElementById('city').value.toString();
     var state = document.getElementById('state').value.toString();
     var zipcode = document.getElementById('zipcode').value.toString();
-    var url = RESTaddr + "webresources/Users/AddCust/" + fname+"/"+lname+"/"+uname+"/"+psw +  "/" + email + "/" + phone + "/" + address + "/" + city + "/" + state + "/" + zipcode + "/" + localStorage.getItem("sessionId");
+    var url = RESTaddr + "webresources/Users/AddCust/" + fname + "/" + lname + "/" + uname + "/" + psw + "/" + email + "/" + phone + "/" + address + "/" + city + "/" + state + "/" + zipcode + "/" + localStorage.getItem("sessionId");
     console.log(url);
     req = initRequest();
     req.open("POST", url, true);
@@ -360,7 +365,7 @@ function addCustomer(){
     getCustomers();
 }
 
-function addcustcallback(){
+function addcustcallback() {
     console.log("hue");
     if (req.readyState == 4) {
         if (req.status == 200) {
@@ -369,7 +374,120 @@ function addcustcallback(){
     }
 }
 
-function fileAssignments(){}
+function getAssignments() {
+    url = RESTaddr + "webresources/Devices/Assignments/Active/" + localStorage.getItem("sessionId");
+    req3 = initRequest();
+    req3.open("GET", url, true);
+    req3.onreadystatechange = getassignmentcallback;
+    req3.send(null);
+}
+
+function getassignmentcallback() {
+    console.log("hue");
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            fileAssignments(req3.responseXML);
+        }
+    }
+}
+
+function fileAssignments(XML) {
+    var taskList = document.getElementById('new-tasks');
+    $('#new-tasks').empty();
+    console.log(XML);
+    if (XML.childNodes[0].childNodes.length > 0) {
+        for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+            var newTaskTemp = document.getElementById('newTask-template').content.cloneNode(true);
+            var taskdata = XML.childNodes[0].childNodes[loop];
+            console.log(taskdata);
+            newTaskTemp.querySelector('.widget-user-username').innerText = taskdata.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+            console.log(taskdata.getElementsByTagName("device")[0].childNodes[2]);
+            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString());
+            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("type")[0].getElementsByTagName("name")[0]);
+            newTaskTemp.querySelector('#device-name').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
+            newTaskTemp.querySelector('#customerRequest').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
+            newTaskTemp.querySelector('#due-dateTask').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
+            taskList.appendChild(newTaskTemp);
+        }
+    }
+    getCanceled();
+}
+
+function getCanceled() {
+    url = RESTaddr + "webresources/Devices/Assignments/Repaired/" + localStorage.getItem("sessionId");
+    req3 = initRequest();
+    req3.open("GET", url, true);
+    req3.onreadystatechange = repairedcallback;
+    req3.send(null);
+}
+
+function repairedcallback() {
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            fileRepaired(req3.responseXML);
+        }
+    }
+}
+
+function fileRepaired(XML) {
+    var taskList = document.getElementById('returned-tasks');
+    $('#returned-tasks').empty();
+    console.log(XML);
+    if (XML.childNodes[0].childNodes.length > 0) {
+        for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+            var newTaskTemp = document.getElementById('repaired-template').content.cloneNode(true);
+            var taskdata = XML.childNodes[0].childNodes[loop];
+            console.log(taskdata);
+            newTaskTemp.querySelector('.widget-user-username').innerText = taskdata.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+            console.log(taskdata.getElementsByTagName("device")[0].childNodes[2]);
+            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString());
+            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("type")[0].getElementsByTagName("name")[0]);
+            newTaskTemp.querySelector('#device-name').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
+            newTaskTemp.querySelector('#customerRequest').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
+            newTaskTemp.querySelector('#due-dateTask').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
+            taskList.appendChild(newTaskTemp);
+        }
+    }
+
+}
+
+function getCanceled() {
+    url = RESTaddr + "webresources/Devices/Assignments/Canceled/" + localStorage.getItem("sessionId");
+    req3 = initRequest();
+    req3.open("GET", url, true);
+    req3.onreadystatechange = canceledcallback;
+    req3.send(null);
+}
+
+function canceledcallback() {
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            fileCanceled(req3.responseXML);
+        }
+    }
+}
+
+function fileCanceled(XML) {
+    var taskList = document.getElementById('returned-tasks');
+    console.log(XML);
+    console.log(XML.childNodes[0].childNodes.length);
+    if (XML.childNodes[0].childNodes.length > 0) {
+        for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+            var newTaskTemp = document.getElementById('canceled-template').content.cloneNode(true);
+            var taskdata = XML.childNodes[0].childNodes[loop];
+            console.log(taskdata);
+            newTaskTemp.querySelector('.widget-user-username').innerText = taskdata.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+            console.log(taskdata.getElementsByTagName("device")[0].childNodes[2]);
+            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString());
+            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("type")[0].getElementsByTagName("name")[0]);
+            newTaskTemp.querySelector('.cancelname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
+            newTaskTemp.querySelector('.customer').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
+            newTaskTemp.querySelector('.canceldate').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
+            taskList.appendChild(newTaskTemp);
+        }
+    }
+
+}
 
 /* 
  //
