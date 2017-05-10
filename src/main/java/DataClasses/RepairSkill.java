@@ -22,12 +22,12 @@ public class RepairSkill implements Serializable, Comparable<RepairSkill> {
     private int level;
     private String devicetype;
 
-    RepairSkill(String type, int level) {
+    public RepairSkill(String type, int level) {
         this.level = level;
         this.devicetype = type.toLowerCase();
     }
 
-    RepairSkill() {
+    public RepairSkill() {
     }
 
     /*

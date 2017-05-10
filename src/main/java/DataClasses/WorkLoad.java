@@ -20,11 +20,12 @@ public class WorkLoad implements Comparable<WorkLoad>, Serializable{
     A simple Employee+integer shell to help sort technicians by workload.
      */
     private int jobcount=0;
-    private String techname;
+    private String techname="";
     
     public WorkLoad(String name){
         this.techname=name;
     }
+    public WorkLoad(){}
     
     public void countUp(){
         this.jobcount++;
@@ -38,6 +39,11 @@ public class WorkLoad implements Comparable<WorkLoad>, Serializable{
     @XmlElement
     public String getName(){
         return this.techname;
+    }
+    @Override
+    public int hashCode() {
+        int hash = 1 + 13 * this.techname.hashCode();
+        return hash;
     }
 
     @Override

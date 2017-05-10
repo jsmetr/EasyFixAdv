@@ -436,6 +436,7 @@ public class DeviceResource {
                 }
                 if(addnew){
                 WorkLoad newload = new WorkLoad(a.getDevice().getType().getName());
+                newload.countUp();
                 active.add(newload);
                 }
             }
