@@ -277,7 +277,6 @@ function gettypescallback() {
 }
 
 function fileTypes(XML) {
-    console.log(XML);
     var devSel = document.getElementById('dev-types');
     $('#dev-types').empty();
     if (XML.childNodes[0].childNodes.length > 0) {
@@ -294,12 +293,10 @@ function fileTypes(XML) {
 function addDevice() {
     ///AddDevice/{type}/{name}/{owner}/{manufacturer}/{model}/{sessionId}
     var devtype = document.getElementById('dev-types').value;
-    console.log(devtype);
     var name = document.getElementById('dev-name').value;
     var owner = document.getElementById('dev-owner').value;
     var manu = document.getElementById('dev-manufacturer').value;
     var url = RESTaddr + "webresources/Devices/AddDevice/" + devtype + "/" + name + "/" + owner + "/" + manu + "/" + localStorage.getItem("sessionId");
-    console.log(url);
     req = initRequest();
     req.open("POST", url, true);
     req.onreadystatechange = techselcallback;
@@ -317,13 +314,10 @@ function adddevicecallback() {
 }
 
 function addType() {
-    console.log("hue");
     //  /AddType/{name}/{data}/{sessionId}
     var name = document.getElementById('type-name').value;
     var data = document.getElementById('type-data').value;
     var url = RESTaddr + "webresources/Devices/AddType/" + name + "/" + data + "/" + localStorage.getItem("sessionId");
-    console.log(url)
-    console.log(url);
     req = initRequest();
     req.open("POST", url, true);
     req.onreadystatechange = addtypecallback;
@@ -333,7 +327,6 @@ function addType() {
 }
 
 function addtypecallback() {
-    console.log("hue");
     if (req.readyState == 4) {
         if (req.status == 200) {
             console.log(req.responseText);
@@ -344,7 +337,6 @@ function addtypecallback() {
 function addCustomer() {
     // /AddCust/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{address}/{city}/{state}/{zipcode}/{sessionId}
     var devtype = document.getElementById('dev-types').value;
-    console.log(devtype);
     var fname = document.getElementById('fname').value.toString();
     var lname = document.getElementById('lname').value.toString();
     var uname = document.getElementById('username').value.toString();
@@ -356,7 +348,6 @@ function addCustomer() {
     var state = document.getElementById('state').value.toString();
     var zipcode = document.getElementById('zipcode').value.toString();
     var url = RESTaddr + "webresources/Users/AddCust/" + fname + "/" + lname + "/" + uname + "/" + psw + "/" + email + "/" + phone + "/" + address + "/" + city + "/" + state + "/" + zipcode + "/" + localStorage.getItem("sessionId");
-    console.log(url);
     req = initRequest();
     req.open("POST", url, true);
     req.onreadystatechange = addcustcallback;
@@ -366,7 +357,6 @@ function addCustomer() {
 }
 
 function addcustcallback() {
-    console.log("hue");
     if (req.readyState == 4) {
         if (req.status == 200) {
             console.log(req.responseText);
@@ -383,7 +373,6 @@ function getAssignments() {
 }
 
 function getassignmentcallback() {
-    console.log("hue");
     if (req3.readyState == 4) {
         if (req3.status == 200) {
             fileAssignments(req3.responseXML);
@@ -394,26 +383,21 @@ function getassignmentcallback() {
 function fileAssignments(XML) {
     var taskList = document.getElementById('new-tasks');
     $('#new-tasks').empty();
-    console.log(XML);
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var newTaskTemp = document.getElementById('newTask-template').content.cloneNode(true);
             var taskdata = XML.childNodes[0].childNodes[loop];
-            console.log(taskdata);
             newTaskTemp.querySelector('.widget-user-username').innerText = taskdata.getElementsByTagName("title")[0].childNodes[0].nodeValue;
-            console.log(taskdata.getElementsByTagName("device")[0].childNodes[2]);
-            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString());
-            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("type")[0].getElementsByTagName("name")[0]);
             newTaskTemp.querySelector('#device-name').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
             newTaskTemp.querySelector('#customerRequest').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
             newTaskTemp.querySelector('#due-dateTask').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
             taskList.appendChild(newTaskTemp);
         }
     }
-    getCanceled();
+    getRepaired();
 }
 
-function getCanceled() {
+function getRepaired() {
     url = RESTaddr + "webresources/Devices/Assignments/Repaired/" + localStorage.getItem("sessionId");
     req3 = initRequest();
     req3.open("GET", url, true);
@@ -432,23 +416,18 @@ function repairedcallback() {
 function fileRepaired(XML) {
     var taskList = document.getElementById('returned-tasks');
     $('#returned-tasks').empty();
-    console.log(XML);
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var newTaskTemp = document.getElementById('repaired-template').content.cloneNode(true);
             var taskdata = XML.childNodes[0].childNodes[loop];
-            console.log(taskdata);
-            newTaskTemp.querySelector('.widget-user-username').innerText = taskdata.getElementsByTagName("title")[0].childNodes[0].nodeValue;
-            console.log(taskdata.getElementsByTagName("device")[0].childNodes[2]);
-            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString());
-            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("type")[0].getElementsByTagName("name")[0]);
-            newTaskTemp.querySelector('#device-name').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
-            newTaskTemp.querySelector('#customerRequest').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
-            newTaskTemp.querySelector('#due-dateTask').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
+            newTaskTemp.querySelector('#repairtitle').innerText = taskdata.childNodes[10].innerHTML
+            newTaskTemp.querySelector('#repairname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
+            newTaskTemp.querySelector('#repaircust').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
+            newTaskTemp.querySelector('#repairdate').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
             taskList.appendChild(newTaskTemp);
         }
     }
-
+    getCanceled();
 }
 
 function getCanceled() {
@@ -476,13 +455,14 @@ function fileCanceled(XML) {
             var newTaskTemp = document.getElementById('canceled-template').content.cloneNode(true);
             var taskdata = XML.childNodes[0].childNodes[loop];
             console.log(taskdata);
-            newTaskTemp.querySelector('.widget-user-username').innerText = taskdata.getElementsByTagName("title")[0].childNodes[0].nodeValue;
-            console.log(taskdata.getElementsByTagName("device")[0].childNodes[2]);
+            console.log(taskdata.getElementsByTagName("title")[0].innerHTML);
+            newTaskTemp.querySelector('#canceltitle').innerText = taskdata.getElementsByTagName("title")[0].innerHTML;
+            console.log(taskdata.getElementsByTagName("title")[0].innerHTML);
             console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString());
             console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("type")[0].getElementsByTagName("name")[0]);
-            newTaskTemp.querySelector('.cancelname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
-            newTaskTemp.querySelector('.customer').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
-            newTaskTemp.querySelector('.canceldate').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
+            newTaskTemp.querySelector('#canceldate').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
+            newTaskTemp.querySelector('#cancelcust').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue
+            newTaskTemp.querySelector('#cancelname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
             taskList.appendChild(newTaskTemp);
         }
     }

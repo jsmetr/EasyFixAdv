@@ -1,3 +1,5 @@
+Resources\UserResource.class
+org\netbeans\rest\application\config\ApplicationConfig.class
 DataClasses\ReviewShell.class
 DataManagement\SessionGen.class
 DataManagement\DeviceManager$DeviceHolder.class
@@ -9,12 +11,16 @@ DataClasses\Person.class
 Resources\TestingResource.class
 DataClasses\Customer.class
 DataClasses\DeviceType.class
+DataClasses\Employee.class
 DataClasses\Assignment.class
 DataClasses\Device.class
 DataManagement\SessionGen$GenHolder.class
 DataClasses\Comment.class
 DataManagement\SessionGen$1.class
 DataManagement\LoginManager$LoginHolder.class
+Resources\DeviceResource.class
+DataClasses\WorkLoad.class
+DataClasses\RepairSkill.class
 DataManagement\Serializer.class
 DataManagement\DeviceManager.class
 DataManagement\UserManager$UserHolder.class

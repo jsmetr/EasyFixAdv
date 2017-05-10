@@ -574,12 +574,12 @@
 
                                     </div>
                                 </div>
-                                    <template id="canceled-template">
+                                    <template id="repaired-template">
                                         <div class="box box-widget widget-user">
                                             <div class="widget-user-header bg-green">
                                                 <span class='pull-right'><i class="fa fa-archive fa-2x" aria-hidden="true"></i></span>
-                                                <h3 class="widget-user-username">Replace screen</h3>
-                                                <h5 class="widget-user-desc" id="cancelname"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
+                                                <h3 class="widget-user-username" ><span id="repairtitle">Title</span></h3>
+                                                <h5 class="widget-user-desc" ><i class="fa fa-mobile padded" aria-hidden="true"></i><span id="repairname">Name</span></h5> 
                                             </div>
                                             <div class="widget-user-image">
                                                 <a data-toggle="modal" data-target="#modal-view-technician"><img class="img-circle" src="asset/img/avatar-face.jpg"></a>
@@ -589,13 +589,13 @@
                                                     <div class="col-sm-4 border-right">
                                                         <div class="description-block">
 
-                                                            <span class="description-text" id="customer"><a data-toggle="modal" data-target="#modal-view-customer"><i class="fa fa-user padded"></i>Customer Name</a></span>
+                                                            <span class="description-text" ><a data-toggle="modal" data-target="#modal-view-customer"><i class="fa fa-user padded"></i><span id="repaircust">Customer</span></a></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 border-right">
                                                         <div class="description-block">
 
-                                                            <span class="description-text" id="canceldate"><i class="fa fa-calendar-o padded"></i>28 Jun 2015</span>
+                                                            <span class="description-text" "><i class="fa fa-calendar-o padded"></i><span id="repairdate">Date</span></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
@@ -607,12 +607,12 @@
                                             </div>
                                         </div>
                                     </template>
-                                    <template id="repaired-template">
+                                    <template id="canceled-template">
                                         <div class="box box-widget widget-user">
                                             <div class="widget-user-header bg-red">
                                                 <span class='pull-right'><i class="fa fa-archive fa-2x" aria-hidden="true"></i></span>
-                                                <h3 class="widget-user-username">Replace screen</h3>
-                                                <h5 class="widget-user-desc"><i class="fa fa-mobile padded" aria-hidden="true"></i>Device Name</h5>
+                                                <h3 class="widget-user-username" ><span id="canceltitle">Title</span></h3>
+                                                <h5 class="widget-user-desc"><i class="fa fa-mobile padded" aria-hidden="true"></i><span id="cancelname">Name</span></h5>
                                             </div>
                                             <div class="widget-user-image">
                                                 <a data-toggle="modal" data-target="#modal-view-technician"><img class="img-circle" src="asset/img/avatar-face.jpg"></a>
@@ -622,13 +622,13 @@
                                                     <div class="col-sm-4 border-right">
                                                         <div class="description-block">
 
-                                                            <span class="description-text"><a data-toggle='modal' data-target='#modal-view-customer'><i class="fa fa-user padded"></i>Customer Name</a></span>
+                                                            <span class="description-text" ><a data-toggle='modal' data-target='#modal-view-customer'><i class="fa fa-user padded"></i><span id="cancelcust">Customer</span></a></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 border-right">
                                                         <div class="description-block">
 
-                                                            <span class="description-text"><i class="fa fa-calendar-o padded"></i>28 Jun 2015</span>
+                                                            <span class="description-text" ><i class="fa fa-calendar-o padded"></i><span id="canceldate">Date</span></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
