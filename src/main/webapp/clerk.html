@@ -40,7 +40,7 @@
                     <div class="modal-body">
                         <center>
                             <a><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
-                            <h3 class="media-heading">FirstName LastName</h3>
+                            <h3 class="media-heading" id="fullName-cusInfo">FirstName LastName</h3>
 
                         </center>
                         <hr>
@@ -49,33 +49,33 @@
                             <table class="table table-user-information">
                                 <tbody>
                                     <tr>
-                                        <td>Username:</td>
-                                        <td>Username</td>
+                                        <td><span class="fa fa-user padded"></span>Username:</td>
+                                        <td id="uName-cusInfo">Username</td>
                                     </tr>
 
                                     <tr>
                                     <tr>
-                                        <td>State</td>
-                                        <td>Espoo</td>
+                                        <td><span class="fa fa-flag padded"></span>State</td>
+                                        <td id="state-cusInfo">Espoo</td>
                                     </tr>
                                     <tr>
-                                        <td>Home City</td>
-                                        <td>Espoo</td>
+                                        <td><span class="fa fa-building padded"></span>Home City</td>
+                                        <td id="city-cusInfo">Espoo</td>
                                     </tr>
                                     <tr>
-                                        <td>Zip Code</td>
-                                        <td>Espoo</td>
+                                        <td><span class="fa fa-map-marker padded"></span>Zip Code</td>
+                                        <td id="zipcode-cusInfo">Espoo</td>
                                     </tr>
                                     <tr>
-                                        <td>Address</td>
-                                        <td>Espoo</td>
+                                        <td><span class="fa fa-map padded"></span>Address</td>
+                                        <td id="address-cusInfo">Espoo</td>
                                     </tr>
                                     <tr>
                                         <td><span class="fa fa-envelope padded"></span>Email</td>
-                                        <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                        <td><a href="#"><span id="email-cusInfo">info@support.com</span></a></td>
                                     </tr>
                                 <td><span class="fa fa-phone padded"></span>Phone Number</td>
-                                <td>123-4567-890
+                                <td id="phone-cusInfo">123-4567-890
                                 </td>
 
                                 </tr>
@@ -442,24 +442,7 @@
                                             <td><span class="fa fa-male padded"></span>Role:</td>
                                             <td>Technician</td>
                                         </tr>
-
-                                        <tr>
-                                        <tr>
-                                            <td><span class="fa fa-flag padded"></span>State</td>
-                                            <td>Espoo</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="fa fa-building padded"></span>Home City</td>
-                                            <td>Espoo</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="fa fa-map-marker padded"></span>Zip Code</td>
-                                            <td>Espoo</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="fa fa-map padded"></span>Address</td>
-                                            <td>Espoo</td>
-                                        </tr>
+                                        
                                         <tr>
                                             <td><span class="fa fa-envelope padded"></span>Email</td>
                                             <td><a href="#"><span id="email-techInfo">info@support.com</span></a></td>
@@ -548,7 +531,7 @@
                                                     <div class="col-sm-4 border-right">
                                                         <div class="description-block">
 
-                                                            <span class="description-text"><a data-toggle="modal" data-target="#modal-view-customer"><i class="fa fa-user padded"></i><span id="customerRequest">Customer Name</span></a></span>
+                                                            <span class="description-text" onclick="showCusInfo(this)"><a data-toggle="modal" data-target="#modal-view-customer"><i class="fa fa-user padded"></i><span id="customerRequest">Customer Name</span></a></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 border-right">
