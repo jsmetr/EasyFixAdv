@@ -238,6 +238,7 @@ function addNewTask() {
     newTaskTemp.querySelector('#device-name').innerText = device;
     newTaskTemp.querySelector('#customerRequest').innerText = customer;
     newTaskTemp.querySelector('#due-dateTask').innerText = dueDate;
+    newTaskTemp.querySelector('#technician-hidden-name').innerText = technician;
 
     var url = RESTaddr + "webresources/Devices/CreateAssignment/" + title + "/" + deviceid + "/" + dueDate + "/" + prio + "/" + customer + "/" + technician + "/" + localStorage.getItem("sessionId");
     req = initRequest();
@@ -247,14 +248,9 @@ function addNewTask() {
     req.send(null);
 
     taskList.appendChild(newTaskTemp);
-    /*
+   
      document.getElementById('addNewTaskForm').reset();
-     document.body.className ="dashboard";
-     document.getElementById('modal-add-task').className="modal fade";
-     document.getElementById('modal-add-task').style.display="none";
-     document.getElementsByClassName('modal-backdrop fade in').entries()[0].
-     */
-    //document.body.className.replace("no-javascript","")"dashboard";
+     
 }
 
 function taskaddcallback() {
@@ -397,6 +393,7 @@ function fileAssignments(XML) {
             newTaskTemp.querySelector('#device-name').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
             newTaskTemp.querySelector('#customerRequest').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
             newTaskTemp.querySelector('#due-dateTask').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
+            newTaskTemp.querySelector('#technician-hidden-name').innerText = taskdata.getElementsByTagName("technician")[0].childNodes[0].nodeValue;
             taskList.appendChild(newTaskTemp);
         }
     }
@@ -548,6 +545,37 @@ function printProfileCallBack() {
                 document.getElementById("zipCode-profile").innerHTML = zipcode;
             }
             console.log(crntUser[0].getElementsByTagName("access")[0].childNodes[0].nodeValue);//           
+        }
+    }
+}
+
+function showTechInfo(element) {
+    var techName = element.querySelector('#technician-hidden-name').innerText;
+    console.log("tech " + techName);
+    var url = RESTaddr + "webresources/Users/View/" + techName + "/" + localStorage.getItem("sessionId");
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = showTechInfoCallBack;
+    req.send(null);
+}
+function showTechInfoCallBack() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            crntUser = req.responseXML.childNodes;
+            console.log("hello");
+            console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
+            
+            var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
+            var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
+            var uname = crntUser[0].getElementsByTagName("userName")[0].childNodes[0].nodeValue;
+            var email = crntUser[0].getElementsByTagName("email")[0].childNodes[0].nodeValue;
+            var phone = crntUser[0].getElementsByTagName("phone")[0].childNodes[0].nodeValue;            
+            
+            document.getElementById("fullName-techInfo").innerHTML = fname + " " + lname;
+            document.getElementById("firstName-techInfo").innerHTML = fname;
+            document.getElementById("uName-techInfo").innerHTML = uname;
+            document.getElementById("email-techInfo").innerHTML = email;
+            document.getElementById("phone-techInfo").innerHTML = phone;
         }
     }
 }

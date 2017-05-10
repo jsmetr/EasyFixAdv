@@ -86,7 +86,7 @@ public class UserResource {
         return "SESSION EXPIRED";
     }
 
-    /* Used to retrieve the data of an user with their username. Manager only.*/
+    /* Used to retrieve the data of an user with their username. Manager and clerk only.*/
     @Path("/View/{uname}/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -98,7 +98,7 @@ public class UserResource {
                     Customer cust = (Customer) u;
                     return cust;
                 }
-            } else if (!u.getRole().isEmpty() && LogMan.getBySesId(sessionId).getAccess() > 1) {
+            } else if (!u.getRole().isEmpty() && LogMan.getBySesId(sessionId).getAccess() >= 1) {
                 Employee empl = (Employee) u;
                 return empl;
             }
