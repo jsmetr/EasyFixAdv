@@ -420,6 +420,8 @@ function fileRepaired(XML) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var newTaskTemp = document.getElementById('repaired-template').content.cloneNode(true);
             var taskdata = XML.childNodes[0].childNodes[loop];
+            var id=taskdata.getElementsByTagName("id")[1].innerHTML.toString();
+            newTaskTemp.querySelector('#archrep').onclick = function(){archiveTask(id)};
             newTaskTemp.querySelector('#repairtitle').innerText = taskdata.childNodes[10].innerHTML
             newTaskTemp.querySelector('#repairname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
             newTaskTemp.querySelector('#repaircust').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
@@ -454,12 +456,9 @@ function fileCanceled(XML) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var newTaskTemp = document.getElementById('canceled-template').content.cloneNode(true);
             var taskdata = XML.childNodes[0].childNodes[loop];
-            console.log(taskdata);
-            console.log(taskdata.getElementsByTagName("title")[0].innerHTML);
+            var id=taskdata.getElementsByTagName("id")[1].innerHTML.toString();
+            newTaskTemp.querySelector('#archcancel').onclick = function(){archiveTask(id)};
             newTaskTemp.querySelector('#canceltitle').innerText = taskdata.getElementsByTagName("title")[0].innerHTML;
-            console.log(taskdata.getElementsByTagName("title")[0].innerHTML);
-            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString());
-            console.log(taskdata.getElementsByTagName("device")[0].getElementsByTagName("type")[0].getElementsByTagName("name")[0]);
             newTaskTemp.querySelector('#canceldate').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
             newTaskTemp.querySelector('#cancelcust').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue
             newTaskTemp.querySelector('#cancelname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
@@ -467,6 +466,23 @@ function fileCanceled(XML) {
         }
     }
 
+}
+
+function archiveTask(taskid){
+    //"/Assignment/{assignmentid}/{newstatus}/{sessionId}"
+    url = RESTaddr + "webresources/Devices/Assignment/"+taskid+"/2/" + localStorage.getItem("sessionId");
+    req = initRequest();
+    req.open("PUT", url, true);
+    req.onreadystatechange = archivecallback;
+    req.send(null);
+}
+
+function archivecallback(){
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            getAssignments();
+        }
+    }
 }
 
 /* 

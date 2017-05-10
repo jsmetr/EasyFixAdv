@@ -247,6 +247,7 @@ public class DeviceResource {
             int setstatus = Integer.parseInt(status);
             DevMan.getAssignmentById(getid).setStatus(setstatus);
             DevMan.save();
+            return "STATUS UPDATED: "+setstatus;
         }
         return "SESSION EXPIRED";
     }
