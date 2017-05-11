@@ -327,8 +327,8 @@ public class DeviceResource {
             Set<Assignment> assignments = DevMan.getAssignments();
             for (Assignment a : assignments) {
                 if (a.getReview() != null) {
-                    if (a.getReview().getReviewId() == rewId) {
-                        shell = a.getReview();
+                    if (a.getReviewShell().getReviewId() == rewId) {
+                        shell = a.getReviewShell();
                         Person u = LogMan.getBySesId(sessionId);
                         Comment cmnt = new Comment(body, u.getFirstName() + " " + u.getLastName(), u.getUserName());
                         shell.commentOn(cmnt);
@@ -357,8 +357,8 @@ public class DeviceResource {
             Set<Assignment> assignments = DevMan.getAssignments();
             for (Assignment a : assignments) {
                 if (a.getReview() != null) {
-                    if (a.getReview().getReviewId() == rewId) {
-                        shell = a.getReview();
+                    if (a.getReviewShell().getReviewId() == rewId) {
+                        shell = a.getReviewShell();
                         Person u = LogMan.getBySesId(sessionId);
                         Comment cmnt = new Comment(body, u.getFirstName() + " " + u.getLastName(), u.getUserName());
                         if (shell.respond(cmnt, cmntId) == true) {
@@ -386,7 +386,7 @@ public class DeviceResource {
         int count = 0;
         for (Assignment a : DevMan.getAssignments()) {
             if (a.getReview() != null) {
-                reviews.add(a.getReview().getReview());
+                reviews.add(a.getReview());
                 count++;
                 if (!(count <= amount)) {
                     return reviews;
@@ -407,10 +407,23 @@ public class DeviceResource {
         List<Review> reviews = new ArrayList<Review>();
         for (Assignment a : DevMan.getAssignments()) {
             if (a.getReview() != null && a.getDevice().getType().getName().equals(type)) {
-                reviews.add(a.getReview().getReview());
+                reviews.add(a.getReview());
             }
         }
         return reviews; //even if there are not enough to fill the quota, whatever was found is returned.
+    }
+    
+    @Path("/getFullReview/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public ReviewShell getFull(@PathParam("id") String id) {
+        int revid = Integer.parseInt(id);
+        for (Assignment a : DevMan.getAssignments()) {
+            if (a.getReview() != null && a.getReviewShell().getReviewId()==revid) {
+                return a.getReviewShell();
+            }
+        }
+        return null;
     }
 
     @Path("/Graph/Assignments/ByType/{sessionId}")

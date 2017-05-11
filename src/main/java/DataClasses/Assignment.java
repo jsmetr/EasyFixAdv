@@ -105,7 +105,14 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     }
     
     @XmlElement
-    public ReviewShell getReview(){
+    public Review getReview(){
+        if(this.review==null){
+            return null;
+        }
+        return this.review.getReview();
+    }
+    
+    public ReviewShell getReviewShell(){
         return this.review;
     }
     
