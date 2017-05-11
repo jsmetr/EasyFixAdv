@@ -579,3 +579,41 @@ function showTechInfoCallBack() {
         }
     }
 }
+
+function showCusInfo(element) {
+    var cusName = element.querySelector('#customerRequest').innerHTML;
+    console.log("cus " + cusName);
+    var url = RESTaddr + "webresources/Users/View/" + cusName + "/" + localStorage.getItem("sessionId");
+    req = initRequest();
+    req.open("GET", url, true);
+    req.onreadystatechange = showCusInfoCallBack;
+    req.send(null);
+}
+function showCusInfoCallBack() {
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            crntUser = req.responseXML.childNodes;
+            
+            console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
+            
+            var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
+            var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
+            var uname = crntUser[0].getElementsByTagName("userName")[0].childNodes[0].nodeValue;
+            var email = crntUser[0].getElementsByTagName("email")[0].childNodes[0].nodeValue;
+            var phone = crntUser[0].getElementsByTagName("phone")[0].childNodes[0].nodeValue;
+            var address = crntUser[0].getElementsByTagName("address")[0].childNodes[0].nodeValue;
+            var city = crntUser[0].getElementsByTagName("city")[0].childNodes[0].nodeValue;
+            var state = crntUser[0].getElementsByTagName("state")[0].childNodes[0].nodeValue;
+            var zipcode = crntUser[0].getElementsByTagName("zipcode")[0].childNodes[0].nodeValue;
+            
+            document.getElementById("fullName-cusInfo").innerHTML = fname + " " + lname;            
+            document.getElementById("uName-cusInfo").innerHTML = uname;
+            document.getElementById("email-cusInfo").innerHTML = email;
+            document.getElementById("phone-cusInfo").innerHTML = phone;
+            document.getElementById("address-cusInfo").innerHTML = email;
+            document.getElementById("city-cusInfo").innerHTML = city;
+            document.getElementById("state-cusInfo").innerHTML = state;
+            document.getElementById("zipcode-cusInfo").innerHTML = zipcode;
+        }
+    }
+}
