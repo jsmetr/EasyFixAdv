@@ -16,12 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Review extends Comment implements Serializable{
-    private String title; //front-end assigns a default title based off assigment name?
+    private String revtitle; //front-end assigns a default title based off assigment name?
     private int rating;
     
     public Review(String title,int rating, String body,String creator,String signed){
         super(body,creator,signed);
-        this.title=title;
+        this.revtitle=title;
         this.rating=rating; //probably 0-10 to account for half-stars without fractions?
         this.comments=null;
     }
@@ -45,10 +45,10 @@ public class Review extends Comment implements Serializable{
     
     @XmlElement
     public String getTitle(){
-        return this.title;
+        return this.revtitle;
     }
     
     public void setTitle(String input){
-        this.title=input;
+        this.revtitle=input;
     }
 }

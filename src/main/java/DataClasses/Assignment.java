@@ -23,6 +23,7 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     private String technician;
     private String clerk;
     private String title;
+    private String description;
     private int status; //Cancelled(-1), Inwork(0), Repaired(1), Archived(2)
     private int id;
     private int priority; //low is more important: 0 top, 1 mid, 2 low priority
@@ -33,8 +34,9 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     private ReviewShell review=null;
     
     
-    public Assignment(String title,Device item, String deadline,String customer,String clerk,String technician,int priority){
+    public Assignment(String title,String description,Device item, String deadline,String customer,String clerk,String technician,int priority){
         this.title=title;
+        this.description=description;
         this.clerk=clerk;
         this.technician=technician;
         this.customer=customer;
@@ -57,6 +59,11 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     @XmlElement
     public String getTitle(){
         return this.title;
+    }
+    
+    @XmlElement
+    public String getDesc(){
+        return this.description;
     }
     
     @XmlElement

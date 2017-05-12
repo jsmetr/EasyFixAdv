@@ -222,10 +222,9 @@ function fileTechs(XML) {
 }
 
 function addNewTask() {
-    var taskList = document.getElementById('new-tasks');
-    var newTaskTemp = document.getElementById('newTask-template').content.cloneNode(true);
-
     var title = document.getElementById('title').value;
+    console.log(title);
+    var desc = document.getElementsByName('description').value;
     console.log(title);
     var customer = document.getElementById('customer').value;
     console.log(customer);
@@ -240,20 +239,13 @@ function addNewTask() {
     var technician = document.getElementById('technician').value;
     console.log(document.getElementById('device').value.toString().split(',')[0]);
 
-    newTaskTemp.querySelector('.widget-user-username').innerText = title;
-    newTaskTemp.querySelector('#device-name').innerText = device;
-    newTaskTemp.querySelector('#customerRequest').innerText = customer;
-    newTaskTemp.querySelector('#due-dateTask').innerText = dueDate;
-    newTaskTemp.querySelector('#technician-hidden-name').innerText = technician;
-
-    var url = RESTaddr + "webresources/Devices/CreateAssignment/" + title + "/" + deviceid + "/" + dueDate + "/" + prio + "/" + customer + "/" + technician + "/" + localStorage.getItem("sessionId");
+    var url = RESTaddr + "webresources/Devices/CreateAssignment/" + title + "/"+ desc + "/" + deviceid + "/" + dueDate + "/" + prio + "/" + customer + "/" + technician + "/" + localStorage.getItem("sessionId");
+    console.log(url);
     req = initRequest();
-    ///CreateAssignment/{title}/{deviceid}/{deadline}/{prio}/{customer}/{technician}/{sessionId}
     req.open("POST", url, true);
     req.onreadystatechange = taskaddcallback;
     req.send(null);
 
-    taskList.appendChild(newTaskTemp);
 
     document.getElementById('addNewTaskForm').reset();
 
@@ -343,7 +335,6 @@ function addtypecallback() {
 }
 
 function addCustomer() {
-    // /AddCust/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{address}/{city}/{state}/{zipcode}/{sessionId}
     var devtype = document.getElementById('dev-types').value;
     var fname = document.getElementById('fname').value.toString();
     var lname = document.getElementById('lname').value.toString();
@@ -362,6 +353,28 @@ function addCustomer() {
     req.send(null);
     document.getElementById('addCustForm').reset();
     getCustomers();
+}
+
+function addEmployee() {
+    // /AddEmpl/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{role}/{skills}/{sessionId}
+    var fname = document.getElementById('fname').value.toString();
+    var lname = document.getElementById('lname').value.toString();
+    var uname = document.getElementById('username').value.toString();
+    var psw = document.getElementById('password').value.toString();
+    var email = document.getElementById('email').value.toString();
+    var phone = document.getElementById('phone').value.toString();
+    var role = document.getElementById('role').value.toString();
+    var skills = document.getElementById('skills').value.toString();
+    if(!skills.length>0){
+        skills="mu:0";
+    }
+    var url = RESTaddr + "webresources/Users/AddEmpl/" + fname + "/" + lname + "/" + uname + "/" + psw + "/" + email + "/" + phone + "/" + role + "/" + skills + "/"  + localStorage.getItem("sessionId");
+    console.log(url);
+    req = initRequest();
+    req.open("POST", url, true);
+    req.onreadystatechange = addcustcallback;
+    req.send(null);
+    document.getElementById('addEmplForm').reset();
 }
 
 function addcustcallback() {
@@ -433,7 +446,10 @@ function fileRepaired(XML) {
             newTaskTemp.querySelector('#archrep').onclick = function () {
                 archiveTask(id)
             };
-            newTaskTemp.querySelector('#repairtitle').innerText = taskdata.childNodes[10].innerHTML
+            console.log(taskdata);
+            var titles=taskdata.getElementsByTagName("title");
+            console.log(titles);
+            newTaskTemp.querySelector('#repairtitle').innerText = taskdata.getElementsByTagName("title")[titles.length-1].childNodes[0].nodeValue;
             newTaskTemp.querySelector('#repairname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
             newTaskTemp.querySelector('#repaircust').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
             newTaskTemp.querySelector('#repairdate').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;

@@ -189,11 +189,12 @@ public class DeviceResource {
         return "SESSION EXPIRED";
     }
 
-    @Path("/CreateAssignment/{title}/{deviceid}/{deadline}/{prio}/{customer}/{technician}/{sessionId}")
+    @Path("/CreateAssignment/{title}/{desc}/{deviceid}/{deadline}/{prio}/{customer}/{technician}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     public String createAssignment(@PathParam("sessionId") String sessionId, @PathParam("deviceid") String deviceid, @PathParam("deadline") String deadline,
-            @PathParam("prio") String priority, @PathParam("customer") String customer, @PathParam("technician") String technician, @PathParam("title") String title) {
+            @PathParam("prio") String priority, @PathParam("customer") String customer, @PathParam("technician") String technician,
+            @PathParam("title") String title, @PathParam("desc") String desc) {
         if (LogMan.CheckSession(sessionId)) {
             if (LogMan.getBySesId(sessionId).getAccess() < 1) {
                 return "ACCESS DENIED";
@@ -208,7 +209,7 @@ public class DeviceResource {
                 Set<Employee> techs = temp.getTechByType(sessionId, item.getType().getName());
                 technician = pickTech(item.getType().getName(), techs);
             }
-            Assignment created = new Assignment(title, item, deadline + "T15:00", customer, clerk, technician, Integer.parseInt(priority));
+            Assignment created = new Assignment(title,desc, item, deadline + "T15:00", customer, clerk, technician, Integer.parseInt(priority));
             boolean added = DevMan.addAssignment(created);
             if (added) {
                 return "ASSIGNMENT CREATED";

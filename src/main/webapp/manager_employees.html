@@ -43,6 +43,7 @@
                         <b>EasyFix</b>
                     </a>
                     <ul class="nav navbar-nav navbar-right user-nav">
+                        <li class="user-name"><span><a data-toggle="modal" href="#modal-add-employee">Add Employee</a></span></li>
                         <li class="user-name"><span id="user-name">Akihiko Avaron</span></li>
                         <li>
                             <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name"/>
@@ -176,36 +177,24 @@
                                                                                     <td>Clerk</td>
                                                                                 </tr>
 
-                                                                                <tr>
-                                                                                <tr>
-                                                                                    <td><span class="fa fa-flag padded"></span>State</td>
-                                                                                    <td>Espoo</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td><span class="fa fa-building padded"></span>Home City</td>
-                                                                                    <td>Espoo</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td><span class="fa fa-map-marker padded"></span>Zip Code</td>
-                                                                                    <td>Espoo</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td><span class="fa fa-map padded"></span>Address</td>
-                                                                                    <td>Espoo</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td><span class="fa fa-envelope padded"></span>Email</td>
-                                                                                    <td><a href="mailto:info@support.com">info@support.com</a></td>
-                                                                                </tr>
-                                                                            <td><span class="fa fa-phone padded"></span>Phone Number</td>
-                                                                            <td>123-4567-890
-                                                                            </td>
 
-                                                                            </tr>
+                                                                                <tr>
+                                                                                    <td><span class="fa fa-phone padded"></span>Phone Number</td>
+                                                                                    <td>123-4567-890
+                                                                                    </td>
+
+                                                                                </tr>
+                                                                                <tr>
+
+                                                                                </tr>
 
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
+                                                                    <center>
+                                                                        <button hidden>Reinstate</button>
+                                                                        <button>Retire</button>
+                                                                    </center>
                                                                 </center>
                                                             </div>
                                                             <div class="padding-0">    
@@ -225,6 +214,92 @@
                 <!-- end: content -->
             </div>
         </div>
+        <!-- start: modal-add-customer -->
+        <div class="modal fade" id="modal-add-employee">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Add new employee</h4>
+                    </div><div class="container"></div>
+                    <div class="modal-body padding-0">
+                        <form id="addEmplForm">
+                            <div class="contentform">
+                                <div class="leftcontact">
+
+                                    <div class="form-group">
+                                        <p>Username <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-male"></i></span>
+                                        <input type="text" name="username" id="username" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>First name <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-user"></i></span>
+                                        <input type="text" name="fname" id="fname" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Last name <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-user"></i></span>
+                                        <input type="text" name="lname" id="lname" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Role<span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-user"></i></span>
+                                        <input type="text" name="role" id="role" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Password <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-lock"></i></span>
+                                        <input type="text" name="fname" id="password" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div> 	
+
+
+
+                                </div>
+
+                                <div class="rightcontact">
+
+                                    <div class="form-group">
+                                        <p>Email <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-envelope"></i></span>
+                                        <input type="text" name="email" id="email" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>	
+
+                                    <div class="form-group">
+                                        <p>Phone <span>*</span></p>	
+                                        <span class="icon-case"><i class="fa fa-phone"></i></span>
+                                        <input type="text" name="fname" id="phone" data-rule="required"/>
+                                        <div class="validation"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p>Skills <span>*</span></p>
+                                        <span class="icon-case"><i class="fa fa-comments-o"></i></span>
+                                        <textarea name="skills" rows="14" id="skills">devicetype1:lvl,devicetype2:lvl, etc...</textarea>
+                                        <div class="validation"></div>
+                                    </div>	
+                                    
+                                    
+                                </div>
+                            </div>
+                            <button type="button" class="bouton-contact" onclick="addEmployee()" data-dismiss="modal">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: modal-add-customer>
+        
         <!-- start: Javascript -->
         <script src="asset/js/jquery.min.js"></script>
         <script src="asset/js/jquery.ui.min.js"></script>

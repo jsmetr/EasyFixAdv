@@ -37,10 +37,12 @@ public class UserResource {
     /*
     Adds a new employee into the system.
      */
-    @Path("/AddEmpl/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{access}/{role}/{sessionId}")
+    @Path("/AddEmpl/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{role}/{skills}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    public String addEmployee(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname, @PathParam("uname") String uname, @PathParam("psw") String psw, @PathParam("phone") String phone, @PathParam("email") String email, @PathParam("access") String access, @PathParam("role") String role) {
+    public String addEmployee(@PathParam("sessionId") String sessionId, @PathParam("fname") String fname, @PathParam("lname") String lname,
+            @PathParam("uname") String uname, @PathParam("psw") String psw, @PathParam("phone") String phone, @PathParam("email") String email,
+            @PathParam("role") String role, @PathParam("skills") String skillstring) {
         if (LogMan.CheckSession(sessionId)) {
             if (LogMan.getBySesId(sessionId).getAccess() < 2) {
                 return "ACCESS DENIED";
@@ -50,7 +52,18 @@ public class UserResource {
                     return "USERNAME ALREADY IN USE";
                 }
             }
-            Employee newemp = new Employee(fname, lname, uname, psw, email, phone, Integer.parseInt(access), role); //In order: first name, last name, user name, password, access lvl, jobs
+            int access = 1;
+            if (role.equals("manager")) {
+                access = 2;
+            }
+            Employee newemp = new Employee(fname, lname, uname, psw, email, phone, access, role); //In order: first name, last name, user name, password, access lvl, jobs
+            List<String> rawskills = Arrays.asList(skillstring.split(","));
+            if (role.equals("technician")) {
+                for (String raw : rawskills) {
+                    String[] data = raw.split(":");
+                    newemp.changeSkill(data[0], Integer.parseInt(data[1]));
+                }
+            }
             UseMan.addEmployee(newemp);
             LogMan.UpdateLogins();
             return "SUCCESS";
@@ -169,10 +182,10 @@ public class UserResource {
     public Person viewMyInfo(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId)) {
             Person crnt = LogMan.getBySesId(sessionId);
-            if(crnt.getRole().equals("customer")){
-            crnt=(Customer)crnt;
+            if (crnt.getRole().equals("customer")) {
+                crnt = (Customer) crnt;
             } else {
-            crnt=(Employee)crnt;
+                crnt = (Employee) crnt;
             }
             return crnt;
         }
