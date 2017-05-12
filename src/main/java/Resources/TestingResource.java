@@ -247,13 +247,13 @@ public class TestingResource {
         a12.setStatus(-1);
         a9.setStatus(-1);
         a10.setStatus(-1);
-        createReview(7,a1,"#1");
+        createReview(3,a1,"#1");
         createReview(4,a6,"#2");
-        createReview(8,a2,"#3");
-        createReview(10,a3,"#4");
-        createReview(10,a13,"#5");
-        createReview(6,a14,"#6");
-        createReview(8,a15,"#7");
+        createReview(2,a2,"#3");
+        createReview(5,a3,"#4");
+        createReview(5,a13,"#5");
+        createReview(3,a14,"#6");
+        createReview(4,a15,"#7");
         DevMan.save();
         return "stocked: " + DevMan.getTypes().size() + " devicetypes, " + DevMan.getDevices().size() + " devices, " + DevMan.getAssignments().size() + " assignments, hashes: " + hashed;
     }

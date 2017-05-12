@@ -8,13 +8,14 @@ var req;
 var req2;
 var req3;
 var RESTaddr;
+var myrole;
 
 function init() {
     grabAddr();
     whoAmI();
 }
 
-function clerkInit(){
+function clerkInit() {
     init();
     getCustomers();
     getAssignments();
@@ -71,6 +72,10 @@ function logoutcallback() {
     }
 }
 
+function toMyPortal() {
+    window.location.replace(myrole + ".html");
+}
+
 function whoAmI() {
     console.log("hei");
     var url = RESTaddr + "webresources/Users/View/Myself/" + localStorage.getItem("sessionId");
@@ -87,6 +92,7 @@ function whoCallback() {
             console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
             var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
             var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
+            myrole = crntUser[0].getElementsByTagName("role")[0].childNodes[0].nodeValue;
             document.getElementById("user-name").innerHTML = fname + " " + lname;
             console.log(crntUser[0].getElementsByTagName("access")[0].childNodes[0].nodeValue);
             myJobs = [];
@@ -248,9 +254,9 @@ function addNewTask() {
     req.send(null);
 
     taskList.appendChild(newTaskTemp);
-   
-     document.getElementById('addNewTaskForm').reset();
-     
+
+    document.getElementById('addNewTaskForm').reset();
+
 }
 
 function taskaddcallback() {
@@ -423,8 +429,10 @@ function fileRepaired(XML) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var newTaskTemp = document.getElementById('repaired-template').content.cloneNode(true);
             var taskdata = XML.childNodes[0].childNodes[loop];
-            var id=taskdata.getElementsByTagName("id")[1].innerHTML.toString();
-            newTaskTemp.querySelector('#archrep').onclick = function(){archiveTask(id)};
+            var id = taskdata.getElementsByTagName("id")[1].innerHTML.toString();
+            newTaskTemp.querySelector('#archrep').onclick = function () {
+                archiveTask(id)
+            };
             newTaskTemp.querySelector('#repairtitle').innerText = taskdata.childNodes[10].innerHTML
             newTaskTemp.querySelector('#repairname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
             newTaskTemp.querySelector('#repaircust').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
@@ -459,8 +467,10 @@ function fileCanceled(XML) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var newTaskTemp = document.getElementById('canceled-template').content.cloneNode(true);
             var taskdata = XML.childNodes[0].childNodes[loop];
-            var id=taskdata.getElementsByTagName("id")[1].innerHTML.toString();
-            newTaskTemp.querySelector('#archcancel').onclick = function(){archiveTask(id)};
+            var id = taskdata.getElementsByTagName("id")[1].innerHTML.toString();
+            newTaskTemp.querySelector('#archcancel').onclick = function () {
+                archiveTask(id)
+            };
             newTaskTemp.querySelector('#canceltitle').innerText = taskdata.getElementsByTagName("title")[0].innerHTML;
             newTaskTemp.querySelector('#canceldate').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
             newTaskTemp.querySelector('#cancelcust').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue
@@ -471,16 +481,16 @@ function fileCanceled(XML) {
 
 }
 
-function archiveTask(taskid){
+function archiveTask(taskid) {
     //"/Assignment/{assignmentid}/{newstatus}/{sessionId}"
-    url = RESTaddr + "webresources/Devices/Assignment/"+taskid+"/2/" + localStorage.getItem("sessionId");
+    url = RESTaddr + "webresources/Devices/Assignment/" + taskid + "/2/" + localStorage.getItem("sessionId");
     req = initRequest();
     req.open("PUT", url, true);
     req.onreadystatechange = archivecallback;
     req.send(null);
 }
 
-function archivecallback(){
+function archivecallback() {
     if (req3.readyState == 4) {
         if (req3.status == 200) {
             getAssignments();
@@ -525,20 +535,20 @@ function printProfileCallBack() {
             var uname = crntUser[0].getElementsByTagName("userName")[0].childNodes[0].nodeValue;
             var email = crntUser[0].getElementsByTagName("email")[0].childNodes[0].nodeValue;
             var phone = crntUser[0].getElementsByTagName("phone")[0].childNodes[0].nodeValue;
-            
+
             document.getElementById("fullName-profile").innerHTML = fname + " " + lname;
             document.getElementById("user-name").innerHTML = fname + " " + lname;
             document.getElementById("uName-profile").innerHTML = uname;
             document.getElementById("email-profile").innerHTML = email;
             document.getElementById("phone-profile").innerHTML = phone;
-            
-                        
-            if(crntUser[0].getElementsByTagName("role")[0].childNodes[0].nodeValue == "customer") {
+
+
+            if (crntUser[0].getElementsByTagName("role")[0].childNodes[0].nodeValue == "customer") {
                 var address = crntUser[0].getElementsByTagName("address")[0].childNodes[0].nodeValue;
                 var city = crntUser[0].getElementsByTagName("city")[0].childNodes[0].nodeValue;
                 var state = crntUser[0].getElementsByTagName("state")[0].childNodes[0].nodeValue;
                 var zipcode = crntUser[0].getElementsByTagName("zipcode")[0].childNodes[0].nodeValue;
-                
+
                 document.getElementById("address-profile").innerHTML = address;
                 document.getElementById("city-profile").innerHTML = city;
                 document.getElementById("state-profile").innerHTML = state;
@@ -564,13 +574,13 @@ function showTechInfoCallBack() {
             crntUser = req.responseXML.childNodes;
             console.log("hello");
             console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
-            
+
             var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
             var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
             var uname = crntUser[0].getElementsByTagName("userName")[0].childNodes[0].nodeValue;
             var email = crntUser[0].getElementsByTagName("email")[0].childNodes[0].nodeValue;
-            var phone = crntUser[0].getElementsByTagName("phone")[0].childNodes[0].nodeValue;            
-            
+            var phone = crntUser[0].getElementsByTagName("phone")[0].childNodes[0].nodeValue;
+
             document.getElementById("fullName-techInfo").innerHTML = fname + " " + lname;
             document.getElementById("firstName-techInfo").innerHTML = fname;
             document.getElementById("uName-techInfo").innerHTML = uname;
@@ -593,9 +603,9 @@ function showCusInfoCallBack() {
     if (req.readyState == 4) {
         if (req.status == 200) {
             crntUser = req.responseXML.childNodes;
-            
+
             console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
-            
+
             var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
             var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
             var uname = crntUser[0].getElementsByTagName("userName")[0].childNodes[0].nodeValue;
@@ -605,8 +615,8 @@ function showCusInfoCallBack() {
             var city = crntUser[0].getElementsByTagName("city")[0].childNodes[0].nodeValue;
             var state = crntUser[0].getElementsByTagName("state")[0].childNodes[0].nodeValue;
             var zipcode = crntUser[0].getElementsByTagName("zipcode")[0].childNodes[0].nodeValue;
-            
-            document.getElementById("fullName-cusInfo").innerHTML = fname + " " + lname;            
+
+            document.getElementById("fullName-cusInfo").innerHTML = fname + " " + lname;
             document.getElementById("uName-cusInfo").innerHTML = uname;
             document.getElementById("email-cusInfo").innerHTML = email;
             document.getElementById("phone-cusInfo").innerHTML = phone;

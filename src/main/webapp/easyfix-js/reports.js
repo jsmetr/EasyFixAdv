@@ -3,93 +3,223 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var req2;
+var req4;
+var req5;
 var RESTaddr;
+var allOrders;
+var canceledOrders;
 
 
 function reportInit() {
-    testrest();
-    console.log(localStorage.getItem("sessionId"));
+    init();
+    getAllAssignments();
     RESTaddr = getRESTAddr();
 }
 
-function testrest() {
-    var url = RESTaddr + "webresources/Testing/TickTock";
-    req2 = initRequest();
-    req2.open("GET", url, true);
-    req2.onreadystatechange = resttestcallback;
-    req2.send(null);
-}
-
-function resttestcallback() {
-    if (req2.readyState == 4) {
-        if (req2.status == 200) {
-            if (req2.responseText !== "FAILURE") {
-                console.log(req2.responseText);
-                getAllAssignments();
-            }
-        }
-    }
-}
-
 function getAllAssignments() {
-    var url = RESTaddr + "webresources/Devices/Assignments"
-    var req = initRequest();
-    req.open("GET", url, true);
-    req.onreadystatechange = getAllAssignmentCallback(req);
-    req.send(null);
+    console.log("getting");
+    var url = RESTaddr + "webresources/Devices/Graph/Assignments/All/" + localStorage.getItem("sessionId");
+    console.log(url);
+    req5 = initRequest();
+    req5.open("GET", url, true);
+    req5.onreadystatechange = getassigncallback;
+    req5.send(null);
 }
 
-function getAllAssignmentCallback(req) {
-    if (req.readyState == 4) {
-        if (req.status == 200) {
-            if (req.responseText !== "FAILURE") {
-                console.log(req.responseText);
+function getassigncallback() {
+    if (req5.readyState == 4) {
+        if (req5.status == 200) {
+            if (req5.responseText !== "FAILURE") {
+                var XML = req5.responseXML;
+                allOrders = XML;
+                var dData = [];
+                var colors = ["#4ED18F", "#15BA67", "#5BAABF", "#94D7E9", "#BBE0E9"];
+                var colorpick = 0;
+                console.log(XML);
+
+                if (XML.childNodes[0].childNodes.length > 0) {
+                    for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+                        var item = XML.childNodes[0].childNodes[loop];
+                        console.log(item.getElementsByTagName("name")[0].childNodes[0].nodeValue);
+                        dData.push({
+                            value: parseInt(item.getElementsByTagName("count")[0].childNodes[0].nodeValue)
+                            , color: colors[colorpick]
+                            , highlight: "#15BA67"
+                            , label: item.getElementsByTagName("name")[0].childNodes[0].nodeValue
+                        });
+                        colorpick++;
+                        if (colorpick >= colors.length) {
+                            colorpick = 0;
+                        }
+                    }
+                }
+                var ctx = $(".doughnut-chart")[0].getContext("2d");
+                window.myDoughnut = new Chart(ctx).Pie(dData, {
+                    responsive: true
+                    , showTooltips: true
+                });
+                getCanceledAssignments();
             }
         }
     }
 }
 
-function setDoughnut() {
-    getAllAssignments();
-    var doughnutData = [
-        {
-            value: 100
-            , color: "#4ED18F"
-            , highlight: "#15BA67"
-            , label: "Device type 01"
-        }
-        , {
-            value: 250
-            , color: "#15BA67"
-            , highlight: "#15BA67"
-            , label: "Device type 02"
-        }
-        , {
-            value: 100
-            , color: "#5BAABF"
-            , highlight: "#15BA67"
-            , label: "Device type 03"
-        }
-        , {
-            value: 40
-            , color: "#94D7E9"
-            , highlight: "#15BA67"
-            , label: "Device type 04"
-        }
-        , {
-            value: 120
-            , color: "#BBE0E9"
-            , highlight: "#15BA67"
-            , label: "Device type 05"
-        }
+function getCanceledAssignments() {
+    var url = RESTaddr + "webresources/Devices/Graph/Assignments/Canceled/" + localStorage.getItem("sessionId");
+    req5 = initRequest();
+    req5.open("GET", url, true);
+    req5.onreadystatechange = getcancelcallback;
+    req5.send(null);
+}
 
-    ];
-    doughnutData.push({
-        value: 120
-        , color: "#BBE0E9"
-        , highlight: "#15BA67"
-        , label: "Device type 05"
+function getcancelcallback() {
+    if (req5.readyState == 4) {
+        if (req5.status == 200) {
+            if (req5.responseText !== "FAILURE") {
+                var XML = req5.responseXML;
+                canceledOrders = XML;
+                var pData = [];
+
+                if (XML.childNodes[0].childNodes.length > 0) {
+                    for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+                        var item = XML.childNodes[0].childNodes[loop];
+                        console.log(item.getElementsByTagName("name")[0].childNodes[0].nodeValue);
+                        pData.push({
+                            value: parseInt(item.getElementsByTagName("count")[0].childNodes[0].nodeValue)
+                            , color: "#BBE0E9"
+                            , highlight: "#15BA67"
+                            , label: item.getElementsByTagName("name")[0].childNodes[0].nodeValue
+                        });
+                    }
+                }
+                console.log(pData);
+                var ctx2 = $(".pie-chart")[0].getContext("2d");
+                window.myPie = new Chart(ctx2).Pie(pData, {
+                    responsive: true
+                    , showTooltips: true
+                });
+                getSkills()
+            }
+        }
+    }
+}
+
+function getSkills() {
+    var url = RESTaddr + "webresources/Devices/Graph/Skills/" + localStorage.getItem("sessionId");
+    console.log(url);
+    req5 = initRequest();
+    req5.open("GET", url, true);
+    req5.onreadystatechange = skillscallback;
+    req5.send(null);
+}
+
+function skillscallback() {
+    if (req5.readyState == 4) {
+        if (req5.status == 200) {
+            if (req5.responseText !== "FAILURE") {
+                var XML = req5.responseXML;
+                var Data = [];
+                var colors = ["#4ED18F", "#15BA67", "#5BAABF", "#94D7E9", "#BBE0E9"];
+                var colorpick = 0;
+                console.log(XML);
+
+                if (XML.childNodes[0].childNodes.length > 0) {
+                    for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+                        var item = XML.childNodes[0].childNodes[loop];
+                        console.log(item.getElementsByTagName("name")[0].childNodes[0].nodeValue);
+                        Data.push({
+                            value: parseInt(item.getElementsByTagName("count")[0].childNodes[0].nodeValue)
+                            , color: colors[colorpick]
+                            , highlight: "#15BA67"
+                            , label: item.getElementsByTagName("name")[0].childNodes[0].nodeValue
+                        });
+                        colorpick++;
+                        if (colorpick >= colors.length) {
+                            colorpick = 0;
+                        }
+                    }
+                }
+                var ctx6 = $(".polar-chart")[0].getContext("2d");
+                window.myPolar = new Chart(ctx6).PolarArea(Data, {
+                    responsive: true
+                    , showTooltips: true
+                });
+                radarData();
+            }
+        }
+    }
+}
+
+function radarData() {
+    var labels = [];
+    var orders = [];
+    var cancels = [];
+    var size = 0;
+    if (allOrders.childNodes[0].childNodes.length > canceledOrders.childNodes[0].childNodes.length) {
+        size = allOrders.childNodes[0].childNodes.length;
+        var main = orders;
+        var second = cancels;
+        var mainD = allOrders;
+        var secondD = canceledOrders;
+        var cancelfin = second;
+        var ordersfin = main;
+    } else {
+        size = canceledOrders.childNodes[0].childNodes.length;
+        var main = cancels;
+        var second = orders;
+        var mainD = canceledOrders;
+        var secondD = allOrders;
+        var cancelfin = main;
+        var ordersfin = second;
+    }
+    for (var i = 0; i < size; i++) {
+
+        var item = mainD.childNodes[0].childNodes[loop];
+        labels.push(item.getElementsByTagName("name")[0].childNodes[0].nodeValue);
+        main.push(parseInt(item.getElementsByTagName("count")[0].childNodes[0].nodeValue));
+        second.push(0);
+        for (var ii = 0; ii < secondD.size; ii++) {
+            var adder = true;
+            for (var iii = 0; iii < mainD.size; iii++) {
+                if (labels[iii].equals(secondD.childNodes[0].childNodes[ii].getElementsByTagName("name")[0].childNodes[0].nodeValue)) {
+                    second.push(parseInt(secondD.childNodes[0].childNodes[ii].getElementsByTagName("count")[0].childNodes[0].nodeValue));
+                    adder = false;
+                }
+                if (adder) {
+                    labels.push(secondD.childNodes[0].childNodes[ii].getElementsByTagName("name")[0].childNodes[0].nodeValue);
+                    main.push(0);
+                }
+            }
+        }
+    }
+    var radarData = {
+        labels: labels
+        , datasets: [
+            {
+                label: "All Orders"
+                , fillColor: "rgba(21,186,103,0.5)"
+                , strokeColor: "rgba(220,220,220,1)"
+                , pointColor: "rgba(220,220,220,1)"
+                , pointStrokeColor: "#fff"
+                , pointHighlightFill: "#fff"
+                , pointHighlightStroke: "rgba(220,220,220,1)"
+                , data: ordersfin
+            }
+            , {
+                label: "Canceled Orders"
+                , fillColor: "rgba(21,113,186,0.5)"
+                , strokeColor: "rgba(151,187,205,1)"
+                , pointColor: "rgba(151,187,205,1)"
+                , pointStrokeColor: "#fff"
+                , pointHighlightFill: "#fff"
+                , pointHighlightStroke: "rgba(151,187,205,1)"
+                , data: cancelfin
+            }
+        ]
+    };
+    var ctx5 = $(".radar-chart")[0].getContext("2d");
+    window.myRadar = new Chart(ctx5).Radar(radarData, {
+        responsive: true
+        , showTooltips: true
     });
-    return doughnutData;
 }

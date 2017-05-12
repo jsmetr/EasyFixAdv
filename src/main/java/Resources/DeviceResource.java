@@ -247,7 +247,7 @@ public class DeviceResource {
             int setstatus = Integer.parseInt(status);
             DevMan.getAssignmentById(getid).setStatus(setstatus);
             DevMan.save();
-            return "STATUS UPDATED: "+setstatus;
+            return "STATUS UPDATED: " + setstatus;
         }
         return "SESSION EXPIRED";
     }
@@ -412,24 +412,24 @@ public class DeviceResource {
         }
         return reviews; //even if there are not enough to fill the quota, whatever was found is returned.
     }
-    
+
     @Path("/getFullReview/{id}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public ReviewShell getFull(@PathParam("id") String id) {
         int revid = Integer.parseInt(id);
         for (Assignment a : DevMan.getAssignments()) {
-            if (a.getReview() != null && a.getReviewShell().getReviewId()==revid) {
+            if (a.getReview() != null && a.getReviewShell().getReviewId() == revid) {
                 return a.getReviewShell();
             }
         }
         return null;
     }
 
-    @Path("/Graph/Assignments/ByType/{sessionId}")
+    @Path("/Graph/Assignments/All/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Set<WorkLoad> grabbystatus(@PathParam("sessionId") String sessionId) {
+    public Set<WorkLoad> graphActive(@PathParam("sessionId") String sessionId) {
         if (LogMan.CheckSession(sessionId)) {
             Set<Assignment> all = DevMan.getAssignments();
             Set<WorkLoad> active = new TreeSet<WorkLoad>();
@@ -442,13 +442,68 @@ public class DeviceResource {
                         addnew = false;
                     }
                 }
-                if(addnew){
-                WorkLoad newload = new WorkLoad(a.getDevice().getType().getName());
-                newload.countUp();
-                active.add(newload);
+                if (addnew) {
+                    WorkLoad newload = new WorkLoad(a.getDevice().getType().getName());
+                    newload.countUp();
+                    active.add(newload);
                 }
             }
             return active;
+        }
+        return null;
+    }
+
+    @Path("/Graph/Assignments/Canceled/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<WorkLoad> graphCanceled(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+            Set<Assignment> all = DevMan.getAssignments();
+            Set<WorkLoad> active = new TreeSet<WorkLoad>();
+            boolean addnew = true;
+            for (Assignment a : all) {
+                if (a.getStatus() == -1) {
+                    addnew = true;
+                    for (WorkLoad wl : active) {
+                        if (wl.getName().equals(a.getDevice().getType().getName())) {
+                            wl.countUp();
+                            addnew = false;
+                        }
+                    }
+                    if (addnew) {
+                        WorkLoad newload = new WorkLoad(a.getDevice().getType().getName());
+                        newload.countUp();
+                        active.add(newload);
+                    }
+                }
+            }
+            return active;
+        }
+        return null;
+    }
+
+    @Path("/Graph/Skills/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public List<WorkLoad> graphSkills(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+            Set<Employee> all = UseMan.getEmployees();
+            Set<DeviceType> types = DevMan.getTypes();
+            List<WorkLoad> skills = new ArrayList<WorkLoad>();
+            for(DeviceType t:types){
+                WorkLoad newload = new WorkLoad(t.getName());
+                skills.add(newload);
+            }
+            for (Employee t : all) {
+                for (WorkLoad wl : skills) {
+                    for(RepairSkill rs: t.getSkills()){
+                        if(rs.getDevicetype().equals(wl.getName())){
+                            wl.countUp();
+                        }
+                    }
+                }
+            }
+            return skills;
         }
         return null;
     }

@@ -161,7 +161,7 @@
                                             <th>Review</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="order-body">
                                                 <tr>
                                                     <td>112-3427024-6769040</td>
                                                     <td>Changing screen Android-phone</td>
@@ -226,5 +226,45 @@
 
         <!-- custom -->
         <script src="asset/js/main.js"></script>
+                                            <template id="inprog-template">
+                                                <tr>
+                                                    <td id="prog-id">112-3427024-6769040</td>
+                                                    <td id="prog-title">Changing screen Android-phone</td>
+                                                    <td id="prog-crttime">04/14/2017</td>
+                                                    <td id="prog-deadline">04/28/2017</td>
+                                                    <td id="prog-tech">Technician 01</td>
+                                                    <td><h5><span class="label label-warning">In process</span></h5></td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                </tr>
+                                            </template>
+                                            <template id="canceled-template">
+                                                <tr>
+                                                    <td id="can-id">106-5038758-1681004</td>
+                                                    <td id="can-title">Recovering information HP laptop</td>
+                                                    <td id="can-crttime">11/07/2016</td>
+                                                    <td id="can-deadline">15/07/2016</td>
+                                                    <td id="can-tech">Technician 03</td>
+                                                    <td><h5><span class="label label-danger">Canceled</span></h5></td>
+                                                    <td id="can-rating">-</td>
+                                                    <td id="can-review">View</td>
+                                                </tr>
+                                            </template>
+                                            <template id="compl-template">
+                                                <tr class="text-center">
+                                                    <td id="com-id">106-6378301-7689050</td>
+                                                    <td id="com-title">Reinstalling OS HP laptop</td>
+                                                    <td id="com-crttime">01/03/2016</td>
+                                                    <td id="com-deadline">08/03/2016</td>
+                                                    <td id="com-tech">Technician 08</td>
+                                                    <td><h5><span class="label label-success">Completed</span></h5></td>
+                                                    <td id="com-rating"><i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i></td>
+                                                    <td id="com-review">View</td>
+                                                </tr>
+                                            </template>
     </body>
 </html>
