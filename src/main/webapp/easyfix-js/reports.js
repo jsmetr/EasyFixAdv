@@ -163,6 +163,7 @@ function radarData() {
         var secondD = canceledOrders;
         var cancelfin = second;
         var ordersfin = main;
+        console.log("order-main");
     } else {
         size = canceledOrders.childNodes[0].childNodes.length;
         var main = cancels;
@@ -171,24 +172,27 @@ function radarData() {
         var secondD = allOrders;
         var cancelfin = main;
         var ordersfin = second;
+        console.log("cancel-main");
     }
     for (var i = 0; i < size; i++) {
 
-        var item = mainD.childNodes[0].childNodes[loop];
+        var item = mainD.childNodes[0].childNodes[i];
         labels.push(item.getElementsByTagName("name")[0].childNodes[0].nodeValue);
         main.push(parseInt(item.getElementsByTagName("count")[0].childNodes[0].nodeValue));
         second.push(0);
-        for (var ii = 0; ii < secondD.size; ii++) {
-            var adder = true;
-            for (var iii = 0; iii < mainD.size; iii++) {
-                if (labels[iii].equals(secondD.childNodes[0].childNodes[ii].getElementsByTagName("name")[0].childNodes[0].nodeValue)) {
-                    second.push(parseInt(secondD.childNodes[0].childNodes[ii].getElementsByTagName("count")[0].childNodes[0].nodeValue));
-                    adder = false;
-                }
-                if (adder) {
-                    labels.push(secondD.childNodes[0].childNodes[ii].getElementsByTagName("name")[0].childNodes[0].nodeValue);
-                    main.push(0);
-                }
+    }
+    console.log(secondD.childNodes);
+    console.log(secondD.childNodes.length);
+    for (var ii = 0; ii < secondD.childNodes.length; ii++) {
+        {
+            console.log(secondD.childNodes[ii].getElementsByTagName("name")[0].childNodes[0].nodeValue);
+            var index = labels.indexOf(secondD.childNodes[ii].getElementsByTagName("name")[0].childNodes[0].nodeValue);
+            if(index>-1){
+                second[index]=parseInt(secondD.childNodes[ii].getElementsByTagName("count")[0].childNodes[0].nodeValue);
+            } else{
+                labels.push(secondD.childNodes[ii].getElementsByTagName("name")[0].childNodes[0].nodeValue)
+                second.push(parseInt(secondD.childNodes[ii].getElementsByTagName("count")[0].childNodes[0].nodeValue));
+                main.push(0);
             }
         }
     }
