@@ -197,6 +197,7 @@ public class TestingResource {
         DevMan.addDeviceType(mower);
         DevMan.addDeviceType(tv);
         DevMan.addDeviceType(stove);
+        DevMan.addDeviceType(toaster);
         Device estove = new Device("JillDoe", "Electrolux", stove, "manufacturer");
         Device iphone9k = new Device("GaryStu", "iPhone 1t1n", iphone, "Apple");
         Device Hondamower = new Device("JillDoe", "ClearCutter X", mower, "Honda");
