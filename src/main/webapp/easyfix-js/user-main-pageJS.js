@@ -31,6 +31,16 @@ function initEmpManager() {
     getEmployees();
 }
 
+function initReview() {
+    if (localStorage.getItem("sessionId") == "") {
+        myrole = "index";
+        grabAddr()
+    } else{
+        init();
+    }
+    getFullReview();
+}
+
 function grabAddr() {
     var addr = document.location.href.toString().split("/");
     var REST = "";
@@ -79,8 +89,17 @@ function toMyPortal() {
     window.location.replace(myrole + ".html");
 }
 
+function toMyProfile() {
+    if (myrole == "index") {
+        window.location.replace(myrole + ".html");
+
+    } else {
+        window.location.replace(myrole + "_profile.html");
+    }
+}
+
 function whoAmI() {
-    var url = RESTaddr + "webresources/Users/View/Myself/" + localStorage.getItem("sessionId");
+    var url = RESTaddr+"webresources/Users/View/Myself/" + localStorage.getItem("sessionId");
     req = initRequest();
     req.open("GET", url, true);
     req.onreadystatechange = whoCallback;
@@ -101,6 +120,29 @@ function whoCallback() {
             }
         }
     }
+}
+
+function getFullReview(){
+    var revid=localStorage.getItem("reviewId");
+    var url = RESTaddr + "webresources/Devices/getFullReview/"+revid;
+    if(revid.length<1){
+        console.log("get latest");
+        url = RESTaddr + "webresources/Devices/getFullReview";      
+    }
+    req2 = initRequest();
+    req2.open("GET", url, true);
+    req2.onreadystatechange = fullrevcallback;
+    req2.send(null);
+}
+
+function fullrevcallback(){
+    if (req2.readyState == 4) {
+        if (req2.status == 200) {
+            var XML=req2.responseXML;
+            console.log(XML);
+        }
+    }
+    
 }
 
 /*
@@ -442,38 +484,43 @@ function getdetailscallback() {
             document.getElementById('detailphone').innerHTML = XML.getElementsByTagName("phone")[0].innerHTML;
             document.getElementById('detailemail').innerHTML = XML.getElementsByTagName("email")[0].innerHTML;
             document.getElementById('detailemail').href = "mailto:" + XML.getElementsByTagName("email")[0].innerHTML;
-            document.getElementById('reinstate').onclick=function(){reinstate(XML.getElementsByTagName("role")[0].innerHTML.toString(),XML.getElementsByTagName("userName")[0].innerHTML.toString())};
-            document.getElementById('retire').onclick=function(){setStatus(-1,XML.getElementsByTagName("userName")[0].innerHTML.toString())};
-            if(parseInt(XML.getElementsByTagName("access")[0].innerHTML)>-1){
+            document.getElementById('reinstate').onclick = function () {
+                reinstate(XML.getElementsByTagName("role")[0].innerHTML.toString(), XML.getElementsByTagName("userName")[0].innerHTML.toString())
+            };
+            document.getElementById('retire').onclick = function () {
+                setStatus(-1, XML.getElementsByTagName("userName")[0].innerHTML.toString())
+            };
+            if (parseInt(XML.getElementsByTagName("access")[0].innerHTML) > -1) {
                 $('#reinstate').hide();
                 $('#retire').show();
-            } else{
+            } else {
                 $('#retire').hide();
                 $('#reinstate').show();
-                
+
             }
         }
     }
 }
 
-function reinstate(role,uname){
-    if(role==("manager")){
+function reinstate(role, uname) {
+    if (role == ("manager")) {
         console.log("is manager");
-        setStatus(2,uname);
-    } else{
-        setStatus(1,uname);
+        setStatus(2, uname);
+    } else {
+        setStatus(1, uname);
     }
 }
 
-function setStatus(newstatus,uname){
-    url = RESTaddr + "webresources/Users/ChangeStatus/"+newstatus+"/"+uname+"/" + localStorage.getItem("sessionId");
+function setStatus(newstatus, uname) {
+    url = RESTaddr + "webresources/Users/ChangeStatus/" + newstatus + "/" + uname + "/" + localStorage.getItem("sessionId");
     req3 = initRequest();
-    req3.open("PUT", url, true);1
+    req3.open("PUT", url, true);
+    1
     req3.onreadystatechange = setstatuscallback;
     req3.send(null);
 }
 
-function setstatuscallback(){
+function setstatuscallback() {
     if (req3.readyState == 4) {
         if (req3.status == 200) {
             console.log(req3.responseText);

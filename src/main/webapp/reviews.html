@@ -29,7 +29,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">
+    <body id="mimin" class="dashboard" onload="initReview()">
         
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
@@ -44,7 +44,7 @@
                         <b>EasyFix</b>
                     </a>
                     <ul class="nav navbar-nav navbar-right user-nav">
-                        <li class="user-name"><span>Akihiko Avaron</span></li>
+                        <li class="user-name" id="user-name"><span>Akihiko Avaron</span></li>
                         <li>
                             <img src="asset/img/avatar.jpg" class="img-circle avatar" alt="user name"/>
                         </li>
@@ -63,7 +63,7 @@
                         <li><div class="left-bg"></div></li>
                         <li class="ripple" onclick="toMyPortal()"><a href="#"><span class="fa fa-comments"></span>My Portal</a></li>
                         <li class="ripple"><a href="#"><span class="fa fa-comments"></span>Reviews</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-user"></span>Profile</a></li>
+                        <li class="ripple" onclick="toMyProfile()"><a href="#"><span class="fa fa-user"></span>Profile</a></li>
                         <li class="ripple"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
                     </ul>
                 </div>
@@ -84,9 +84,9 @@
                                         </div>
                                         <div class="pull-left meta">
                                             <div class="title h5">
-                                                <b>Review Title</b>
+                                                <b id="rev-title">Review Title</b>
                                             </div>
-                                            <h6 class="text-muted time">Username</h6>
+                                            <h6 class="text-muted time" id="rev-uname">Username</h6>
                                             <i class="fa fa-star icon"></i>
                                             <i class="fa fa-star icon"></i>
                                             <i class="fa fa-star icon"></i>
@@ -95,7 +95,7 @@
                                         </div>
                                     </div> 
                                     <div class="post-description"> 
-                                        <p>I've probably found my new trusted mechanic! I took my truck in for smog inspection and Bobby is great. He told me what needed to be done to my truck to fix the engine light and bring it back.</p>
+                                        <p id="rev-body">I've probably found my new trusted mechanic! I took my truck in for smog inspection and Bobby is great. He told me what needed to be done to my truck to fix the engine light and bring it back.</p>
                                         <div class="stats">
                                             <a data-toggle="collapse" data-target="#collapse-comments" class="btn btn-default stat-item">
                                                 <i class="fa fa-share icon"></i>View comments
@@ -128,19 +128,33 @@
             <!-- start: collapse-comments -->
             <div class="collapse" id="collapse-comments">
                 <div class="post-footer">
-                    <ul class="comments-list">
+                    <ul class="comments-list" id="commentsection">
+                        <template id="comment-template"><li class="comment">
+                            <a class="pull-left" href="#">
+                                <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
+                            </a>
+                            <div class="comment-body">
+                                <div class="comment-heading">
+                                    <h4 class="user" id="signed">Gavino Free</h4>
+                                    <h5 class="time" id="timestamp">Posting date | <a data-target="#modal-reply" data-toggle="modal" id="replybtn"> Reply</a></h5>
+                                </div>
+                                <p id="comment-body">Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                            </div>
+                            <ul class="comments-list" id="responses">
+                            </ul>
+                        </li></template>
                         <li class="comment">
                             <a class="pull-left" href="#">
                                 <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
                             </a>
                             <div class="comment-body">
                                 <div class="comment-heading">
-                                    <h4 class="user">Gavino Free</h4>
-                                    <h5 class="time">Posting date | <a data-target="#modal-reply" data-toggle="modal"> Reply</a></h5>
+                                    <h4 class="user" id="signed">Gavino Free</h4>
+                                    <h5 class="time" id="timestamp">Posting date | <a data-target="#modal-reply" data-toggle="modal" id="replybtn"> Reply</a></h5>
                                 </div>
-                                <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                                <p id="comment-body">Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
                             </div>
-                            <ul class="comments-list">
+                            <ul class="comments-list" id="responses">
                                 <li class="comment">
                                     <a class="pull-left" href="#">
                                         <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">

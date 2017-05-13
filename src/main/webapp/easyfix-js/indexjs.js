@@ -203,14 +203,21 @@ function fileReviews(XML) {
             console.log("run");
             var title = document.getElementById("reviewname" + loop);
             var body = document.getElementById("reviewbody" + loop);
+            var link = document.getElementById("revlink" + loop);
             var review = XML.childNodes[0].childNodes[loop];
+            var revid=review.getElementsByTagName("id")[0].childNodes[0].nodeValue.toString();
             console.log(review);
             console.log(review.getElementsByTagName("title")[0].childNodes[0].nodeValue.toString());
             console.log(review.getElementsByTagName("body")[0].childNodes[0].nodeValue);
             console.log(title);
             console.log(body);
+            console.log(revid);
             title.innerHTML = review.getElementsByTagName("title")[0].childNodes[0].nodeValue.toString();
             body.innerHTML = review.getElementsByTagName("body")[0].childNodes[0].nodeValue.toString();
+            link.onclick=function(){
+                localStorage.setItem("reviewId", revid);
+                window.location.replace("reviews.html")
+            }
         }
     }
 }

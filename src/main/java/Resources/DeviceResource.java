@@ -414,10 +414,22 @@ public class DeviceResource {
         return reviews; //even if there are not enough to fill the quota, whatever was found is returned.
     }
 
+    @Path("/getFullReview")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public ReviewShell getFull() {
+        for (Assignment a : DevMan.getAssignments()) {
+            if (a.getReview() != null) {
+                return a.getReviewShell();
+            }
+        }
+        return null;
+    }
+
     @Path("/getFullReview/{id}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public ReviewShell getFull(@PathParam("id") String id) {
+    public ReviewShell getFullById(@PathParam("id") String id) {
         int revid = Integer.parseInt(id);
         for (Assignment a : DevMan.getAssignments()) {
             if (a.getReview() != null && a.getReviewShell().getReviewId() == revid) {
