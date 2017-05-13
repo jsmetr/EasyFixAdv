@@ -26,17 +26,20 @@ function initForProfile() {
     printProfile();
 }
 
+function initEmpManager() {
+    init();
+    getEmployees();
+}
+
 function grabAddr() {
     var addr = document.location.href.toString().split("/");
     var REST = "";
     for (var i = 1; i < addr.length; i++) {
         if (!addr[i].includes("html") && addr[i].toString().length > 0 && (typeof addr[i] !== 'undefined')) {
             REST = REST + addr[i] + "/";
-            console.log(REST);
         }
     }
     RESTaddr = addr[1].toString() + "//" + REST;
-    console.log("done");
 }
 
 function getRESTAddr() {
@@ -77,7 +80,6 @@ function toMyPortal() {
 }
 
 function whoAmI() {
-    console.log("hei");
     var url = RESTaddr + "webresources/Users/View/Myself/" + localStorage.getItem("sessionId");
     req = initRequest();
     req.open("GET", url, true);
@@ -89,12 +91,10 @@ function whoCallback() {
     if (req.readyState == 4) {
         if (req.status == 200) {
             crntUser = req.responseXML.childNodes;
-            console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
             var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
             var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
             myrole = crntUser[0].getElementsByTagName("role")[0].childNodes[0].nodeValue;
             document.getElementById("user-name").innerHTML = fname + " " + lname;
-            console.log(crntUser[0].getElementsByTagName("access")[0].childNodes[0].nodeValue);
             myJobs = [];
             for (loop = 0; loop < crntUser[0].getElementsByTagName("jobs").length; loop++) {
                 myJobs.push(String(crntUser[0].getElementsByTagName("jobs")[loop].childNodes[0].nodeValue));
@@ -127,7 +127,6 @@ function fileCustomers(XML) {
     var ownSel = document.getElementById('dev-owner');
     $('#customer').empty();
     $('#dev-owner').empty();
-    console.log(XML);
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var option = document.createElement("option");
@@ -146,7 +145,6 @@ function fileCustomers(XML) {
 
 function getDevices() {
     var url = RESTaddr + "webresources/Devices/" + document.getElementById('customer').value + "/" + localStorage.getItem("sessionId");
-    console.log(url);
     req = initRequest();
     req.open("GET", url, true);
     req.onreadystatechange = devselcallback;
@@ -164,7 +162,6 @@ function devselcallback() {
 function fileDevices(XML) {
     var devSel = document.getElementById('device');
     $('#device').empty();
-    console.log(XML);
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var option = document.createElement("option");
@@ -217,36 +214,24 @@ function fileTechs(XML) {
         techSel.appendChild(option);
         var option = document.createElement("option");
     }
-    console.log(document.getElementById('device').value.toString().split(',')[1]);
     getDeviceTypes();
 }
 
 function addNewTask() {
     var title = document.getElementById('title').value;
-    console.log(title);
     var desc = document.getElementsByName('description').value;
-    console.log(title);
     var customer = document.getElementById('customer').value;
-    console.log(customer);
     var device = document.getElementById('device').value;
-    console.log(device);
     var dueDate = document.getElementById('due-date').value;
-    console.log(dueDate);
     var prio = document.getElementsByClassName("btn active").item(0).id;
-    console.log(prio);
     var deviceid = document.getElementById('device').value.toString().split(',')[0].toString();
-    console.log(deviceid);
     var technician = document.getElementById('technician').value;
-    console.log(document.getElementById('device').value.toString().split(',')[0]);
 
-    var url = RESTaddr + "webresources/Devices/CreateAssignment/" + title + "/"+ desc + "/" + deviceid + "/" + dueDate + "/" + prio + "/" + customer + "/" + technician + "/" + localStorage.getItem("sessionId");
-    console.log(url);
+    var url = RESTaddr + "webresources/Devices/CreateAssignment/" + title + "/" + desc + "/" + deviceid + "/" + dueDate + "/" + prio + "/" + customer + "/" + technician + "/" + localStorage.getItem("sessionId");
     req = initRequest();
     req.open("POST", url, true);
     req.onreadystatechange = taskaddcallback;
     req.send(null);
-
-
     document.getElementById('addNewTaskForm').reset();
 
 }
@@ -276,7 +261,6 @@ function gettypescallback() {
 }
 
 function fileTypes(XML) {
-    console.log(XML);
     var devSel = document.getElementById('dev-types');
     $('#dev-types').empty();
     if (XML.childNodes[0].childNodes.length > 0) {
@@ -291,7 +275,6 @@ function fileTypes(XML) {
 }
 
 function addDevice() {
-    ///AddDevice/{type}/{name}/{owner}/{manufacturer}/{model}/{sessionId}
     var devtype = document.getElementById('dev-types').value;
     var name = document.getElementById('dev-name').value;
     var owner = document.getElementById('dev-owner').value;
@@ -314,7 +297,6 @@ function adddevicecallback() {
 }
 
 function addType() {
-    //  /AddType/{name}/{data}/{sessionId}
     var name = document.getElementById('type-name').value;
     var data = document.getElementById('type-data').value;
     var url = RESTaddr + "webresources/Devices/AddType/" + name + "/" + data + "/" + localStorage.getItem("sessionId");
@@ -335,7 +317,6 @@ function addtypecallback() {
 }
 
 function addCustomer() {
-    var devtype = document.getElementById('dev-types').value;
     var fname = document.getElementById('fname').value.toString();
     var lname = document.getElementById('lname').value.toString();
     var uname = document.getElementById('username').value.toString();
@@ -356,7 +337,6 @@ function addCustomer() {
 }
 
 function addEmployee() {
-    // /AddEmpl/{fname}/{lname}/{uname}/{psw}/{email}/{phone}/{role}/{skills}/{sessionId}
     var fname = document.getElementById('fname').value.toString();
     var lname = document.getElementById('lname').value.toString();
     var uname = document.getElementById('username').value.toString();
@@ -365,11 +345,10 @@ function addEmployee() {
     var phone = document.getElementById('phone').value.toString();
     var role = document.getElementById('role').value.toString();
     var skills = document.getElementById('skills').value.toString();
-    if(!skills.length>0){
-        skills="mu:0";
+    if (!skills.length > 0) {
+        skills = "mu:0";
     }
-    var url = RESTaddr + "webresources/Users/AddEmpl/" + fname + "/" + lname + "/" + uname + "/" + psw + "/" + email + "/" + phone + "/" + role + "/" + skills + "/"  + localStorage.getItem("sessionId");
-    console.log(url);
+    var url = RESTaddr + "webresources/Users/AddEmpl/" + fname + "/" + lname + "/" + uname + "/" + psw + "/" + email + "/" + phone + "/" + role + "/" + skills + "/" + localStorage.getItem("sessionId");
     req = initRequest();
     req.open("POST", url, true);
     req.onreadystatechange = addcustcallback;
@@ -384,6 +363,125 @@ function addcustcallback() {
         }
     }
 }
+
+function getEmployees() {
+    url = RESTaddr + "webresources/Users/View/AllEmployees/" + localStorage.getItem("sessionId");
+    req3 = initRequest();
+    req3.open("GET", url, true);
+    req3.onreadystatechange = getemplcallback;
+    req3.send(null);
+}
+
+function getemplcallback() {
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            var XML = req3.responseXML;
+            var carddiv = document.getElementById('empcards');
+            $('#empcards').empty();
+            if (XML.childNodes[0].childNodes.length > 0) {
+                for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
+                    var empcard = document.getElementById('cardtemplate').content.cloneNode(true);
+                    var taskdata = XML.childNodes[0].childNodes[loop];
+                    console.log(taskdata)
+                    console.log(taskdata.getElementsByTagName("firstName")[0].innerHTML);
+
+                    empcard.querySelector('#empname').innerText = taskdata.getElementsByTagName("firstName")[0].innerHTML + " " + taskdata.getElementsByTagName("lastName")[0].innerHTML;
+                    empcard.querySelector('#emprole').innerText = taskdata.getElementsByTagName("role")[0].childNodes[0].nodeValue;
+                    var uname = (taskdata.getElementsByTagName("userName")[0].childNodes[0].nodeValue);
+                    var element = empcard.getElementById('detailslink');
+                    console.log(uname);
+                    addempldetail(uname, element);
+                    carddiv.appendChild(empcard);
+                }
+            }
+        }
+    }
+}
+
+function addempldetail(param, elem) {
+    elem.onclick = function () {
+        console.log(param);
+        getEmpDetail(param);
+    };
+}
+
+function getEmpDetail(uname) {
+    console.log(uname);
+    url = RESTaddr + "webresources/Users/View/" + uname + "/" + localStorage.getItem("sessionId");
+    console.log(url);
+    req3 = initRequest();
+    req3.open("GET", url, true);
+    req3.onreadystatechange = getdetailscallback;
+    req3.send(null);
+}
+
+function getdetailscallback() {
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            var XML = req3.responseXML;
+            var detcard = document.getElementById('detailscard');
+            console.log(XML);
+            var skills = XML.getElementsByTagName("skills");
+            $('#skillspan').empty();
+            if (skills.length > 0) {
+                document.getElementById('skilltitle').innerHTML = "Skills:";
+                var skillspan = document.getElementById('skillspan')
+                for (var i = 0; i < skills.length; i++) {
+                    console.log(document.getElementById('skilltemplate'));
+                    var skillelem = document.getElementById('skilltemplate').content.cloneNode(true);
+                    skillelem.querySelector('#skillname').innerHTML = skills[i].getElementsByTagName("devicetype")[0].innerHTML + '<span class="padded-left">' + skills[i].getElementsByTagName("level")[0].innerHTML + '</span>';
+                    skillspan.appendChild(skillelem);
+                }
+            }
+            document.getElementById('skilltemplate'); //detailname detailusername detailrole detailemail detailphone 
+            console.log(XML.getElementsByTagName("firstName")[0].innerHTML);
+            document.getElementById('myModalLabel').innerHTML = "More About " + XML.getElementsByTagName("firstName")[0].innerHTML;
+            document.getElementById('detailname').innerHTML = XML.getElementsByTagName("firstName")[0].innerHTML + " " + XML.getElementsByTagName("lastName")[0].innerHTML;
+            document.getElementById('detailusername').innerHTML = XML.getElementsByTagName("userName")[0].innerHTML.toString();
+            document.getElementById('detailrole').innerHTML = XML.getElementsByTagName("role")[0].innerHTML;
+            document.getElementById('detailphone').innerHTML = XML.getElementsByTagName("phone")[0].innerHTML;
+            document.getElementById('detailemail').innerHTML = XML.getElementsByTagName("email")[0].innerHTML;
+            document.getElementById('detailemail').href = "mailto:" + XML.getElementsByTagName("email")[0].innerHTML;
+            document.getElementById('reinstate').onclick=function(){reinstate(XML.getElementsByTagName("role")[0].innerHTML.toString(),XML.getElementsByTagName("userName")[0].innerHTML.toString())};
+            document.getElementById('retire').onclick=function(){setStatus(-1,XML.getElementsByTagName("userName")[0].innerHTML.toString())};
+            if(parseInt(XML.getElementsByTagName("access")[0].innerHTML)>-1){
+                $('#reinstate').hide();
+                $('#retire').show();
+            } else{
+                $('#retire').hide();
+                $('#reinstate').show();
+                
+            }
+        }
+    }
+}
+
+function reinstate(role,uname){
+    if(role==("manager")){
+        console.log("is manager");
+        setStatus(2,uname);
+    } else{
+        setStatus(1,uname);
+    }
+}
+
+function setStatus(newstatus,uname){
+    url = RESTaddr + "webresources/Users/ChangeStatus/"+newstatus+"/"+uname+"/" + localStorage.getItem("sessionId");
+    req3 = initRequest();
+    req3.open("PUT", url, true);1
+    req3.onreadystatechange = setstatuscallback;
+    req3.send(null);
+}
+
+function setstatuscallback(){
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            console.log(req3.responseText);
+            getEmployees();
+        }
+    }
+}
+
 
 function getAssignments() {
     url = RESTaddr + "webresources/Devices/Assignments/Active/" + localStorage.getItem("sessionId");
@@ -447,9 +545,9 @@ function fileRepaired(XML) {
                 archiveTask(id)
             };
             console.log(taskdata);
-            var titles=taskdata.getElementsByTagName("title");
+            var titles = taskdata.getElementsByTagName("title");
             console.log(titles);
-            newTaskTemp.querySelector('#repairtitle').innerText = taskdata.getElementsByTagName("title")[titles.length-1].childNodes[0].nodeValue;
+            newTaskTemp.querySelector('#repairtitle').innerText = taskdata.getElementsByTagName("title")[titles.length - 1].childNodes[0].nodeValue;
             newTaskTemp.querySelector('#repairname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
             newTaskTemp.querySelector('#repaircust').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;
             newTaskTemp.querySelector('#repairdate').innerText = taskdata.getElementsByTagName("deadline")[0].childNodes[0].nodeValue;
@@ -477,8 +575,6 @@ function canceledcallback() {
 
 function fileCanceled(XML) {
     var taskList = document.getElementById('returned-tasks');
-    console.log(XML);
-    console.log(XML.childNodes[0].childNodes.length);
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var newTaskTemp = document.getElementById('canceled-template').content.cloneNode(true);
@@ -514,26 +610,7 @@ function archivecallback() {
     }
 }
 
-/* 
- //
- function fileSelections(XML){
- var uSel = document.getElementById("mpUserSelect");
- $('#mpUserSelect').empty();
- if(XML.childNodes[0].childNodes.length >0){
- for(loop=0;loop < XML.childNodes[0].childNodes.length;loop++){
- var option = document.createElement("option");
- var user = XML.childNodes[0].childNodes[loop];
- option.value=user.getElementsByTagName("userName")[0].childNodes[0].nodeValue;
- option.innerHTML=""+user.getElementsByTagName("firstName")[0].childNodes[0].nodeValue+" "+user.getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
- uSel.appendChild(option);
- }
- }
- uSel.value=selUser;
- }
- */
-
 function printProfile() {
-    console.log("hei-profile");
     var url = RESTaddr + "webresources/Users/View/Myself/" + localStorage.getItem("sessionId");
     req = initRequest();
     req.open("GET", url, true);
@@ -545,7 +622,6 @@ function printProfileCallBack() {
     if (req.readyState == 4) {
         if (req.status == 200) {
             crntUser = req.responseXML.childNodes;
-            console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
             var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
             var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
             var uname = crntUser[0].getElementsByTagName("userName")[0].childNodes[0].nodeValue;
@@ -570,14 +646,12 @@ function printProfileCallBack() {
                 document.getElementById("state-profile").innerHTML = state;
                 document.getElementById("zipCode-profile").innerHTML = zipcode;
             }
-            console.log(crntUser[0].getElementsByTagName("access")[0].childNodes[0].nodeValue);//           
         }
     }
 }
 
 function showTechInfo(element) {
     var techName = element.querySelector('#technician-hidden-name').innerText;
-    console.log("tech " + techName);
     var url = RESTaddr + "webresources/Users/View/" + techName + "/" + localStorage.getItem("sessionId");
     req = initRequest();
     req.open("GET", url, true);
@@ -588,8 +662,6 @@ function showTechInfoCallBack() {
     if (req.readyState == 4) {
         if (req.status == 200) {
             crntUser = req.responseXML.childNodes;
-            console.log("hello");
-            console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
 
             var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
             var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
@@ -608,7 +680,6 @@ function showTechInfoCallBack() {
 
 function showCusInfo(element) {
     var cusName = element.querySelector('#customerRequest').innerHTML;
-    console.log("cus " + cusName);
     var url = RESTaddr + "webresources/Users/View/" + cusName + "/" + localStorage.getItem("sessionId");
     req = initRequest();
     req.open("GET", url, true);
@@ -619,8 +690,6 @@ function showCusInfoCallBack() {
     if (req.readyState == 4) {
         if (req.status == 200) {
             crntUser = req.responseXML.childNodes;
-
-            console.log(crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue);
 
             var fname = crntUser[0].getElementsByTagName("firstName")[0].childNodes[0].nodeValue;
             var lname = crntUser[0].getElementsByTagName("lastName")[0].childNodes[0].nodeValue;
@@ -636,7 +705,7 @@ function showCusInfoCallBack() {
             document.getElementById("uName-cusInfo").innerHTML = uname;
             document.getElementById("email-cusInfo").innerHTML = email;
             document.getElementById("phone-cusInfo").innerHTML = phone;
-            document.getElementById("address-cusInfo").innerHTML = email;
+            document.getElementById("address-cusInfo").innerHTML = address;
             document.getElementById("city-cusInfo").innerHTML = city;
             document.getElementById("state-cusInfo").innerHTML = state;
             document.getElementById("zipcode-cusInfo").innerHTML = zipcode;

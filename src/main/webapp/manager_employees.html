@@ -29,7 +29,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">
+    <body id="mimin" class="dashboard" onload="initEmpManager()">
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -90,118 +90,110 @@
                                     <div class="panel-heading bg-white border-none">
                                         <h2 class="h2-responsive wow fadeIn">Employees</h2> 
                                     </div>
-                                    <div class="panel-body">
-                                        <div class="col-md-2 text-left">
-                                            <div class="span3 well">
-                                                <center>
-                                                    <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
-                                                    <h3>Joe Sixpack</h3>
-                                                    <em>User Role</em>
-                                                </center>
+                                    <div class="panel-body" >
+                                        <div id="empcards">
+                                            <div class="col-md-2 text-left">
+                                                <div class="span3 well">
+                                                    <center>
+                                                        <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
+                                                        <h3 id="empname">Joe Sixpack</h3>
+                                                        <em id="emprole">User Role</em>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-left">
+                                                <div class="span3 well">
+                                                    <center>
+                                                        <a href="#aboutModal" data-toggle="modal" ><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
+                                                        <h3>Joe Sixpack</h3>
+                                                        <em>User Role</em>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-left">
+                                                <div class="span3 well">
+                                                    <center>
+                                                        <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
+                                                        <h3>Joe Sixpack</h3>
+                                                        <em>User Role</em>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-left">
+                                                <div class="span3 well">
+                                                    <center>
+                                                        <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
+                                                        <h3>Joe Sixpack</h3>
+                                                        <em>User Role</em>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-left">
+                                                <div class="span3 well">
+                                                    <center>
+                                                        <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
+                                                        <h3>Joe Sixpack</h3>
+                                                        <em>User Role</em>
+                                                    </center>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 text-left">
-                                            <div class="span3 well">
-                                                <center>
-                                                    <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
-                                                    <h3>Joe Sixpack</h3>
-                                                    <em>User Role</em>
-                                                </center>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 text-left">
-                                            <div class="span3 well">
-                                                <center>
-                                                    <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
-                                                    <h3>Joe Sixpack</h3>
-                                                    <em>User Role</em>
-                                                </center>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 text-left">
-                                            <div class="span3 well">
-                                                <center>
-                                                    <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
-                                                    <h3>Joe Sixpack</h3>
-                                                    <em>User Role</em>
-                                                </center>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 text-left">
-                                            <div class="span3 well">
-                                                <center>
-                                                    <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
-                                                    <h3>Joe Sixpack</h3>
-                                                    <em>User Role</em>
-                                                </center>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 text-left">
-                                            <div class="span3 well">
-                                                <center>
-                                                    <a href="#aboutModal" data-toggle="modal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
-                                                    <h3>Joe Sixpack</h3>
-                                                    <em>User Role</em>
-                                                </center>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                                                <h4 class="modal-title" id="myModalLabel">More About Joe</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <center>
-                                                                    <a><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
-                                                                    <h3 class="media-heading">Joe Sixpack</h3>
-                                                                    <br>
-                                                                    <span><strong>Skills: </strong></span>
-                                                                    <span class="label label-primary label-lg">Skill_01<span class="padded-left">7</span></span>
-                                                                    <span class="label label-primary label-lg">Skill_02<span class="padded-left">5</span></span>
-                                                                    <span class="label label-primary label-lg">Skill_03<span class="padded-left">9</span></span>
-                                                                    <span class="label label-primary label-lg">Skill_04<span class="padded-left">6</span></span>
-                                                                </center>
-                                                                <hr>
-                                                                <center>
-                                                                    <br>
-                                                                    <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1"> 
-                                                                        <table class="table table-user-information">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td><span class="fa fa-user padded"></span>Username:</td>
-                                                                                    <td>Username</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td><span class="fa fa-male padded"></span>Role:</td>
-                                                                                    <td>Clerk</td>
-                                                                                </tr>
-
-
-                                                                                <tr>
-                                                                                    <td><span class="fa fa-phone padded"></span>Phone Number</td>
-                                                                                    <td>123-4567-890
-                                                                                    </td>
-
-                                                                                </tr>
-                                                                                <tr>
-
-                                                                                </tr>
-
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <center>
-                                                                        <button hidden>Reinstate</button>
-                                                                        <button>Retire</button>
-                                                                    </center>
-                                                                </center>
-                                                            </div>
-                                                            <div class="padding-0">    
-                                                                <button type="button" class="bouton-contact" data-dismiss="modal">Close</button>
-                                                            </div>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content" id="detailscard">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                    <h4 class="modal-title" id="myModalLabel">More About Joe</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <center>
+                                                        <a><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                                                        <h3 class="media-heading" id="detailname">Joe Sixpack</h3>
+                                                        <br>
+                                                        <span id="skilltitle"><strong></strong></span>
+                                                        <span id="skillspan">
+                                                            <span class="label label-primary label-lg">Skill_01<span class="padded-left">7</span></span>
+                                                            <span class="label label-primary label-lg">Skill_02<span class="padded-left">5</span></span>
+                                                            <span class="label label-primary label-lg">Skill_03<span class="padded-left">9</span></span>
+                                                            <span class="label label-primary label-lg">Skill_04<span class="padded-left">6</span></span>
+                                                        </span>
+                                                    </center>
+                                                    <hr>
+                                                    <center>
+                                                        <br>
+                                                        <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1"> 
+                                                            <table class="table table-user-information">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><span class="fa fa-user padded"></span>Username:</td>
+                                                                        <td id="detailusername">Username</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><span class="fa fa-male padded"></span>Role:</td>
+                                                                        <td id="detailrole">Clerk</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><span class="fa fa-envelope padded"></span>Email</td>
+                                                                        <td><a href="mailto:info@support.com" id="detailemail">info@support.com</a></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><span class="fa fa-phone padded"></span>Phone Number</td>
+                                                                        <td id="detailphone">123-4567-890
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
-                                                    </div>
+                                                        <center>
+                                                            <button hidden id="reinstate" data-dismiss="modal">Reinstate</button>
+                                                            <button id="retire" data-dismiss="modal">Retire</button>
+                                                        </center>
+                                                    </center>
+                                                </div>
+                                                <div class="padding-0">    
+                                                    <button type="button" class="bouton-contact" data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -288,8 +280,8 @@
                                         <textarea name="skills" rows="14" id="skills">devicetype1:lvl,devicetype2:lvl, etc...</textarea>
                                         <div class="validation"></div>
                                     </div>	
-                                    
-                                    
+
+
                                 </div>
                             </div>
                             <button type="button" class="bouton-contact" onclick="addEmployee()" data-dismiss="modal">Save</button>
@@ -298,6 +290,19 @@
                 </div>
             </div>
         </div>
+        <template id="cardtemplate">
+            <div class="col-md-2 text-left">
+                <div class="span3 well">
+                    <center>
+                        <a href="#aboutModal" data-toggle="modal" id="detailslink"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
+                        <h3 id="empname">Joe Sixpack</h3>
+                        <em id="emprole">User Role</em>
+                    </center>
+                </div>
+            </div>
+        </template>
+        <template id="skilltemplate"><span class="label label-primary label-lg" id="skillname">Skill_01<span class="padded-left" id="skillvalue">7</span></span></template>
+                                                            
         <!-- end: modal-add-customer>
         
         <!-- start: Javascript -->

@@ -234,7 +234,7 @@ public class UserResource {
     @Path("/ChangeMyPsw/{newpsw}/{oldpsw}/{sessionId}")
     @PUT
     @Produces(MediaType.TEXT_PLAIN)
-    public String ceckIn(@PathParam("sessionId") String sessionId, @PathParam("newpsw") String newpsw, @PathParam("oldpsw") String oldpsw) {
+    public String changePsw(@PathParam("sessionId") String sessionId, @PathParam("newpsw") String newpsw, @PathParam("oldpsw") String oldpsw) {
         Person crnt = LogMan.getBySesId(sessionId);
         if (LogMan.CheckSession(sessionId)) {
             if (crnt.getPassword().equals(oldpsw)) {
@@ -243,6 +243,19 @@ public class UserResource {
                 return "PASSWORD CHANGED";
             }
             return "CURRENT PASSWORD MISMATCH";
+        }
+        return "SESSION EXPIRED";
+    }
+
+    @Path("/ChangeStatus/{status}/{username}/{sessionId}")
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+    public String changeStatus(@PathParam("sessionId") String sessionId, @PathParam("status") String status, @PathParam("username") String username){
+        if (LogMan.CheckSession(sessionId)) {
+            Person user=UseMan.findUser(username);
+            user.setAccess(Integer.parseInt(status));
+            LogMan.UpdateLogins();
+            return "STATUS CHANGED";
         }
         return "SESSION EXPIRED";
     }
