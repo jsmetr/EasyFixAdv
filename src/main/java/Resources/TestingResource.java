@@ -248,6 +248,9 @@ public class TestingResource {
         a12.setStatus(-1);
         a9.setStatus(-1);
         a10.setStatus(-1);
+        a13.setStatus(-1);
+        a14.setStatus(1);
+        a15.setStatus(1);
         createReview(3,a1,"#1");
         createReview(4,a6,"#2");
         createReview(2,a2,"#3");

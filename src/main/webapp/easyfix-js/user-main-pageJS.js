@@ -33,6 +33,16 @@ function initEmpManager() {
     getEmployees();
 }
 
+function initOrderManager() {
+    init();
+    getAllOrders();
+}
+
+function initCust() {
+    init();
+    getMyOrders();
+}
+
 function initReview() {
     if (localStorage.getItem("sessionId") == "") {
         myrole = "index";
@@ -189,8 +199,6 @@ function getcommentscallback() {
             var cmntsect = document.getElementById('commentsection' + revid);
             var comments = XML.getElementsByTagName("comment");
             var id = '#commentsection' + revid;
-            console.log(XML);
-            console.log(comments);
             $(id).empty();
             for (var i = 0; i < comments.length; i++) {
                 fileComment(cmntsect, comments[i]);
@@ -201,28 +209,26 @@ function getcommentscallback() {
 
 function fileComment(parent, comment) {
     var comments = [];
+    var mystats = [];
     var childs = comment.childNodes;
-    for(var i=0;i<childs.length;i++){
-        if(childs[i].nodeName=="comments"){
+    for (var i = 0; i < childs.length; i++) {
+        if (childs[i].nodeName == "comments") {
             comments.push(childs[i]);
+        } else {
+            mystats.push(childs[i]);
         }
     }
     var cmnt = document.getElementById('comment-template').content.cloneNode(true);
-    var temp = comment.getElementsByTagName('body');
-    cmnt.querySelector('#comment-body').innerText = temp[0].innerHTML;
-    temp = comment.getElementsByTagName('signed');
-    console.log(temp[temp.length - 1].innerHTML);
-    cmnt.querySelector('#signed').innerText = temp[temp.length - 1].innerHTML;
-    temp = comment.getElementsByTagName('creationtime');
+    cmnt.querySelector('#comment-body').innerText = mystats[0].innerHTML;
+    cmnt.querySelector('#signed').innerText = mystats[4].innerHTML;
     if (localStorage.getItem("sessionId").length > 0) {
-        cmnt.querySelector('#timestamp').innerHTML = temp[temp.length - 1].innerHTML + ' | <a data-target="#modal-reply" data-toggle="modal" id="replybtn" onclick="setCmntTarget(' + revid + ',' + comment.getElementsByTagName('id')[0].innerHTML + ')"> Reply</a>';
+        cmnt.querySelector('#timestamp').innerHTML = mystats[1].innerHTML + ' | <a data-target="#modal-reply" data-toggle="modal" id="replybtn" onclick="setCmntTarget(' + revid + ',' + mystats[3].innerHTML + ')"> Reply</a>';
     } else {
-        cmnt.querySelector('#timestamp').innerHTML = temp[temp.length - 1].innerHTML;
+        cmnt.querySelector('#timestamp').innerHTML = mystats[1].innerHTML;
     }
     var nxtparent = cmnt.querySelector('#resp');
     parent.appendChild(cmnt);
-    console.log(comments.length);
-    if(comments.length == 0){
+    if (comments.length == 0) {
     } else {
         for (var i = 0; i < comments.length; i++) {
             fileComment(nxtparent, comments[i]);
@@ -249,7 +255,6 @@ function setCmntTarget(reviewid, cmntid) {
 
 function replyToComment() {
     var cbody = document.getElementById("cmntbody").value.toString();
-    console.log(cbody);
     var url = RESTaddr + "webresources/Devices/respondToComment/" + cbody + "/" + revid + "/" + targetcmntid + "/" + localStorage.getItem("sessionId");
     req2 = initRequest();
     req2.open("POST", url, true);
@@ -259,7 +264,6 @@ function replyToComment() {
 
 function replyToReview() {
     var rbody = document.getElementById("cmntbody").value.toString();
-    console.log(rbody);
     var url = RESTaddr + "webresources/Devices/respondToReview/" + rbody + "/" + revid + "/" + localStorage.getItem("sessionId");
     req2 = initRequest();
     req2.open("POST", url, true);
@@ -272,8 +276,84 @@ function replycallback() {
         if (req2.status == 200) {
             console.log(req2.responseText);
             getReviews();
+            getComments(revid);
         }
     }
+}
+
+function getMyOrders() {
+    var url = RESTaddr + "webresources/Devices/MyOrders/" + localStorage.getItem("sessionId");
+    req2 = initRequest();
+    req2.open("GET", url, true);
+    req2.onreadystatechange = orderscallback;
+    req2.send(null);
+}
+
+function getAllOrders() {
+    console.log("here");
+    var url = RESTaddr + "webresources/Devices/Assignments";
+    req2 = initRequest();
+    req2.open("GET", url, true);
+    req2.onreadystatechange = orderscallback;
+    req2.send(null);
+}
+
+function orderscallback() {
+    //label-warning label-danger label-success
+    if (req2.readyState == 4) {
+        if (req2.status == 200) {
+            var XML = req2.responseXML.getElementsByTagName('assignment');
+            console.log(XML);
+            var tasktable = document.getElementById('taskstable');
+            console.log(tasktable);
+            $('#taskstable').empty();
+            for (var i = 0; i < XML.length; i++) {
+                fileOrder(XML[i], tasktable);
+            }
+        }
+    }
+}
+
+function fileOrder(data, tasktable) {
+    var status = ['<span class="label label-danger">Canceled</span>', '<span class="label label-warning">In process</span>', '<span class="label label-success" >Completed</span>', '']
+    console.log(data);
+    var task = document.getElementById('tasktemplate').content.cloneNode(true);
+    var id = data.getElementsByTagName('id');
+    var x = id.length + 0;
+    task.getElementById('taskid').innerHTML = id[id.length - 1].innerHTML;
+    var temp = data.getElementsByTagName('title');
+    task.getElementById('tasktitle').innerHTML = temp[temp.length - 1].innerHTML;
+    temp = data.getElementsByTagName('creationtime');
+    task.getElementById('creation').innerHTML = temp[temp.length - 1].innerHTML;
+    task.getElementById('deadline').innerHTML = data.getElementsByTagName('deadline')[0].innerHTML;
+    var stat = parseInt(data.getElementsByTagName('status')[0].innerHTML) + 1;
+    task.getElementById('taskstatus').innerHTML = status[stat];
+    var tech = task.getElementById('tech');
+    var rawrating = data.getElementsByTagName('rating');
+    if (rawrating.length>0) {
+        var rating =parseInt(rawrating[0].innerHTML);
+        var starfield = task.getElementById('rating');
+        for (var i = 0; i < rating; i++) {
+            var star = document.getElementById('revstar').content.cloneNode(true);
+            starfield.appendChild(star);
+        }
+        for (var i; i < 5; i++) {
+            var star = document.getElementById('revnostar').content.cloneNode(true);
+            starfield.appendChild(star);
+        }
+    }
+    if (tech !== null) {
+        tech.innerHTML = data.getElementsByTagName('technician')[0].innerHTML;
+    } else {
+        if (id.length < 3 && !stat == 1) {
+            var add = task.getElementById('addreview');
+            add.innerHTML = '<a href="#modal-add-review" data-toggle="modal">Add</a>';
+            add.onclick = function () {
+                revid = id[0];
+            }
+        }
+    }
+    tasktable.appendChild(task);
 
 }
 
@@ -636,7 +716,6 @@ function getdetailscallback() {
 
 function reinstate(role, uname) {
     if (role == ("manager")) {
-        console.log("is manager");
         setStatus(2, uname);
     } else {
         setStatus(1, uname);
@@ -723,9 +802,7 @@ function fileRepaired(XML) {
             newTaskTemp.querySelector('#archrep').onclick = function () {
                 archiveTask(id)
             };
-            console.log(taskdata);
             var titles = taskdata.getElementsByTagName("title");
-            console.log(titles);
             newTaskTemp.querySelector('#repairtitle').innerText = taskdata.getElementsByTagName("title")[titles.length - 1].childNodes[0].nodeValue;
             newTaskTemp.querySelector('#repairname').innerText = taskdata.getElementsByTagName("device")[0].getElementsByTagName("name")[0].innerHTML.toString();
             newTaskTemp.querySelector('#repaircust').innerText = taskdata.getElementsByTagName("customer")[0].childNodes[0].nodeValue;

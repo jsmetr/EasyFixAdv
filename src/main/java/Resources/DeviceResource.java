@@ -220,6 +220,26 @@ public class DeviceResource {
     }
 
     /*
+    Retrieves all of your (customer) assignments.
+     */
+    @Path("/MyOrders/{sessionId}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Set<Assignment> myOrders(@PathParam("sessionId") String sessionId) {
+        if (LogMan.CheckSession(sessionId)) {
+            Person me = LogMan.getBySesId(sessionId);
+            Set<Assignment> forMe = new TreeSet<Assignment>();
+            for (Assignment a : DevMan.getAssignments()) {
+                if (a.getCustomer().equals(me.getUserName()) && a.getStatus() != 2) {
+                    forMe.add(a);
+                }
+            }
+            return forMe;
+        }
+        return null;
+    }
+
+    /*
     Retrieves all of your (technician) open assignments in order of earliest deadline first.
      */
     @Path("/MyAssignments/{sessionId}")
@@ -281,10 +301,7 @@ public class DeviceResource {
         }
         return null;
     }
-
-    /*
-    Stores a comment responding directly to a review.
-     */
+    
     @Path("/postReview/{assignid}/{title}/{body}/{rating}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
