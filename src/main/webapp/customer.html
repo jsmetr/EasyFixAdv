@@ -39,7 +39,7 @@
                         <h4 class="modal-title">Write your review</h4>
                     </div><div class="container"></div>
                     <div class="modal-body padding-0">
-                        <form onsubmit="crtReview()">
+                        <form onsubmit="crtReview()" id="reviewform">
                             <div class="contentform">
                                 <div class="leftcontact">
                                     <div class="form-group">
@@ -71,12 +71,12 @@
                                 <div class="form-group">
                                     <p>Review</p>
                                     <span class="icon-case"><i class="fa fa-comments-o"></i></span>
-                                    <textarea name="description" rows="14"></textarea>
+                                    <textarea name="description" rows="14" id="revbody"></textarea>
                                 </div>
                             </div>
 
                         </form>
-                        <button type="submit" class="bouton-contact">Save</button>
+                        <button type="submit" class="bouton-contact" onclick="createReview()" data-dismiss="modal">Save</button>
                     </div>
                 </div>
             </div>

@@ -349,12 +349,38 @@ function fileOrder(data, tasktable) {
             var add = task.getElementById('addreview');
             add.innerHTML = '<a href="#modal-add-review" data-toggle="modal">Add</a>';
             add.onclick = function () {
-                revid = id[0];
+                revid = id[id.length - 1];
             }
         }
     }
     tasktable.appendChild(task);
+}
 
+function createReview(){
+    console.log("here");
+    var rating=document.getElementById('rating').value;
+    console.log(rating); 
+    var body=document.getElementById('revbody').value;
+    var title=document.getElementById('rev-title').value;
+    console.log(revid.innerHTML);
+    console.log(title);
+    console.log(body);
+    var url = RESTaddr + "webresources/Devices/postReview/"+revid.innerHTML+"/" +title+"/" +body+"/" +rating+"/" + localStorage.getItem("sessionId");
+    console.log(url);
+    req2 = initRequest();
+    req2.open("POST", url, true);
+    req2.onreadystatechange = createreviewcallback;
+    req2.send(null);   
+}
+
+function createreviewcallback(){
+    if (req2.readyState == 4) {
+        if (req2.status == 200) {
+            console.log(req2.responseText);
+            document.getElementById('reviewform').reset()
+            getMyOrders();
+        }
+    }
 }
 
 /*

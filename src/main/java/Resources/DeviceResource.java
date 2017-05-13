@@ -315,8 +315,8 @@ public class DeviceResource {
             Set<Assignment> assignments = DevMan.getAssignments();
             for (Assignment a : assignments) {
                 if (a.getId() == id) {
-                    if (u.getUserName() != a.getCustomer()) {
-                        return "You are not the customer of this assignment.";
+                    if (!u.getUserName().equals(a.getCustomer())) {
+                        return "You are not the customer of this assignment, you: "+u.getUserName()+" and them: "+a.getCustomer();
                     }
                     String signed = LogMan.getBySesId(sessionId).getFirstName() + "" + LogMan.getBySesId(sessionId).getLastName();
                     Review newreview = new Review(title, rating, body, LogMan.getBySesId(sessionId).getUserName(), signed);
