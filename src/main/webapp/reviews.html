@@ -30,7 +30,7 @@
     </head>
 
     <body id="mimin" class="dashboard" onload="initReview()">
-        
+
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -55,7 +55,7 @@
         <!-- end: Header -->
 
         <div class="container-fluid mimin-wrapper">
-            
+
             <!-- start:Left Menu -->
             <div id="left-menu">
                 <div class="sub-left-menu scroll">
@@ -64,7 +64,7 @@
                         <li class="ripple" onclick="toMyPortal()"><a href="#"><span class="fa fa-comments"></span>My Portal</a></li>
                         <li class="ripple"><a href="#"><span class="fa fa-comments"></span>Reviews</a></li>
                         <li class="ripple" onclick="toMyProfile()"><a href="#"><span class="fa fa-user"></span>Profile</a></li>
-                        <li class="ripple"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
+                        <li class="ripple" onclick="logout()"><a href="#"><span class="fa fa-sign-out"></span>Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -73,145 +73,140 @@
             <!-- start: content --> 
             <div id="content">
                 <div class="col-md-12" style="padding:20px;">
-                    <div class="col-md-12 padding-0">
-                        <div class="col-md-12 padding-0">
-                            <div class="col-md-12 padding-0">
-<!--                                <template id="reply-template">-->
-                                <div class="panel panel-white post panel-shadow">
-                                    <div class="post-heading">
-                                        <div class="pull-left image">
-                                            <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
-                                        </div>
-                                        <div class="pull-left meta">
-                                            <div class="title h5">
-                                                <b id="rev-title">Review Title</b>
+                    <div class="col-md-12 padding-0" id="reviews">
+                        <template id="review-template">
+                            <div class="col-md-12 padding-0" >
+                                <div class="col-md-12 padding-0">
+                                    <!--                                <template id="reply-template">-->
+                                    <div class="panel panel-white post panel-shadow">
+                                        <div class="post-heading">
+                                            <div class="pull-left image">
+                                                <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
                                             </div>
-                                            <h6 class="text-muted time" id="rev-uname">Username</h6>
-                                            <i class="fa fa-star icon"></i>
-                                            <i class="fa fa-star icon"></i>
-                                            <i class="fa fa-star icon"></i>
-                                            <i class="fa fa-star icon"></i>
-                                            <i class="fa fa-star-o icon"></i>
+                                            <div class="pull-left meta">
+                                                <div class="title h5">
+                                                    <b id="rev-title">Review Title</b>
+                                                </div>
+                                                <h6 class="text-muted time" id="rev-uname">Username</h6>
+                                                <span id="stars">
+                                                </span>
+                                            </div>
+                                        </div> 
+                                        <div class="post-description"> 
+                                            <p id="rev-body">I've probably found my new trusted mechanic! I took my truck in for smog inspection and Bobby is great. He told me what needed to be done to my truck to fix the engine light and bring it back.</p>
+                                            <div class="stats" id="comment-toggle">
+                                                <a data-toggle="collapse" data-target="#collapse-comments" class="btn btn-default stat-item" >
+                                                    <i class="fa fa-share icon" ></i>View comments
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div> 
-                                    <div class="post-description"> 
-                                        <p id="rev-body">I've probably found my new trusted mechanic! I took my truck in for smog inspection and Bobby is great. He told me what needed to be done to my truck to fix the engine light and bring it back.</p>
-                                        <div class="stats">
-                                            <a data-toggle="collapse" data-target="#collapse-comments" class="btn btn-default stat-item">
-                                                <i class="fa fa-share icon"></i>View comments
-                                            </a>
+                                        <!-- start: modal-reply -->
+                                        <div class="modal fade" id="modal-reply">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title">Reply</h4>
+                                                    </div><div class="container"></div>
+                                                    <div class="modal-body padding-0">
+                                                        <form>
+                                                            <div class="contentform">          
+                                                                <div class="form-group">
+                                                                    <p>Write your comment</p>	
+                                                                    <textarea name="reply" rows="14" data-rule="required" id="cmntbody"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <button type="submit" class="bouton-contact" id="formbtn">Save</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end: modal-reply>
+                                        <!-- start: collapse-comments -->
+                                        <div class="collapse" id="collapse-comments">
+                                            <div class="post-footer">
+                                                <ul class="comments-list" id="commentsection">
+                                                    <template id="comment-template"><li class="comment">
+                                                            <a class="pull-left" href="#">
+                                                                <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
+                                                            </a>
+                                                            <div class="comment-body">
+                                                                <div class="comment-heading">
+                                                                    <h4 class="user" id="signed">Gavino Free</h4>
+                                                                    <h5 class="time" id="timestamp">Posting date | <a data-target="#modal-reply" data-toggle="modal" id="replybtn"> Reply</a></h5>
+                                                                </div>
+                                                                <p id="comment-body">Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                                                            </div>
+                                                            <ul class="comments-list" id="resp">
+                                                            </ul>
+                                                        </li></template>
+                                                    <li class="comment">
+                                                        <a class="pull-left" href="#">
+                                                            <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
+                                                        </a>
+                                                        <div class="comment-body">
+                                                            <div class="comment-heading">
+                                                                <h4 class="user" id="signed">Gavino Free</h4>
+                                                                <h5 class="time" id="timestamp">Posting date | <a data-target="#modal-reply" data-toggle="modal" id="replybtn"> Reply</a></h5>
+                                                            </div>
+                                                            <p id="comment-body">Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                                                        </div>
+                                                        <ul class="comments-list">
+                                                            <li class="comment">
+                                                                <a class="pull-left" href="#">
+                                                                    <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
+                                                                </a>
+                                                                <div class="comment-body">
+                                                                    <div class="comment-heading">
+                                                                        <h4 class="user">Ryan Haywood</h4>
+                                                                        <h5 class="time">Posting date | Reply</h5>
+                                                                    </div>
+                                                                    <p>Relax my friend</p>
+                                                                </div>
+                                                            </li> 
+                                                            <li class="comment">
+                                                                <a class="pull-left" href="#">
+                                                                    <img class="avatar" src="http://bootdey.com/img/Content/user_2.jpg" alt="avatar">
+                                                                </a>
+                                                                <div class="comment-body">
+                                                                    <div class="comment-heading">
+                                                                        <h4 class="user">Gavino Free</h4>
+                                                                        <h5 class="time">Posting date | Reply </h5>
+                                                                    </div>
+                                                                    <p>Ok, cool.</p>
+                                                                </div>
+                                                            </li> 
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-            <!-- start: modal-reply -->
-        <div class="modal fade" id="modal-reply">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">Reply</h4>
-                    </div><div class="container"></div>
-                    <div class="modal-body padding-0">
-                        <form>
-                            <div class="contentform">          
-                                    <div class="form-group">
-                                        <p>Write your comment</p>	
-                                        <textarea name="reply" rows="14" data-rule="required"></textarea>
-                                    </div>
-                            </div>
-                        </form>
-                        <button type="submit" class="bouton-contact">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end: modal-reply>
-            <!-- start: collapse-comments -->
-            <div class="collapse" id="collapse-comments">
-                <div class="post-footer">
-                    <ul class="comments-list" id="commentsection">
-                        <template id="comment-template"><li class="comment">
-                            <a class="pull-left" href="#">
-                                <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
-                            </a>
-                            <div class="comment-body">
-                                <div class="comment-heading">
-                                    <h4 class="user" id="signed">Gavino Free</h4>
-                                    <h5 class="time" id="timestamp">Posting date | <a data-target="#modal-reply" data-toggle="modal" id="replybtn"> Reply</a></h5>
                                 </div>
-                                <p id="comment-body">Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
                             </div>
-                            <ul class="comments-list" id="responses">
-                            </ul>
-                        </li></template>
-                        <li class="comment">
-                            <a class="pull-left" href="#">
-                                <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
-                            </a>
-                            <div class="comment-body">
-                                <div class="comment-heading">
-                                    <h4 class="user" id="signed">Gavino Free</h4>
-                                    <h5 class="time" id="timestamp">Posting date | <a data-target="#modal-reply" data-toggle="modal" id="replybtn"> Reply</a></h5>
-                                </div>
-                                <p id="comment-body">Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                            </div>
-                            <ul class="comments-list" id="responses">
-                                <li class="comment">
-                                    <a class="pull-left" href="#">
-                                        <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user">Ryan Haywood</h4>
-                                            <h5 class="time">Posting date | Reply</h5>
-                                        </div>
-                                        <p>Relax my friend</p>
-                                    </div>
-                                </li> 
-                                <li class="comment">
-                                    <a class="pull-left" href="#">
-                                        <img class="avatar" src="http://bootdey.com/img/Content/user_2.jpg" alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user">Gavino Free</h4>
-                                            <h5 class="time">Posting date | Reply </h5>
-                                        </div>
-                                        <p>Ok, cool.</p>
-                                    </div>
-                                </li> 
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- end: collapse-comments>
-                                </div>
-                            </div>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end: content -->
-        </div>
-<!--        </template>-->
+                        </template>
+                        <template id="star-template"><i class="fa fa-star icon"></i></template>
+                        <template id="nostar-template"><i class="fa fa-star-o icon"></i> </template>
+                        <!--        </template>-->
 
-        <!-- start: Javascript -->
-        <script src="asset/js/jquery.min.js"></script>
-        <script src="asset/js/jquery.ui.min.js"></script>
-        <script src="asset/js/bootstrap.min.js"></script>
+                        <!-- start: Javascript -->
+                        <script src="asset/js/jquery.min.js"></script>
+                        <script src="asset/js/jquery.ui.min.js"></script>
+                        <script src="asset/js/bootstrap.min.js"></script>
 
 
-        <!-- plugins -->
-        <script src="asset/js/plugins/moment.min.js"></script>
-        <script src="asset/js/plugins/fullcalendar.min.js"></script>
-        <script src="asset/js/plugins/jquery.nicescroll.js"></script>
-        <script src="asset/js/plugins/jquery.vmap.min.js"></script>
-        <script src="asset/js/plugins/maps/jquery.vmap.world.js"></script>
-        <script src="asset/js/plugins/jquery.vmap.sampledata.js"></script>
-        <script src="asset/js/plugins/chart.min.js"></script>
+                        <!-- plugins -->
+                        <script src="asset/js/plugins/moment.min.js"></script>
+                        <script src="asset/js/plugins/fullcalendar.min.js"></script>
+                        <script src="asset/js/plugins/jquery.nicescroll.js"></script>
+                        <script src="asset/js/plugins/jquery.vmap.min.js"></script>
+                        <script src="asset/js/plugins/maps/jquery.vmap.world.js"></script>
+                        <script src="asset/js/plugins/jquery.vmap.sampledata.js"></script>
+                        <script src="asset/js/plugins/chart.min.js"></script>
 
 
-        <!-- custom -->
-        <script src="asset/js/main.js"></script>
-    </body>
-</html>
+                        <!-- custom -->
+                        <script src="asset/js/main.js"></script>
+                        </body>
+                        </html>

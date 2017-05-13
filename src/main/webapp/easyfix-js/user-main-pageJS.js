@@ -9,6 +9,8 @@ var req2;
 var req3;
 var RESTaddr;
 var myrole;
+var revid;
+var targetcmntid;
 
 function init() {
     grabAddr();
@@ -35,10 +37,10 @@ function initReview() {
     if (localStorage.getItem("sessionId") == "") {
         myrole = "index";
         grabAddr()
-    } else{
+    } else {
         init();
     }
-    getFullReview();
+    getReviews();
 }
 
 function grabAddr() {
@@ -69,11 +71,15 @@ function initRequest() {
 }
 
 function logout() {
-    var url = RESTaddr + "webresources/Users/Logout/" + localStorage.getItem("sessionId");
-    req = initRequest();
-    req.open("PUT", url, true);
-    req.onreadystatechange = logoutcallback;
-    req.send(null);
+    if (!localStorage.getItem("sessionId").length > 0) {
+        window.location.replace("index.html");
+    } else {
+        var url = RESTaddr + "webresources/Users/Logout/" + localStorage.getItem("sessionId");
+        req = initRequest();
+        req.open("PUT", url, true);
+        req.onreadystatechange = logoutcallback;
+        req.send(null);
+    }
 }
 
 function logoutcallback() {
@@ -99,7 +105,7 @@ function toMyProfile() {
 }
 
 function whoAmI() {
-    var url = RESTaddr+"webresources/Users/View/Myself/" + localStorage.getItem("sessionId");
+    var url = RESTaddr + "webresources/Users/View/Myself/" + localStorage.getItem("sessionId");
     req = initRequest();
     req.open("GET", url, true);
     req.onreadystatechange = whoCallback;
@@ -122,27 +128,153 @@ function whoCallback() {
     }
 }
 
-function getFullReview(){
-    var revid=localStorage.getItem("reviewId");
-    var url = RESTaddr + "webresources/Devices/getFullReview/"+revid;
-    if(revid.length<1){
-        console.log("get latest");
-        url = RESTaddr + "webresources/Devices/getFullReview";      
-    }
+function getReviews() {
+    var url = RESTaddr + "webresources/Devices/getReviews/Latest/10";
     req2 = initRequest();
     req2.open("GET", url, true);
-    req2.onreadystatechange = fullrevcallback;
+    req2.onreadystatechange = getrevscallback;
     req2.send(null);
 }
 
-function fullrevcallback(){
+function getrevscallback() {
     if (req2.readyState == 4) {
         if (req2.status == 200) {
-            var XML=req2.responseXML;
-            console.log(XML);
+            var XML = req2.responseXML;
+            var reviews = XML.getElementsByTagName("review");
+            var revdiv = document.getElementById('reviews');
+            for (var i = 0; i < reviews.length; i++) {
+                var reviewshell = document.getElementById('review-template').content.cloneNode(true);
+                reviewshell.querySelector('#rev-title').innerText = reviews[i].getElementsByTagName('title')[0].innerHTML;
+                if (localStorage.getItem("sessionId").length > 0) {
+                    reviewshell.querySelector('#rev-title').innerHTML = reviews[i].getElementsByTagName('title')[0].innerHTML + ' | <a data-target="#modal-reply" data-toggle="modal" id="replybtn" onclick="setTarget(' + reviews[i].getElementsByTagName('id')[0].innerHTML + ')"> Reply</a>';
+                } else {
+                    reviewshell.querySelector('#rev-title').innerText = reviews[i].getElementsByTagName('title')[0].innerHTML;
+                }
+                reviewshell.querySelector('#rev-uname').innerText = reviews[i].getElementsByTagName('signed')[0].innerHTML;
+                reviewshell.querySelector('#commentsection').id = "commentsection" + reviews[i].getElementsByTagName('id')[0].innerHTML;
+                var rating = parseInt(reviews[i].getElementsByTagName('rating')[0].innerHTML);
+                var ii = 0;
+                for (ii; ii < rating; ii++) {
+                    var a = document.getElementById('star-template').content.cloneNode(true);
+                    reviewshell.querySelector('#stars').appendChild(a);
+                }
+                for (ii; ii < 5; ii++) {
+                    var a = document.getElementById('nostar-template').content.cloneNode(true);
+                    reviewshell.querySelector('#stars').appendChild(a);
+                }
+                reviewshell.querySelector('#rev-body').innerText = reviews[i].getElementsByTagName('body')[0].innerHTML;
+                var cmntlink = reviewshell.querySelector('#comment-toggle');
+                cmntlink.innerHTML = '<a data-toggle="collapse" data-target="#' + reviews[i].getElementsByTagName('id')[0].innerHTML + '" class="btn btn-default stat-item" onclick = "getComments( ' + reviews[i].getElementsByTagName('id')[0].innerHTML + ')" ><i class="fa fa-share icon" ></i>View comments</a>';
+                reviewshell.querySelector('#collapse-comments').id = reviews[i].getElementsByTagName('id')[0].innerHTML;
+                revdiv.appendChild(reviewshell);
+            }
         }
     }
-    
+
+}
+
+function getComments(id) {
+    revid = id;
+    var url = RESTaddr + "webresources/Devices/getComments/" + id;
+    req2 = initRequest();
+    req2.open("GET", url, true);
+    req2.onreadystatechange = getcommentscallback;
+    req2.send(null);
+}
+
+function getcommentscallback() {
+    if (req2.readyState == 4) {
+        if (req2.status == 200) {
+            var XML = req2.responseXML;
+            var cmntsect = document.getElementById('commentsection' + revid);
+            var comments = XML.getElementsByTagName("comment");
+            var id = '#commentsection' + revid;
+            console.log(XML);
+            console.log(comments);
+            $(id).empty();
+            for (var i = 0; i < comments.length; i++) {
+                fileComment(cmntsect, comments[i]);
+            }
+        }
+    }
+}
+
+function fileComment(parent, comment) {
+    var comments = [];
+    var childs = comment.childNodes;
+    for(var i=0;i<childs.length;i++){
+        if(childs[i].nodeName=="comments"){
+            comments.push(childs[i]);
+        }
+    }
+    var cmnt = document.getElementById('comment-template').content.cloneNode(true);
+    var temp = comment.getElementsByTagName('body');
+    cmnt.querySelector('#comment-body').innerText = temp[0].innerHTML;
+    temp = comment.getElementsByTagName('signed');
+    console.log(temp[temp.length - 1].innerHTML);
+    cmnt.querySelector('#signed').innerText = temp[temp.length - 1].innerHTML;
+    temp = comment.getElementsByTagName('creationtime');
+    if (localStorage.getItem("sessionId").length > 0) {
+        cmnt.querySelector('#timestamp').innerHTML = temp[temp.length - 1].innerHTML + ' | <a data-target="#modal-reply" data-toggle="modal" id="replybtn" onclick="setCmntTarget(' + revid + ',' + comment.getElementsByTagName('id')[0].innerHTML + ')"> Reply</a>';
+    } else {
+        cmnt.querySelector('#timestamp').innerHTML = temp[temp.length - 1].innerHTML;
+    }
+    var nxtparent = cmnt.querySelector('#resp');
+    parent.appendChild(cmnt);
+    console.log(comments.length);
+    if(comments.length == 0){
+    } else {
+        for (var i = 0; i < comments.length; i++) {
+            fileComment(nxtparent, comments[i]);
+        }
+    }
+}
+
+function setTarget(reviewid) {
+    revid = reviewid;
+    console.log(revid);
+    document.getElementById('formbtn').onclick = function () {
+        replyToReview();
+    };
+}
+
+function setCmntTarget(reviewid, cmntid) {
+    setTarget(reviewid);
+    targetcmntid = cmntid;
+    console.log(targetcmntid);
+    document.getElementById('formbtn').onclick = function () {
+        replyToComment();
+    };
+}
+
+function replyToComment() {
+    var cbody = document.getElementById("cmntbody").value.toString();
+    console.log(cbody);
+    var url = RESTaddr + "webresources/Devices/respondToComment/" + cbody + "/" + revid + "/" + targetcmntid + "/" + localStorage.getItem("sessionId");
+    req2 = initRequest();
+    req2.open("POST", url, true);
+    req2.onreadystatechange = replycallback;
+    req2.send(null);
+}
+
+function replyToReview() {
+    var rbody = document.getElementById("cmntbody").value.toString();
+    console.log(rbody);
+    var url = RESTaddr + "webresources/Devices/respondToReview/" + rbody + "/" + revid + "/" + localStorage.getItem("sessionId");
+    req2 = initRequest();
+    req2.open("POST", url, true);
+    req2.onreadystatechange = replycallback;
+    req2.send(null);
+}
+
+function replycallback() {
+    if (req2.readyState == 4) {
+        if (req2.status == 200) {
+            console.log(req2.responseText);
+            getReviews();
+        }
+    }
+
 }
 
 /*

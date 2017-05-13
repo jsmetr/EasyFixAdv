@@ -330,16 +330,16 @@ public class TestingResource {
         String junk5 = "This is another direct response. This is another direct response. This is another direct response. ";
         Customer c = clist.get(rng.nextInt(clist.size()));
         Person p = ulist.get(rng.nextInt(ulist.size()));
-        Review rvw = new Review("Demo Review "+number+" - "+a.getDevice().getType().getName(), rating, junk2, c.getFirstName() + " " + c.getFirstName(), c.getUserName());
+        Review rvw = new Review("Demo Review "+number+" - "+a.getDevice().getType().getName(), rating, ""+number+" "+junk2, c.getFirstName() + " " + c.getLastName(), c.getUserName());
         ReviewShell shell = new ReviewShell(rvw);
         
-        Comment cmnt1 = new Comment(junk1, p.getFirstName() + " " + p.getLastName(), p.getUserName());
+        Comment cmnt1 = new Comment(junk1+" 1", p.getFirstName() + " " + p.getLastName(), p.getUserName());
         p = ulist.get(rng.nextInt(ulist.size()));
-        Comment cmnt2 = new Comment(junk3, p.getFirstName() + " " + p.getLastName(), p.getUserName());
+        Comment cmnt2 = new Comment(junk3+" 3", p.getFirstName() + " " + p.getLastName(), p.getUserName());
         p = ulist.get(rng.nextInt(ulist.size()));
-        Comment cmnt3 = new Comment(junk4, p.getFirstName() + " " + p.getLastName(), p.getUserName());
+        Comment cmnt3 = new Comment(junk4+" 4", p.getFirstName() + " " + p.getLastName(), p.getUserName());
         p = ulist.get(rng.nextInt(ulist.size()));
-        Comment cmnt4 = new Comment(junk5, p.getFirstName() + " " + p.getLastName(), p.getUserName());
+        Comment cmnt4 = new Comment(junk5+" 5", p.getFirstName() + " " + p.getLastName(), p.getUserName());
         shell.commentOn(cmnt1);
         shell.commentOn(cmnt4);
         shell.respond(cmnt2, cmnt1.getId());

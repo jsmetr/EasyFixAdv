@@ -16,7 +16,6 @@ function init() {
 }
 
 function grabAddr() {
-    console.log("herp");
     var addr = document.location.href.toString().split("/");
     var REST = "";
     for (var i = 1; i < addr.length; i++) {
@@ -25,8 +24,6 @@ function grabAddr() {
         }
     }
     RESTaddr = addr[1].toString() + "//" + REST;
-    console.log(addr);
-    console.log(REST);
     populate();
 }
 
@@ -52,7 +49,6 @@ function login() {
 
 function redirect(sessionId) {
     var url = RESTaddr + "webresources/Users/MyRole/" + sessionId;
-    console.log("redirecting, " + url);
     req = initRequest();
     req.open("GET", url, true);
     req.onreadystatechange = redircallback;
@@ -62,7 +58,6 @@ function redirect(sessionId) {
 function logincallback() {
     if (req.readyState == 4) {
         if (req.status == 200) {
-            console.log(req.responseText);
             if (req.responseText !== "FAILURE") {
                 localStorage.setItem("sessionId", req.responseText);
                 redirect(req.responseText);
@@ -76,7 +71,6 @@ function logincallback() {
 function redircallback() {
     if (req.readyState == 4) {
         if (req.status == 200) {
-            console.log(req.responseText);
             window.location.replace(req.responseText + ".html");
         }
     }
@@ -101,17 +95,6 @@ function popcallback() {
     }
 }
 
-function resttestcallback() {
-    if (req.readyState == 4) {
-        if (req.status == 200) {
-            if (req.responseText !== "FAILURE") {
-                console.log(req.responseText);
-            }
-            populate();
-        }
-    }
-}
-
 function getDeviceTypes() {
     var url = RESTaddr + "webresources/Devices/Devicetypes";
     req = initRequest();
@@ -129,9 +112,7 @@ function gettypescallback() {
 }
 
 function fileTypes(XML) {
-    console.log(XML);
     var menuitems = document.getElementById('dropdowncontents');
-    console.log(menuitems);
     $('#dropdowncontents').empty();
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
@@ -139,7 +120,6 @@ function fileTypes(XML) {
             filetype(type, menuitems);
         }
     }
-    console.log(menuitems);
     getFreshReviews();
 }
 
@@ -158,7 +138,6 @@ function filetype(type, menu) {
 }
 
 function getFreshReviews() {
-    //getReviews/ByType/{type}/{amount}
     var url = RESTaddr + "webresources/Devices/getReviews/Latest/4";
     req = initRequest();
     req.open("GET", url, true);
@@ -192,26 +171,16 @@ function getreviewcallback() {
 }
 
 function fileReviews(XML) {
-    console.log(XML);
-    console.log(XML.childNodes[0].childNodes.length);
     for (loop = 0; loop < 4; loop++) {
         var card = "#reviewname" + loop
         if (XML.childNodes[0].childNodes.length <= loop) {
-            console.log("hide");
             document.getElementById("reviewname" + loop);
         } else {
-            console.log("run");
             var title = document.getElementById("reviewname" + loop);
             var body = document.getElementById("reviewbody" + loop);
             var link = document.getElementById("revlink" + loop);
             var review = XML.childNodes[0].childNodes[loop];
             var revid=review.getElementsByTagName("id")[0].childNodes[0].nodeValue.toString();
-            console.log(review);
-            console.log(review.getElementsByTagName("title")[0].childNodes[0].nodeValue.toString());
-            console.log(review.getElementsByTagName("body")[0].childNodes[0].nodeValue);
-            console.log(title);
-            console.log(body);
-            console.log(revid);
             title.innerHTML = review.getElementsByTagName("title")[0].childNodes[0].nodeValue.toString();
             body.innerHTML = review.getElementsByTagName("body")[0].childNodes[0].nodeValue.toString();
             link.onclick=function(){

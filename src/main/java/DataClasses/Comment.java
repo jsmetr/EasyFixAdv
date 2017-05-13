@@ -19,11 +19,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Comment implements Serializable, Comparable<Comment> {
 
-    private String body;
-    private String creator;
-    private String signed;
-    private LocalDateTime creationtime;
-    private int id; //used to search for the comment/review on back end when responding to it.
+    protected String body;
+    protected String creator;
+    protected String signed;
+    protected LocalDateTime creationtime;
+    protected int id; //used to search for the comment/review on back end when responding to it.
     protected LinkedList<Comment> comments = new LinkedList<Comment>();
 
     public Comment(String body, String signed, String creator) {
@@ -102,7 +102,7 @@ public class Comment implements Serializable, Comparable<Comment> {
     /* User addition in UserResource checks to make sure no two users have the same username. */
     @Override
     public int hashCode() {
-        int hash = 1 + 13 * this.creator.hashCode() + 7 * this.creationtime.toString().hashCode();
+        int hash = 1 + 13 * this.creator.hashCode() + 7 * this.creationtime.toString().hashCode() +11*this.body.hashCode();
         return hash;
     }
 

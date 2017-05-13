@@ -334,11 +334,11 @@ public class DeviceResource {
                         Comment cmnt = new Comment(body, u.getFirstName() + " " + u.getLastName(), u.getUserName());
                         shell.commentOn(cmnt);
                         DevMan.save();
-                        return "Comment found and responded to.";
+                        return "Review found and responded to.";
                     }
                 }
             }
-            return "Comment not found.";
+            return "Review not found.";
         }
         return "SESSION EXPIRED";
     }
@@ -389,8 +389,8 @@ public class DeviceResource {
             if (a.getReview() != null) {
                 reviews.add(a.getReview());
                 count++;
-                if (!(count <= amount)) {
-                    return reviews;
+                if (!(count <= amount) && amount>0) {
+                    //return reviews;
                 }
             }
         }
@@ -434,6 +434,19 @@ public class DeviceResource {
         for (Assignment a : DevMan.getAssignments()) {
             if (a.getReview() != null && a.getReviewShell().getReviewId() == revid) {
                 return a.getReviewShell();
+            }
+        }
+        return null;
+    }
+
+    @Path("/getComments/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public List<Comment> getComments(@PathParam("id") String id) {
+        int revid = Integer.parseInt(id);
+        for (Assignment a : DevMan.getAssignments()) {
+            if (a.getReview() != null && a.getReviewShell().getReviewId() == revid) {
+                return a.getReviewShell().getComments();
             }
         }
         return null;
