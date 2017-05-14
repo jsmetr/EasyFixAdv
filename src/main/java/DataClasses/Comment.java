@@ -37,6 +37,10 @@ public class Comment implements Serializable, Comparable<Comment> {
     public Comment() {
     }
 
+    /*
+    Both respond and remove make use of recursion to traverse the comment tree until they encounter the designated comment as identified by id.
+    After finding it and completing their business they return 'true' up the recursion chain all the way to DeviceResource.
+    */
     public boolean respond(Comment response,int cmntId) {
         if(this.id==cmntId){
             comments.add(response);
@@ -78,7 +82,6 @@ public class Comment implements Serializable, Comparable<Comment> {
         return this.creator;
     }
 
-    //final version will retrieve the up-to-date  full name from UserManager singleton
     @XmlElement
     public String getSigned() {
         return this.signed;

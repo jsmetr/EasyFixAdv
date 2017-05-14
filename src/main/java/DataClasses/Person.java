@@ -18,17 +18,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Person implements Serializable, Comparable<Person> {
 
-    protected String userName;
+    protected String userName; //usernames are unique
     protected String firstName;
     protected String lastName;
     protected String password;
     protected String email;
     protected String phone;
-    protected String role; //roles consist of: customer, clerk, technician, manager. Technically, a person can have all roles but generally either is a customer or a combination of non-customer roles.
+    protected String role; //roles consist of: customer, clerk, technician, manager. 
     protected int accessLevel; //level of access to system: <0 =deactivated, 0=customer,1=employee,2=manager
 
     public Person(String fname, String lname, String uname, String psw, String email, String phone, int access) {
-        //handles filling in fields common to all Person-descendants, to be implemented
         this.firstName = fname;
         this.lastName = lname;
         this.userName = uname;
@@ -68,9 +67,8 @@ public class Person implements Serializable, Comparable<Person> {
 
     /*
     There is no expected scenario in which sending out the current password to client side is required or wise.
-    Even when changing the password there is no need to display the current one.
      */
-    public String getPassword() {
+    public String retrievePassword() {
         return this.password;
     }
 

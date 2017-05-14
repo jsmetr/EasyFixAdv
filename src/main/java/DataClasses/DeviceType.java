@@ -13,46 +13,47 @@ import javax.xml.bind.annotation.XmlElement;
  *
  * @author Jarno
  */
-
-/*
-The class is intented as a flexible way to store a bulk of data common to all devices of a given 'type'. 
-The scope of type is left to the end user to define, for example 'smartphone' vs'iPhone' vs 'specific product line of iPhones'.
-The handling of device types could easily be expanded to accomodate specific needs of the customer, 
-but in the absence of such requirements we keep this simple.
-*/
 @XmlRootElement
-public class DeviceType  implements Serializable, Comparable<DeviceType>{
+public class DeviceType implements Serializable, Comparable<DeviceType> {
+
+    /*
+    The class is intented as a flexible way to store a bulk of data common to all devices of a given 'type'. 
+    The scope of type is left to the end user to define, for example 'smartphone' vs'iPhone' vs 'specific product line of iPhones'.
+    The handling of device types could easily be expanded to accomodate specific needs of the customer, 
+    but in the absence of such requirements we keep this simple.
+     */
     private String typename;
     private String typedata;
-    
-    public DeviceType(String name,String data){
-        this.typename=name;
-        this.typedata=data;
+
+    public DeviceType(String name, String data) {
+        this.typename = name;
+        this.typedata = data;
     }
-    
-    public DeviceType(){}
-    
+
+    public DeviceType() {
+    }
+
     @XmlElement
-    public String getName(){
+    public String getName() {
         return this.typename;
     }
-    
+
     @XmlElement
-    public String getData(){
+    public String getData() {
         return this.typedata;
     }
-    
-    public void setName(String typename){
-        this.typename=typename;
+
+    public void setName(String typename) {
+        this.typename = typename;
     }
-    
-    public void setData(String typedata){
-        this.typedata=typedata;
+
+    public void setData(String typedata) {
+        this.typedata = typedata;
     }
 
     @Override
     public int hashCode() {
-        int hash = 1 + 13 * this.typename.hashCode()+7*this.typedata.hashCode();
+        int hash = 1 + 13 * this.typename.hashCode() + 7 * this.typedata.hashCode();
         return hash;
     }
 
@@ -63,7 +64,7 @@ public class DeviceType  implements Serializable, Comparable<DeviceType>{
 
     @Override
     public boolean equals(Object other) {
-        if(this.hashCode() == other.hashCode()) {
+        if (this.hashCode() == other.hashCode()) {
             return true;
         }
         return false;

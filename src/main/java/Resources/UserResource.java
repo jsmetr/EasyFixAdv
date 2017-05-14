@@ -237,7 +237,7 @@ public class UserResource {
     public String changePsw(@PathParam("sessionId") String sessionId, @PathParam("newpsw") String newpsw, @PathParam("oldpsw") String oldpsw) {
         Person crnt = LogMan.getBySesId(sessionId);
         if (LogMan.CheckSession(sessionId)) {
-            if (crnt.getPassword().equals(oldpsw)) {
+            if (crnt.retrievePassword().equals(oldpsw)) {
                 crnt.setPassword(newpsw);
                 UseMan.save();
                 return "PASSWORD CHANGED";

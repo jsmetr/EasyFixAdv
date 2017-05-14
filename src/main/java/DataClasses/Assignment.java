@@ -24,13 +24,13 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     private String clerk;
     private String title;
     private String description;
-    private int status; //Cancelled(-1), Inwork(0), Repaired(1), Archived(2)
+    private int status; //corresponds to: Cancelled(-1), Inwork(0), Repaired(1), Archived(2)
     private int id;
     private int priority; //low is more important: 0 top, 1 mid, 2 low priority
     private LocalDateTime creationtime;
     private LocalDateTime deadline;
     private Device device;
-    private List<String> repairs; //All repair tasks 
+    private List<String> repairs; //Technicians got the short end of the stick due to time constraints, as tracking of repairs did not make it into the final product.
     private ReviewShell review=null;
     
     
@@ -110,7 +110,11 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     public List<String> getRepairs(){
         return this.repairs;
     }
-    
+    /*
+    As the full assignment never needs the entire reviewshell with comments, the getter digs a level deeper to return just the review.
+    For each assignment, there can only be one review. But for every review there can be unlimited comments and comments of comments.
+    There is no point to retrieving all of that when you are just concerned with the assignment itself.
+    */
     @XmlElement
     public Review getReview(){
         if(this.review==null){
@@ -152,7 +156,7 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     }
     
     public int hashCode(){
-        int hash = 1 + this.customer.hashCode() + this.title.hashCode();
+        int hash = 1 + this.customer.hashCode() + this.title.hashCode()+ this.deadline.hashCode();
         return hash;
     }
 
@@ -160,7 +164,7 @@ public class Assignment implements Serializable, Comparable<Assignment>{
     public int compareTo(Assignment other) {
         int time =this.deadline.compareTo(other.deadline);
         if(time==0){
-            return this.title.compareTo(other.title);
+            return (this.hashCode() - other.hashCode());
         } else{
             return time;
         }

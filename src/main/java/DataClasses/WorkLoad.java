@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class WorkLoad implements Comparable<WorkLoad>, Serializable{
 
     /*
-    A simple Employee+integer shell to help sort technicians by workload.
+    A simple Employee username+integer shell to help sort technicians by workload.
      */
     private int jobcount=0;
     private String techname="";

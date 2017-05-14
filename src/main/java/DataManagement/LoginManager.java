@@ -81,7 +81,7 @@ public class LoginManager {
         logins.clear();
         for(Person user : users){
             if(user.getAccess()>=0){
-                logins.put(user.getPassword(), user);
+                logins.put(user.retrievePassword(), user);
             }
         }
     }
@@ -105,24 +105,5 @@ public class LoginManager {
     This is used to check access level for manager-only requests.*/
     public Person getBySesId(String sesId){
         return loggedIn.get(sesId);
-    }
-    
-    /* These are used to control the 'populate' requests that set up the back-end with tasks & users for testing.
-    We needed to do it once automatically and then by demand, since it sets those users & tasks to their initial state.
-    As the population is done by the login page, switching users to test change visibility would be impossible without the control. */
-    public boolean getTaskPop(){
-        return this.taskpop;
-    }
-    
-    public void taskPop(){
-        this.taskpop= false;
-    }
-    
-    public boolean getUserPop(){
-        return this.userpop;
-    }
-    
-    public void userPop(){
-        this.userpop= false;
     }
 }

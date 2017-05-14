@@ -19,7 +19,7 @@ public class Device implements Serializable, Comparable<Device>{
     private int deviceId;
     private String owner; //owner username
     private String name; //name of device
-    private String manufacturer; //unknown is valid, and serves as the default
+    private String manufacturer; //As the list of manufacturers is potentially endless for a 'Universal Repair Shop' like Pärnänen's, this is a write-in field.
     private DeviceType type;
 
     public Device(String owner, String name, DeviceType type, String manufacturer) {

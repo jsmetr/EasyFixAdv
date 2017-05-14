@@ -31,6 +31,10 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/Testing")
 public class TestingResource {
+    /*
+    Primarily used for two purposes: 
+    earlier in the project to test that the data classes work as intended and later to fill the system with testing data and to reset that data as needed.
+    */
     
     DeviceManager DevMan = DeviceManager.getInstance();
     LoginManager LogMan = LoginManager.getInstance();

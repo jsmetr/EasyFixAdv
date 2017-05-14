@@ -64,6 +64,9 @@ public class DeviceResource {
         return DevMan.getAssignments();
     }
 
+    /*
+    The next four services retrieve assignments by different statuses for clerk.html to file into the correct card templates.
+     */
     @Path("/Assignments/Active/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -133,7 +136,7 @@ public class DeviceResource {
     }
 
     /*
-    Grabs all devices owned by a customer.
+    Grabs all devices owned by a customer for the device selector in assignment creator.
      */
     @Path("/{customer}/{sessionId}")
     @GET
@@ -161,7 +164,7 @@ public class DeviceResource {
                 return "ACCESS DENIED";
             }
             DeviceType devtype = DevMan.getTypeByName(type);
-            Device device = new Device(owner, name, devtype, manufacturer);//String owner, String name, DeviceType type,String manufacturer,String model
+            Device device = new Device(owner, name, devtype, manufacturer);
             boolean added = DevMan.addDevice(device);
             if (added) {
                 return "DEVICE ADDED";
@@ -189,6 +192,9 @@ public class DeviceResource {
         return "SESSION EXPIRED";
     }
 
+    /*
+    Implementation of automatic technician selection is at the end of this class.
+    */
     @Path("/CreateAssignment/{title}/{desc}/{deviceid}/{deadline}/{prio}/{customer}/{technician}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
@@ -199,9 +205,6 @@ public class DeviceResource {
             if (LogMan.getBySesId(sessionId).getAccess() < 1) {
                 return "ACCESS DENIED";
             }
-            if (technician.equals("noqualified")) {
-                return "NO QUALIFIED STAFF";
-            }
             String clerk = LogMan.getBySesId(sessionId).getUserName();
             Device item = DevMan.getDeviceById(Integer.parseInt(deviceid));
             if (technician.equals("automate")) {
@@ -209,7 +212,7 @@ public class DeviceResource {
                 Set<Employee> techs = temp.getTechByType(sessionId, item.getType().getName());
                 technician = pickTech(item.getType().getName(), techs);
             }
-            Assignment created = new Assignment(title,desc, item, deadline + "T15:00", customer, clerk, technician, Integer.parseInt(priority));
+            Assignment created = new Assignment(title, desc, item, deadline + "T15:00", customer, clerk, technician, Integer.parseInt(priority));
             boolean added = DevMan.addAssignment(created);
             if (added) {
                 return "ASSIGNMENT CREATED";
@@ -259,6 +262,9 @@ public class DeviceResource {
         return null;
     }
 
+    /*
+    Used to move active assignments to either 'Repaired' or 'Canceled' status, then further to 'Archived' status.
+    */
     @Path("/Assignment/{assignmentid}/{newstatus}/{sessionId}")
     @PUT
     @Produces(MediaType.TEXT_PLAIN)
@@ -301,7 +307,10 @@ public class DeviceResource {
         }
         return null;
     }
-    
+
+    /*
+    As reviews are stored and referenced only within Assignments, an id is used to retrieve the correct assignment for the review being created.
+    */
     @Path("/postReview/{assignid}/{title}/{body}/{rating}/{sessionId}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
@@ -309,14 +318,13 @@ public class DeviceResource {
             @PathParam("rating") String rt, @PathParam("body") String body) {
         if (LogMan.CheckSession(sessionId)) {
             Person u = LogMan.getBySesId(sessionId);
-            ReviewShell shell;
             int rating = Integer.parseInt(rt);
             int id = Integer.parseInt(assignid);
             Set<Assignment> assignments = DevMan.getAssignments();
             for (Assignment a : assignments) {
                 if (a.getId() == id) {
                     if (!u.getUserName().equals(a.getCustomer())) {
-                        return "You are not the customer of this assignment, you: "+u.getUserName()+" and them: "+a.getCustomer();
+                        return "You are not the customer of this assignment, you: " + u.getUserName() + " and them: " + a.getCustomer();
                     }
                     String signed = LogMan.getBySesId(sessionId).getFirstName() + "" + LogMan.getBySesId(sessionId).getLastName();
                     Review newreview = new Review(title, rating, body, LogMan.getBySesId(sessionId).getUserName(), signed);
@@ -361,7 +369,7 @@ public class DeviceResource {
     }
 
     /*
-    Stores a comment responding to another existing comment.
+    Stores a comment responding to another existing comment. Delivering the response to the right comment is delegated to the ReviewShell & Comments chain.
      */
     @Path("/respondToComment/{body}/{reviewId}/{commentId}/{sessionId}")
     @POST
@@ -406,8 +414,8 @@ public class DeviceResource {
             if (a.getReview() != null) {
                 reviews.add(a.getReview());
                 count++;
-                if (!(count <= amount) && amount>0) {
-                    //return reviews;
+                if (!(count <= amount) && amount > 0) {
+                    return reviews;
                 }
             }
         }
@@ -469,6 +477,9 @@ public class DeviceResource {
         return null;
     }
 
+    /*
+    The following three retrieve the data used for business intelligence graphs on manager homepage.
+    */
     @Path("/Graph/Assignments/All/{sessionId}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -533,14 +544,14 @@ public class DeviceResource {
             Set<Employee> all = UseMan.getEmployees();
             Set<DeviceType> types = DevMan.getTypes();
             List<WorkLoad> skills = new ArrayList<WorkLoad>();
-            for(DeviceType t:types){
+            for (DeviceType t : types) {
                 WorkLoad newload = new WorkLoad(t.getName());
                 skills.add(newload);
             }
             for (Employee t : all) {
                 for (WorkLoad wl : skills) {
-                    for(RepairSkill rs: t.getSkills()){
-                        if(rs.getDevicetype().equals(wl.getName())){
+                    for (RepairSkill rs : t.getSkills()) {
+                        if (rs.getDevicetype().equals(wl.getName())) {
                             wl.countUp();
                         }
                     }

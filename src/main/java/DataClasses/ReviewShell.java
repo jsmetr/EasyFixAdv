@@ -17,6 +17,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class ReviewShell implements Serializable, Comparable<ReviewShell>{
+    /*
+    ReviewShell serves to separate the review from the comments, so that the review can be retrieved with or without the corresponding comments.
+    */
 
     private Review review;
     private LinkedList<Comment> comments;
