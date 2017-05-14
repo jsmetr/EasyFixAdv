@@ -19,7 +19,7 @@ function init() {
 
 function clerkInit() {
     init();
-    getCustomers();
+    getCustomers1();
     getAssignments();
 }
 
@@ -449,7 +449,7 @@ function createreviewcallback() {
 /*
  * Retrieves a list of customers from the backend and files them into the selector (on callback).
  */
-function getCustomers() {
+function getCustomers1() {
     var url = RESTaddr + "webresources/Users/View/AllCustomers/" + localStorage.getItem("sessionId");
     req2 = initRequest();
     req2.open("GET", url, true);
@@ -469,7 +469,7 @@ function fileCustomers(XML) {
     var custSel = document.getElementById('customer');
     var ownSel = document.getElementById('dev-owner');
     $('#customer').empty();
-    $('#dev-owner').empty();
+    $('#dev-owner').empty();    
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var option = document.createElement("option");
