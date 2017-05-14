@@ -33,6 +33,11 @@ function initEmpManager() {
     getEmployees();
 }
 
+function initCustManager() {
+    init();
+    getCustomers();
+}
+
 function initOrderManager() {
     init();
     getAllOrders();
@@ -41,6 +46,11 @@ function initOrderManager() {
 function initCust() {
     init();
     getMyOrders();
+}
+
+function initTech() {
+    init();
+    getMyAssignments();
 }
 
 function initReview() {
@@ -281,6 +291,59 @@ function replycallback() {
     }
 }
 
+function getMyAssignments() {
+    var url = RESTaddr + "webresources/Devices/MyAssignments/" + localStorage.getItem("sessionId");
+    req2 = initRequest();
+    req2.open("GET", url, true);
+    req2.onreadystatechange = mytaskscallback;
+    req2.send(null);
+}
+
+function mytaskscallback() {
+    if (req2.readyState == 4) {
+        if (req2.status == 200) {
+            var tasks = req2.responseXML.getElementsByTagName('assignment');
+            console.log(req2.responseXML);
+            $('#taskcontainer').empty();
+            var taskbox = document.getElementById('taskcontainer');
+            for (var i = 0; i < tasks.length; i++) {
+    console.log("herp");
+                var task = document.getElementById('tasktemplate').content.cloneNode(true);
+                task.getElementById('deadline').innerHTML = tasks[i].getElementsByTagName('deadline')[0].innerHTML;
+                task.getElementById('tasktitle').innerHTML = tasks[i].getElementsByTagName('title')[0].innerHTML;
+                task.getElementById('taskdesc').innerHTML = tasks[i].getElementsByTagName('desc')[0].innerHTML;
+                var id = tasks[i].getElementsByTagName('id')[1].innerHTML;
+                taskbuttons(task, id);
+                taskbox.appendChild(task);
+            }
+        }
+    }
+}
+
+function taskbuttons(task, id) {
+    task.getElementById('taskcomplete').onclick = function(){ setTaskStatus(1, id);};
+    task.getElementById('taskcancel').onclick = function(){ setTaskStatus(-1, id);}
+}
+
+function setTaskStatus(status, id) {
+    console.log("herp");
+    var url = RESTaddr + "webresources/Devices/Assignment/" + id + "/" + status + "/" + localStorage.getItem("sessionId");
+    console.log(url);
+    req2 = initRequest();
+    req2.open("PUT", url, true);
+    req2.onreadystatechange = settaskstatuscallback;
+    req2.send(null);
+}
+
+function settaskstatuscallback() {
+    if (req2.readyState == 4) {
+        if (req2.status == 200) {
+            console.log(req2.responseText);
+            getMyAssignments();
+        }
+    }
+}
+
 function getMyOrders() {
     var url = RESTaddr + "webresources/Devices/MyOrders/" + localStorage.getItem("sessionId");
     req2 = initRequest();
@@ -330,8 +393,8 @@ function fileOrder(data, tasktable) {
     task.getElementById('taskstatus').innerHTML = status[stat];
     var tech = task.getElementById('tech');
     var rawrating = data.getElementsByTagName('rating');
-    if (rawrating.length>0) {
-        var rating =parseInt(rawrating[0].innerHTML);
+    if (rawrating.length > 0) {
+        var rating = parseInt(rawrating[0].innerHTML);
         var starfield = task.getElementById('rating');
         for (var i = 0; i < rating; i++) {
             var star = document.getElementById('revstar').content.cloneNode(true);
@@ -356,24 +419,24 @@ function fileOrder(data, tasktable) {
     tasktable.appendChild(task);
 }
 
-function createReview(){
+function createReview() {
     console.log("here");
-    var rating=document.getElementById('rating').value;
-    console.log(rating); 
-    var body=document.getElementById('revbody').value;
-    var title=document.getElementById('rev-title').value;
+    var rating = document.getElementById('rating').value;
+    console.log(rating);
+    var body = document.getElementById('revbody').value;
+    var title = document.getElementById('rev-title').value;
     console.log(revid.innerHTML);
     console.log(title);
     console.log(body);
-    var url = RESTaddr + "webresources/Devices/postReview/"+revid.innerHTML+"/" +title+"/" +body+"/" +rating+"/" + localStorage.getItem("sessionId");
+    var url = RESTaddr + "webresources/Devices/postReview/" + revid.innerHTML + "/" + title + "/" + body + "/" + rating + "/" + localStorage.getItem("sessionId");
     console.log(url);
     req2 = initRequest();
     req2.open("POST", url, true);
     req2.onreadystatechange = createreviewcallback;
-    req2.send(null);   
+    req2.send(null);
 }
 
-function createreviewcallback(){
+function createreviewcallback() {
     if (req2.readyState == 4) {
         if (req2.status == 200) {
             console.log(req2.responseText);
@@ -752,7 +815,6 @@ function setStatus(newstatus, uname) {
     url = RESTaddr + "webresources/Users/ChangeStatus/" + newstatus + "/" + uname + "/" + localStorage.getItem("sessionId");
     req3 = initRequest();
     req3.open("PUT", url, true);
-    1
     req3.onreadystatechange = setstatuscallback;
     req3.send(null);
 }
@@ -766,6 +828,75 @@ function setstatuscallback() {
     }
 }
 
+function getCustomers() {
+    url = RESTaddr + "webresources/Users/View/AllCustomers/" + localStorage.getItem("sessionId");
+    req3 = initRequest();
+    req3.open("GET", url, true);
+    req3.onreadystatechange = getcustcallback;
+    req3.send(null);
+}
+
+function getcustcallback() {
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            var status = ['<span class="label label-danger" onclick="setStatus(-1, uname)">Deactivate</span>', '<span class="label label-success" onclick="setStatus(0, uname)">Reactivate</span>']
+            var customers = (req3.responseXML.getElementsByTagName('customer'));
+            console.log(customers);
+            var ctable = document.getElementById('custman');
+            $('#custman').empty();
+            for (var i = 0; i < customers.length; i++) {
+                var cust = document.getElementById('customer-template').content.cloneNode(true);
+                console.log(customers[i]);
+                console.log(customers[i].getElementsByTagName('firstName'));
+                console.log(customers[i].getElementsByTagName('firstName')[0].innerHTML);
+                cust.querySelector('#cname').innerText = customers[i].getElementsByTagName('firstName')[0].innerHTML + " " + customers[i].getElementsByTagName('lastName')[0].innerHTML;
+                cust.querySelector('#cmail').innerText = customers[i].getElementsByTagName('email')[0].innerHTML;
+                cust.querySelector('#cphone').innerText = customers[i].getElementsByTagName('phone')[0].innerHTML;
+                cust.querySelector('#cstate').innerText = customers[i].getElementsByTagName('state')[0].innerHTML;
+                cust.querySelector('#ccity').innerText = customers[i].getElementsByTagName('city')[0].innerHTML;
+                cust.querySelector('#czip').innerText = customers[i].getElementsByTagName('zipcode')[0].innerHTML;
+                cust.querySelector('#caddr').innerText = customers[i].getElementsByTagName('address')[0].innerHTML;
+                status = parseInt(customers[i].getElementsByTagName('access')[0].innerHTML);
+                var uname = customers[i].getElementsByTagName('userName')[0].innerHTML;
+                console.log(uname);
+                console.log("status: " + status);
+                if (status == 0) {
+                    cust.querySelector('#cstatus').innerHTML = '<button class="label label-danger">Deactivate</button>'
+                    //cust.querySelector('#cstatus').onclick=function(){custStatus(-1, uname);};
+                    fixbtn(cust.querySelector('#cstatus'), -1, uname)
+                } else {
+                    cust.querySelector('#cstatus').innerHTML = '<button class="label label-success">Reactivate</button>';
+                    //cust.querySelector('#cstatus').onclick=function(){custStatus(0, uname);};
+                    fixbtn(cust.querySelector('#cstatus'), 0, uname)
+                }
+                ctable.appendChild(cust);
+            }
+        }
+    }
+}
+
+function fixbtn(btn, status, uname) {
+    btn.onclick = function () {
+        custStatus(status, uname);
+    };
+}
+
+function custStatus(newstatus, uname) {
+    url = RESTaddr + "webresources/Users/ChangeStatus/" + newstatus + "/" + uname + "/" + localStorage.getItem("sessionId");
+    req3 = initRequest();
+    req3.open("PUT", url, true);
+    req3.onreadystatechange = custstatuscallback;
+    req3.send(null);
+}
+
+function custstatuscallback() {
+    if (req3.readyState == 4) {
+        if (req3.status == 200) {
+            console.log(req3.responseText);
+            getCustomers();
+        }
+    }
+}
 
 function getAssignments() {
     url = RESTaddr + "webresources/Devices/Assignments/Active/" + localStorage.getItem("sessionId");

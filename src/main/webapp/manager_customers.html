@@ -28,7 +28,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">
+    <body id="mimin" class="dashboard" onload="initCustManager()">
         <!-- start: Header -->
         <nav class="navbar navbar-default header navbar-fixed-top">
             <div class="col-md-12 nav-wrapper">
@@ -98,20 +98,10 @@
                                             <th>City</th>
                                             <th>Zip</th>
                                             <th>Address</th>
-                                            <th>Delete</th>
+                                            <th>State</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>First Customer Name</td>
-                                                    <td>first@customer.com</td>
-                                                    <td>01-012-3456</td>
-                                                    <td>State</td>
-                                                    <td>Helsinki</td>
-                                                    <td>03610</td>
-                                                    <td>Vanha maantie, 6</td>
-                                                    <td><span class="fa fa-times"></span></td>
-                                                </tr>
+                                            <tbody id="custman">
                                                 <tr>
                                                     <td>Second Customer Name</td>
                                                     <td>second@customer.com</td>
@@ -143,6 +133,18 @@
             </div>
             <!-- end: content -->
         </div>
+        <template id="customer-template">
+            <tr>
+                <td id="cname">First Customer Name</td>
+                <td id="cmail">first@customer.com</td>
+                <td id="cphone">01-012-3456</td>
+                <td id="cstate">State</td>
+                <td id="ccity">Helsinki</td>
+                <td id="czip">03610</td>
+                <td id="caddr">Vanha maantie, 6</td>
+                <td id="cstatus"><span class="fa fa-times"></span></td>
+            </tr>
+        </template>
 
         <!-- start: Javascript -->
         <script src="asset/js/jquery.min.js"></script>

@@ -29,7 +29,7 @@
         <![endif]-->
     </head>
 
-    <body id="mimin" class="dashboard" onload="init()">
+    <body id="mimin" class="dashboard" onload="initTech()">
         <!-- start: modal-return-task -->
         <div class="modal fade" id="modal-return-task">
             <div class="modal-dialog">
@@ -44,17 +44,17 @@
                         <br>
                         <form>
                             <div class="form-group">
-                                        <div class="input-group form-group">
-                                            <span class="input-group-addon"><i class="fa fa-question"></i></span>
-                                            <select id="dev-manufacturer" class="selectpicker form-control" data-live-search="true">
-                                                <option>Unrepairable</option>
-                                                <option>Not experienced enough</option>
-                                                <option>Not possible to acquire details</option>
-                                                <option>Repair cost exceeds cost of new device</option>
-                                            </select>
-                                        </div>
-                                        <div class="validation"></div>
-                                    </div>
+                                <div class="input-group form-group">
+                                    <span class="input-group-addon"><i class="fa fa-question"></i></span>
+                                    <select id="dev-manufacturer" class="selectpicker form-control" data-live-search="true">
+                                        <option>Unrepairable</option>
+                                        <option>Not experienced enough</option>
+                                        <option>Not possible to acquire details</option>
+                                        <option>Repair cost exceeds cost of new device</option>
+                                    </select>
+                                </div>
+                                <div class="validation"></div>
+                            </div>
                         </form>
                     </div>
                     <div class="padding-0"><button type="submit" class="bouton-contact">Return</button></div>
@@ -105,22 +105,8 @@
             <div id="content">
                 <div class="col-md-12" style="padding:20px;">
                     <div class="col-md-12 padding-0">
-                        <div class="col-md-12 padding-0">
-                            <div class="col-md-4">
-                                <div class="profile-card text-center">
+                        <div class="col-md-12 padding-0" id="taskcontainer">
 
-                                    <img class="img-responsive" src="asset/img/laptop.jpg">
-                                    <div class="profile-info">
-                                        <h5 class="text-right">28 Jun 2017</h5>
-                                        <h2 class="hvr-underline-from-center">Reinstall OS<span>Laptop</span></h2>
-                                        <div>Reinstalling Windows is one of the easiest ways to fix software problems on your computer, whether it’s running slow or infected by viruses. You should also reinstall Windows before you get rid of an old PC.</div>
-
-                                        <a href="#"><i class="fa fa-check fa-2x"></i></a>
-                                        <a data-toggle="modal" data-target="#modal-return-task"><i class="fa fa-undo fa-2x"></i></a>
-                                    </div>
-
-                                </div>   
-                            </div>
                             <div class="col-md-4">
                                 <div class="profile-card text-center">
 
@@ -142,7 +128,23 @@
             </div>
             <!-- end: content -->
         </div>
+        <template id="tasktemplate">
+            <div class="col-md-4">
+                <div class="profile-card text-center">
 
+                    <img class="img-responsive" src="asset/img/laptop.jpg">
+                    <div class="profile-info">
+                        <h5 class="text-right" id="deadline">28 Jun 2017</h5>
+                        <h2 class="hvr-underline-from-center" id="tasktitle">Reinstall OS<span>Laptop</span></h2>
+                        <div id="taskdesc">Reinstalling Windows is one of the easiest ways to fix software problems on your computer, whether it’s running slow or infected by viruses. You should also reinstall Windows before you get rid of an old PC.</div>
+
+                        <a id="taskcomplete"><i class="fa fa-check fa-2x"></i></a>
+                        <a data-toggle="modal" id="taskcancel"><i class="fa fa-undo fa-2x"></i></a>
+                    </div>
+
+                </div>   
+            </div>
+        </template>
         <!-- start: Javascript -->
         <script src="asset/js/jquery.min.js"></script>
         <script src="asset/js/jquery.ui.min.js"></script>
