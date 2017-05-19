@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 
+/*
+ * So much that needs to reworked before this is portfolio-ready
+ */
 var req;
 var req2;
 var req3;
@@ -112,7 +115,11 @@ function logoutcallback() {
 }
 
 function toMyPortal() {
-    window.location.replace(myrole + ".html");
+    if (myrole != null) {
+        window.location.replace(myrole + ".html");
+    } else {
+        window.location.replace("index.html");
+    }
 }
 
 function toMyProfile() {
@@ -165,8 +172,10 @@ function getrevscallback() {
             for (var i = 0; i < reviews.length; i++) {
                 var reviewshell = document.getElementById('review-template').content.cloneNode(true);
                 reviewshell.querySelector('#rev-title').innerText = reviews[i].getElementsByTagName('title')[0].innerHTML;
-                if (localStorage.getItem("sessionId").length > 0) {
-                    reviewshell.querySelector('#rev-title').innerHTML = reviews[i].getElementsByTagName('title')[0].innerHTML + ' | <a data-target="#modal-reply" data-toggle="modal" id="replybtn" onclick="setTarget(' + reviews[i].getElementsByTagName('id')[0].innerHTML + ')"> Reply</a>';
+                if (localStorage.getItem("sessionId") != null) {
+                    if (localStorage.getItem("sessionId").length > 0) {
+                        reviewshell.querySelector('#rev-title').innerHTML = reviews[i].getElementsByTagName('title')[0].innerHTML + ' | <a data-target="#modal-reply" data-toggle="modal" id="replybtn" onclick="setTarget(' + reviews[i].getElementsByTagName('id')[0].innerHTML + ')"> Reply</a>';
+                    }
                 } else {
                     reviewshell.querySelector('#rev-title').innerText = reviews[i].getElementsByTagName('title')[0].innerHTML;
                 }
@@ -307,7 +316,7 @@ function mytaskscallback() {
             $('#taskcontainer').empty();
             var taskbox = document.getElementById('taskcontainer');
             for (var i = 0; i < tasks.length; i++) {
-    console.log("herp");
+                console.log("herp");
                 var task = document.getElementById('tasktemplate').content.cloneNode(true);
                 task.getElementById('deadline').innerHTML = tasks[i].getElementsByTagName('deadline')[0].innerHTML;
                 task.getElementById('tasktitle').innerHTML = tasks[i].getElementsByTagName('title')[0].innerHTML;
@@ -321,8 +330,12 @@ function mytaskscallback() {
 }
 
 function taskbuttons(task, id) {
-    task.getElementById('taskcomplete').onclick = function(){ setTaskStatus(1, id);};
-    task.getElementById('taskcancel').onclick = function(){ setTaskStatus(-1, id);}
+    task.getElementById('taskcomplete').onclick = function () {
+        setTaskStatus(1, id);
+    };
+    task.getElementById('taskcancel').onclick = function () {
+        setTaskStatus(-1, id);
+    }
 }
 
 function setTaskStatus(status, id) {
@@ -469,7 +482,7 @@ function fileCustomers(XML) {
     var custSel = document.getElementById('customer');
     var ownSel = document.getElementById('dev-owner');
     $('#customer').empty();
-    $('#dev-owner').empty();    
+    $('#dev-owner').empty();
     if (XML.childNodes[0].childNodes.length > 0) {
         for (loop = 0; loop < XML.childNodes[0].childNodes.length; loop++) {
             var option = document.createElement("option");
