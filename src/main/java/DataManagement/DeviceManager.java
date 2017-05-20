@@ -5,7 +5,6 @@
  */
 package DataManagement;
 
-import java.util.HashSet;
 import DataClasses.*;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -19,7 +18,7 @@ import java.util.TreeSet;
  */
 public class DeviceManager implements Serializable{
 
-    private String filename = "../DeviceManagerStorage.txt"; //Must match UserHolder.getManager() deserialization filename.
+    private String filename = "DeviceManagerStorage.txt"; //Must match UserHolder.getManager() deserialization filename.
     private Set<Assignment> assignments = new TreeSet<Assignment>();
     private Set<Device> devices = new TreeSet<Device>();
     private Set<DeviceType> devicetypes = new TreeSet<DeviceType>();
@@ -37,7 +36,7 @@ public class DeviceManager implements Serializable{
 
         private static DeviceManager getManager() {
             try {
-                return (DeviceManager) Serializer.deserialize("../DeviceManagerStorage.txt");
+                return (DeviceManager) Serializer.deserialize("DeviceManagerStorage.txt");
             } catch (Exception e) {
                 return new DeviceManager();
             }

@@ -13,6 +13,7 @@ import DataClasses.*;
 import DataManagement.DeviceManager;
 import DataManagement.LoginManager;
 import DataManagement.UserManager;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -312,6 +313,14 @@ public class TestingResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String checkingTheClock() {
         return LocalDateTime.now().toString();
+    }
+    
+    @Path("/filepath")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getFilePath(){
+        File f = new File(".");
+        return f.getAbsolutePath();
     }
     
     @GET
